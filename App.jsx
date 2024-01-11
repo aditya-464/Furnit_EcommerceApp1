@@ -6,8 +6,8 @@ import LoginScreen from './src/screens/LoginScreen';
 const App = () => {
   return (
     <>
-      {/* <SignupScreen></SignupScreen>; */}
-      <LoginScreen></LoginScreen>
+      <SignupScreen></SignupScreen>
+      {/* <LoginScreen></LoginScreen> */}
     </>
   );
 };

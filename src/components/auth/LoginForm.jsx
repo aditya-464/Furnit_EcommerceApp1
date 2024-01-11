@@ -105,7 +105,10 @@ const LoginForm = () => {
               </View>
             </View>
 
-            <TouchableOpacity activeOpacity={0.6} style={styles.LoginButton}>
+            <TouchableOpacity
+              disabled={errors.email || errors.password ? true : false}
+              activeOpacity={0.6}
+              style={styles.LoginButton}>
               <Text style={styles.LoginText}>Login</Text>
             </TouchableOpacity>
 

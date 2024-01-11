@@ -189,7 +189,14 @@ const SignupForm = () => {
               </View>
             </View>
 
-            <TouchableOpacity activeOpacity={0.6} style={styles.SignupButton}>
+            <TouchableOpacity
+              disabled={
+                errors.name || errors.email || errors.phone || errors.password
+                  ? true
+                  : false
+              }
+              activeOpacity={0.6}
+              style={styles.SignupButton}>
               <Text style={styles.SignupText}>Signup</Text>
             </TouchableOpacity>
 
