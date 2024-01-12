@@ -47,6 +47,7 @@ export const COLORS = {
   primaryLight: '#F5F7F8',
   secondaryLight: '#F5D061',
   placeholder: '#999999',
+  searchField: '#ebebeb',
   error: '#D24545',
 };
 
