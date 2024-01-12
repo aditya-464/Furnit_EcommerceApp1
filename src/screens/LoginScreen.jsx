@@ -9,7 +9,19 @@ const LoginScreen = () => {
       <View style={styles.TitleBar}>
         <Text style={styles.TitleText}>Hello User!</Text>
       </View>
-      <LoginForm></LoginForm>
+      <View style={styles.Content}>
+        <View>
+          <LoginForm></LoginForm>
+        </View>
+        <View style={styles.BottomContent}>
+          <TouchableOpacity disabled={true}>
+            <Text style={styles.InfoText}>Don't have an account?</Text>
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.4} style={styles.SignupButton}>
+            <Text style={styles.SignupButtonText}>Signup</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
@@ -26,5 +38,30 @@ const styles = StyleSheet.create({
     fontSize: FONTSIZE.size_28,
     color: COLORS.primaryDark,
     opacity: 0.9,
+  },
+  Content: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  BottomContent: {
+    paddingBottom: SPACING.space_20,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  InfoText: {
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_14,
+    color: COLORS.primaryDark,
+  },
+  SignupButton: {
+    marginHorizontal: SPACING.space_8,
+  },
+  SignupButtonText: {
+    fontFamily: FONTFAMILY.poppins_medium,
+    fontSize: FONTSIZE.size_14,
+    color: COLORS.secondaryDark,
   },
 });
