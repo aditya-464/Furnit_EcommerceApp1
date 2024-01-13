@@ -20,13 +20,13 @@ const BottomTabNavigator = () => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: styles.tabBarStyle,
-        tabBarBackground: () => (
-          <BlurView
-            overlayColor=""
-            blurAmount={15}
-            style={styles.BlurViewStyles}
-          />
-        ),
+        // tabBarBackground: () => (
+        //   <BlurView
+        //     overlayColor=""
+        //     blurAmount={1}
+        //     style={styles.BlurViewStyles}
+        //   />
+        // ),
       }}>
       <Tab.Screen
         name="HomeScreen"
@@ -82,9 +82,9 @@ const BottomTabNavigator = () => {
 
 const styles = StyleSheet.create({
   tabBarStyle: {
-    height: 80,
+    height: 60,
     position: 'absolute',
-    backgroundColor: COLORS.primaryBlackRGBA,
+    backgroundColor: COLORS.primaryLight,
     borderTopWidth: 0,
     elevation: 0,
     borderTopColor: 'transparent',
