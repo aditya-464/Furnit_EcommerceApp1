@@ -13,19 +13,19 @@ const CarouselSlider = () => {
   const slides = [
     {
       id: 1,
-      image: require('../../assets/images/carousel5.jpg'),
+      image: require('../../assets/images/banner/carousel5.jpg'),
     },
     {
       id: 2,
-      image: require('../../assets/images/carousel3.jpg'),
+      image: require('../../assets/images/banner/carousel3.jpg'),
     },
     {
       id: 3,
-      image: require('../../assets/images/carousel8.jpg'),
+      image: require('../../assets/images/banner/carousel8.jpg'),
     },
     {
       id: 4,
-      image: require('../../assets/images/carousel9.jpg'),
+      image: require('../../assets/images/banner/carousel9.jpg'),
     },
   ];
 

@@ -8,11 +8,11 @@ import {
 } from 'react-native';
 import React from 'react';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/Theme';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import CarouselSlider from '../components/home/CarouselSlider';
 import CategoriesSlider from '../components/home/CategoriesSlider';
+import ProductSlider from '../components/home/ProductSlider';
 
 const HomeScreen = () => {
   return (
@@ -49,6 +49,7 @@ const HomeScreen = () => {
         </View>
         <CarouselSlider></CarouselSlider>
         <CategoriesSlider></CategoriesSlider>
+        <ProductSlider></ProductSlider>
       </ScrollView>
     </SafeAreaView>
   );

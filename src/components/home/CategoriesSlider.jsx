@@ -1,12 +1,6 @@
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
-import {
-  BORDERRADIUS,
-  COLORS,
-  FONTFAMILY,
-  FONTSIZE,
-  SPACING,
-} from '../../theme/Theme';
+import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../../theme/Theme';
 
 const slides = [
   {
@@ -51,11 +45,6 @@ const slides = [
   },
   {
     id: 9,
-    category: 'Desks',
-    active: 0,
-  },
-  {
-    id: 10,
     category: 'Mirrors',
     active: 0,
   },
@@ -82,7 +71,7 @@ const CategoriesSlider = () => {
         {
           backgroundColor:
             active === 1 ? COLORS.secondaryDark : COLORS.primaryLight,
-          marginRight: id === data.length ? SPACING.space_15 : SPACING.space_8,
+          marginRight: id === data.length ? SPACING.space_15 : SPACING.space_4,
           marginLeft: id === 1 ? SPACING.space_15 : 0,
         },
       ]}>
@@ -100,7 +89,6 @@ const CategoriesSlider = () => {
       <FlatList
         data={data}
         horizontal
-        pagingEnabled
         snapToAlignment="center"
         showsHorizontalScrollIndicator={false}
         scrollEnabled={true}
