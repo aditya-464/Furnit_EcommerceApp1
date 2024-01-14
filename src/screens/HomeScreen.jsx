@@ -12,6 +12,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import CarouselSlider from '../components/home/CarouselSlider';
+import CategoriesSlider from '../components/home/CategoriesSlider';
 
 const HomeScreen = () => {
   return (
@@ -47,6 +48,7 @@ const HomeScreen = () => {
             placeholderTextColor={COLORS.primaryDark}></TextInput>
         </View>
         <CarouselSlider></CarouselSlider>
+        <CategoriesSlider></CategoriesSlider>
       </ScrollView>
     </SafeAreaView>
   );

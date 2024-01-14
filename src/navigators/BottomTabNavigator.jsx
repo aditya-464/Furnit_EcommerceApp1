@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BlurView} from '@react-native-community/blur';
-import {COLORS, FONTSIZE} from '../theme/Theme';
+import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/Theme';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import HomeScreen from '../screens/HomeScreen';
 import SearchScreen from '../screens/SearchScreen';
@@ -14,12 +14,15 @@ const Tab = createBottomTabNavigator();
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
-      initialRouteName="HomeScreen"
+      initialRouteName="Home"
       screenOptions={{
         tabBarHideOnKeyboard: true,
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: styles.tabBarStyle,
+        // tabBarLabelStyle: styles.tabBarLabelStyle,
+        // tabBarActiveTintColor: COLORS.secondaryDark,
+        // tabBarInactiveTintColor: COLORS.placeholder,
         // tabBarBackground: () => (
         //   <BlurView
         //     overlayColor=""
@@ -29,7 +32,7 @@ const BottomTabNavigator = () => {
         // ),
       }}>
       <Tab.Screen
-        name="HomeScreen"
+        name="Home"
         component={HomeScreen}
         options={{
           tabBarIcon: ({focused}) => (
@@ -41,7 +44,7 @@ const BottomTabNavigator = () => {
           ),
         }}></Tab.Screen>
       <Tab.Screen
-        name="SearchScreen"
+        name="Search"
         component={SearchScreen}
         options={{
           tabBarIcon: ({focused}) => (
@@ -53,7 +56,7 @@ const BottomTabNavigator = () => {
           ),
         }}></Tab.Screen>
       <Tab.Screen
-        name="CartScreen"
+        name="Cart"
         component={CartScreen}
         options={{
           tabBarIcon: ({focused}) => (
@@ -65,7 +68,7 @@ const BottomTabNavigator = () => {
           ),
         }}></Tab.Screen>
       <Tab.Screen
-        name="ProfileScreen"
+        name="Profile"
         component={ProfileScreen}
         options={{
           tabBarIcon: ({focused}) => (
@@ -81,6 +84,11 @@ const BottomTabNavigator = () => {
 };
 
 const styles = StyleSheet.create({
+  // tabBarLabelStyle: {
+  //   fontFamily: FONTFAMILY.poppins_medium,
+  //   fontSize: FONTSIZE.size_12,
+  //   marginBottom: SPACING.space_8,
+  // },
   tabBarStyle: {
     height: 60,
     position: 'absolute',

@@ -9,32 +9,32 @@ import {
 import React from 'react';
 import {BORDERRADIUS, COLORS, SPACING} from '../../theme/Theme';
 
-const slides = [
-  {
-    id: 1,
-    image: require('../../assets/images/carousel5.jpg'),
-  },
-  {
-    id: 2,
-    image: require('../../assets/images/carousel3.jpg'),
-  },
-  {
-    id: 3,
-    image: require('../../assets/images/carousel8.jpg'),
-  },
-  {
-    id: 4,
-    image: require('../../assets/images/carousel9.jpg'),
-  },
-];
-
-const FlatListItem = ({id, image}) => (
-  <View key={id.toString()} style={styles.Slide}>
-    <Image source={image} style={styles.Image}></Image>
-  </View>
-);
-
 const CarouselSlider = () => {
+  const slides = [
+    {
+      id: 1,
+      image: require('../../assets/images/carousel5.jpg'),
+    },
+    {
+      id: 2,
+      image: require('../../assets/images/carousel3.jpg'),
+    },
+    {
+      id: 3,
+      image: require('../../assets/images/carousel8.jpg'),
+    },
+    {
+      id: 4,
+      image: require('../../assets/images/carousel9.jpg'),
+    },
+  ];
+
+  const FlatListItem = ({id, image}) => (
+    <View key={id.toString()} style={styles.Slide}>
+      <Image source={image} style={styles.Image}></Image>
+    </View>
+  );
+
   return (
     <View
       style={{
