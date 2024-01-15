@@ -47,8 +47,8 @@ export const COLORS = {
   primaryLight: '#F5F7F8',
   secondaryLight: '#F5D061',
   placeholder: '#999999',
-  // searchField: '#ebebeb',
-  searchField: '#f9fafb',
+  // searchField: '#f9fafb',  // Little bit more white
+  searchField: '#f8f9fa',
   error: '#D24545',
 };
 
