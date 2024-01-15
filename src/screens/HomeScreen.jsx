@@ -13,6 +13,7 @@ import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import CarouselSlider from '../components/home/CarouselSlider';
 import CategoriesSlider from '../components/home/CategoriesSlider';
 import ProductSlider from '../components/home/ProductSlider';
+import BestSellerSlider from '../components/home/BestSellerSlider';
 
 const HomeScreen = () => {
   return (
@@ -43,13 +44,19 @@ const HomeScreen = () => {
             size={FONTSIZE.size_20}
             color={COLORS.primaryDark}></AntDesign>
           <TextInput
+            editable={false}
             style={styles.SearchInput}
             placeholder="Search"
             placeholderTextColor={COLORS.primaryDark}></TextInput>
+          <Octicons
+            name="filter"
+            size={FONTSIZE.size_20}
+            color={COLORS.secondaryDark}></Octicons>
         </View>
         <CarouselSlider></CarouselSlider>
         <CategoriesSlider></CategoriesSlider>
         <ProductSlider></ProductSlider>
+        <BestSellerSlider></BestSellerSlider>
       </ScrollView>
     </SafeAreaView>
   );

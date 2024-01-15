@@ -17,43 +17,51 @@ import {
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
+import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 
-const ProductSlider = () => {
-  const chairSlides = [
+const BestSellerSlider = () => {
+  const slides = [
     {
       id: 1,
-      image: require('../../assets/images/chairs/armchair.jpg'),
-      name: 'Armchair',
-      price: 300,
-      star: 4.8,
-    },
-    {
-      id: 2,
-      image: require('../../assets/images/chairs/recliner.jpg'),
-      name: 'Recliner',
-      price: 2400,
+      image: require('../../assets/images/sofa/lawson.jpg'),
+      name: 'Lawson Sofa',
+      price: 3800,
       star: 4.6,
     },
     {
-      id: 3,
+      id: 2,
       image: require('../../assets/images/chairs/swivel.jpg'),
       name: 'Swivel',
       price: 1200,
       star: 4.2,
     },
     {
-      id: 4,
-      image: require('../../assets/images/chairs/office_chair.jpg'),
-      name: 'Office Chair',
-      price: 800,
+      id: 3,
+      image: require('../../assets/images/tables/coffee_table.jpg'),
+      name: 'Coffee Table',
+      price: 1200,
       star: 4.8,
     },
     {
+      id: 4,
+      image: require('../../assets/images/cupboards/wardrobe.jpg'),
+      name: 'Wardrobe',
+      price: 8000,
+      star: 4.6,
+    },
+    {
       id: 5,
-      image: require('../../assets/images/chairs/wingback.jpg'),
-      name: 'Wingback',
-      price: 2200,
-      star: 4.5,
+      image: require('../../assets/images/lamps/night_lamp3.jpg'),
+      name: 'Night Lamp',
+      price: 450,
+      star: 4.2,
+    },
+    {
+      id: 6,
+      image: require('../../assets/images/Storage/ottoman.jpg'),
+      name: 'Ottoman',
+      price: 1200,
+      star: 4.4,
     },
   ];
 
@@ -106,12 +114,18 @@ const ProductSlider = () => {
   return (
     <View
       style={{
-        marginTop: SPACING.space_24,
-        marginBottom: SPACING.space_12,
+        marginVertical: SPACING.space_24,
         backgroundColor: COLORS.primaryLight,
       }}>
+      <View style={{flexDirection: 'row', alignContent: 'center'}}>
+        <Text style={styles.TitleText}>Best Seller</Text>
+        <Ionicons
+          name="sparkles-sharp"
+          size={FONTSIZE.size_24}
+          color={COLORS.primaryDark}></Ionicons>
+      </View>
       <FlatList
-        data={chairSlides}
+        data={slides}
         horizontal
         snapToAlignment="center"
         showsHorizontalScrollIndicator={false}
@@ -129,9 +143,18 @@ const ProductSlider = () => {
   );
 };
 
-export default ProductSlider;
+export default BestSellerSlider;
 
 const styles = StyleSheet.create({
+  TitleText: {
+    marginLeft: SPACING.space_15,
+    fontFamily: FONTFAMILY.poppins_medium,
+    fontSize: FONTSIZE.size_20,
+    color: COLORS.primaryDark,
+    backgroundColor: COLORS.primaryLight,
+    marginBottom: SPACING.space_10,
+    marginRight: SPACING.space_10,
+  },
   ProductCard: {
     padding: SPACING.space_8,
     marginRight: SPACING.space_15,
