@@ -157,6 +157,7 @@ const styles = StyleSheet.create({
   },
   ProductCard: {
     padding: SPACING.space_8,
+    paddingBottom: SPACING.space_12,
     marginRight: SPACING.space_15,
     backgroundColor: COLORS.searchField,
     borderRadius: BORDERRADIUS.radius_15,
