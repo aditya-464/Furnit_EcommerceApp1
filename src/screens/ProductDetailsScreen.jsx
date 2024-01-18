@@ -21,8 +21,16 @@ import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 
 const ProductDetailsScreen = () => {
   const [color, setColor] = useState(1);
+  const [itemCount, setItemCount] = useState(1);
+
   const handleColor = val => {
     setColor(val);
+  };
+
+  const handleItemCount = val => {
+    setItemCount(prev =>
+      val === 1 ? (prev < 9 ? prev + 1 : prev) : prev > 1 ? prev - 1 : prev,
+    );
   };
 
   return (
@@ -70,10 +78,10 @@ const ProductDetailsScreen = () => {
             color={COLORS.secondaryDark}></FontAwesome>
           <Text style={styles.PriceText}>3800</Text>
         </View> */}
-        {/* <Text style={styles.Description}>
-          A popular style of sofa characterized by square and oversized
-          cushions, low back, and arms that are lower than the back.
-        </Text> */}
+        <Text style={styles.Description}>
+          A trendy sofa style with square, oversized cushions, a low back, and
+          arms lower than the back
+        </Text>
 
         <View style={styles.ColorAndQuantity}>
           <View style={styles.Colors}>
@@ -120,7 +128,29 @@ const ProductDetailsScreen = () => {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.Quantity}></View>
+          <View style={styles.Quantity}>
+            <TouchableOpacity
+              onPress={() => handleItemCount(0)}
+              activeOpacity={0.6}
+              style={styles.ItemCountButton}>
+              <AntDesign
+                name="minus"
+                size={14}
+                color={COLORS.primaryDark}></AntDesign>
+            </TouchableOpacity>
+            <View style={styles.ItemCount}>
+              <Text style={styles.ItemCountText}>{itemCount}</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => handleItemCount(1)}
+              activeOpacity={0.6}
+              style={styles.ItemCountButton}>
+              <AntDesign
+                name="plus"
+                size={14}
+                color={COLORS.primaryDark}></AntDesign>
+            </TouchableOpacity>
+          </View>
         </View>
         <View style={styles.ActionButton}>
           <TouchableOpacity style={styles.AddToCartButton}>
@@ -199,7 +229,7 @@ const styles = StyleSheet.create({
     marginLeft: SPACING.space_4,
   },
   Description: {
-    fontFamily: FONTFAMILY.poppins_medium,
+    fontFamily: FONTFAMILY.poppins_regular,
     fontSize: FONTSIZE.size_16,
     color: COLORS.primaryDark,
   },
@@ -239,6 +269,26 @@ const styles = StyleSheet.create({
     backgroundColor: 'blue',
     borderRadius: 100,
   },
-  Quantity: {},
+  Quantity: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  ItemCountButton: {
+    paddingHorizontal: SPACING.space_8,
+    paddingVertical: SPACING.space_4,
+    borderWidth: 1,
+    borderColor: COLORS.primaryDark,
+    borderRadius: BORDERRADIUS.radius_10,
+  },
+  ItemCount: {
+    width: 25,
+  },
+  ItemCountText: {
+    textAlign: 'center',
+    fontFamily: FONTFAMILY.poppins_medium,
+    fontSize: FONTSIZE.size_14,
+    color: COLORS.primaryDark,
+    // marginHorizontal: SPACING.space_10,
+  },
   AddToCartButton: {},
 });
