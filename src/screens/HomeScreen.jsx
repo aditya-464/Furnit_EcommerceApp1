@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import React from 'react';
@@ -38,7 +39,7 @@ const HomeScreen = () => {
               color={COLORS.primaryDark}></Octicons>
           </View>
         </View>
-        <View style={styles.Search}>
+        <TouchableOpacity activeOpacity={0.6} style={styles.Search}>
           <AntDesign
             name="search1"
             size={FONTSIZE.size_20}
@@ -51,8 +52,8 @@ const HomeScreen = () => {
           <Octicons
             name="filter"
             size={FONTSIZE.size_20}
-            color={COLORS.secondaryDark}></Octicons>
-        </View>
+            color={COLORS.primaryDark}></Octicons>
+        </TouchableOpacity>
         <CarouselSlider></CarouselSlider>
         <CategoriesSlider></CategoriesSlider>
         <ProductSlider></ProductSlider>

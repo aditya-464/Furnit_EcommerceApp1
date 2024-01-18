@@ -11,8 +11,8 @@ const App = () => {
     <NavigationContainer>
       {/* <SignupScreen></SignupScreen> */}
       {/* <LoginScreen></LoginScreen> */}
-      {/* <BottomTabNavigator></BottomTabNavigator> */}
-      <ProductDetailsScreen></ProductDetailsScreen>
+      <BottomTabNavigator></BottomTabNavigator>
+      {/* <ProductDetailsScreen></ProductDetailsScreen> */}
     </NavigationContainer>
   );
 };
