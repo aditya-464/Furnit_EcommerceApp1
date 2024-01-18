@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
   },
   Rating: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignContent: 'center',
     justifyContent: 'center',
   },
   StarText: {
@@ -195,7 +195,6 @@ const styles = StyleSheet.create({
     fontSize: FONTSIZE.size_16,
     color: COLORS.primaryDark,
     marginLeft: SPACING.space_4,
-    marginTop: SPACING.space_2,
   },
   BottomInfo: {
     flexDirection: 'row',
