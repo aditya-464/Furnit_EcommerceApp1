@@ -61,101 +61,109 @@ const ProductDetailsScreen = () => {
           resizeMode="cover"></Image>
       </View>
       <View style={styles.Info}>
-        <View style={styles.NameAndRating}>
-          <Text style={styles.Name}>Lawson Sofa</Text>
-          <View style={styles.Rating}>
-            <AntDesign
-              name="star"
-              size={FONTSIZE.size_24}
-              color={COLORS.secondaryLight}></AntDesign>
-            <Text style={styles.Star}>4.8</Text>
+        <View style={styles.InfoTop}>
+          <View style={styles.NameAndRating}>
+            <Text style={styles.Name}>Lawson Sofa</Text>
+            <View style={styles.Rating}>
+              <AntDesign
+                name="star"
+                size={FONTSIZE.size_24}
+                color={COLORS.secondaryLight}></AntDesign>
+              <Text style={styles.Star}>4.8</Text>
+            </View>
           </View>
+          <Text style={styles.Description}>
+            A trendy sofa style with square, oversized cushions, a low back, and
+            arms lower than the back for comfort
+          </Text>
         </View>
-        {/* <View style={styles.Price}>
-          <FontAwesome
-            name="rupee"
-            size={FONTSIZE.size_24}
-            color={COLORS.secondaryDark}></FontAwesome>
-          <Text style={styles.PriceText}>3800</Text>
-        </View> */}
-        <Text style={styles.Description}>
-          A trendy sofa style with square, oversized cushions, a low back, and
-          arms lower than the back
-        </Text>
 
-        <View style={styles.ColorAndQuantity}>
-          <View style={styles.Colors}>
-            <Text style={styles.ColorsText}>Color</Text>
-            <View style={styles.ColorOptions}>
-              <TouchableOpacity
-                onPress={() => handleColor(1)}
-                activeOpacity={0.6}
-                style={[
-                  styles.OuterCircle,
-                  {borderColor: color === 1 ? '#164863' : 'transparent'},
-                ]}>
-                <View
+        <View style={styles.InfoBottom}>
+          <View style={styles.ColorAndQuantity}>
+            <View style={styles.Colors}>
+              <Text style={styles.ColorsText}>Color</Text>
+              <View style={styles.ColorOptions}>
+                <TouchableOpacity
+                  onPress={() => handleColor(1)}
+                  activeOpacity={0.6}
                   style={[
-                    styles.InnerCircle,
-                    {backgroundColor: '#164863'},
-                  ]}></View>
+                    styles.OuterCircle,
+                    {borderColor: color === 1 ? '#164863' : 'transparent'},
+                  ]}>
+                  <View
+                    style={[
+                      styles.InnerCircle,
+                      {backgroundColor: '#164863'},
+                    ]}></View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleColor(2)}
+                  activeOpacity={0.6}
+                  style={[
+                    styles.OuterCircle,
+                    {borderColor: color === 2 ? '#B6BBC4' : 'transparent'},
+                  ]}>
+                  <View
+                    style={[
+                      styles.InnerCircle,
+                      {backgroundColor: '#B6BBC4'},
+                    ]}></View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleColor(3)}
+                  activeOpacity={0.6}
+                  style={[
+                    styles.OuterCircle,
+                    {borderColor: color === 3 ? '#482121' : 'transparent'},
+                  ]}>
+                  <View
+                    style={[
+                      styles.InnerCircle,
+                      {backgroundColor: '#482121'},
+                    ]}></View>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={styles.Quantity}>
+              <TouchableOpacity
+                onPress={() => handleItemCount(0)}
+                activeOpacity={0.6}
+                style={styles.ItemCountButton}>
+                <AntDesign
+                  name="minus"
+                  size={14}
+                  color={COLORS.primaryDark}></AntDesign>
               </TouchableOpacity>
+              <View style={styles.ItemCount}>
+                <Text style={styles.ItemCountText}>{itemCount}</Text>
+              </View>
               <TouchableOpacity
-                onPress={() => handleColor(2)}
+                onPress={() => handleItemCount(1)}
                 activeOpacity={0.6}
-                style={[
-                  styles.OuterCircle,
-                  {borderColor: color === 2 ? '#B6BBC4' : 'transparent'},
-                ]}>
-                <View
-                  style={[
-                    styles.InnerCircle,
-                    {backgroundColor: '#B6BBC4'},
-                  ]}></View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => handleColor(3)}
-                activeOpacity={0.6}
-                style={[
-                  styles.OuterCircle,
-                  {borderColor: color === 3 ? '#482121' : 'transparent'},
-                ]}>
-                <View
-                  style={[
-                    styles.InnerCircle,
-                    {backgroundColor: '#482121'},
-                  ]}></View>
+                style={styles.ItemCountButton}>
+                <AntDesign
+                  name="plus"
+                  size={14}
+                  color={COLORS.primaryDark}></AntDesign>
               </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.Quantity}>
+          <View style={styles.ActionButton}>
             <TouchableOpacity
-              onPress={() => handleItemCount(0)}
               activeOpacity={0.6}
-              style={styles.ItemCountButton}>
-              <AntDesign
-                name="minus"
-                size={14}
-                color={COLORS.primaryDark}></AntDesign>
-            </TouchableOpacity>
-            <View style={styles.ItemCount}>
-              <Text style={styles.ItemCountText}>{itemCount}</Text>
-            </View>
-            <TouchableOpacity
-              onPress={() => handleItemCount(1)}
-              activeOpacity={0.6}
-              style={styles.ItemCountButton}>
-              <AntDesign
-                name="plus"
-                size={14}
-                color={COLORS.primaryDark}></AntDesign>
+              style={styles.AddToCartButton}>
+              <Text style={styles.AddToCartText}>Add To Cart</Text>
+              <View style={styles.Price}>
+                <View style={styles.PriceIcon}>
+                  <FontAwesome
+                    name="rupee"
+                    size={FONTSIZE.size_18}
+                    color={COLORS.primaryDark}></FontAwesome>
+                </View>
+                <Text style={styles.PriceText}>3800</Text>
+              </View>
             </TouchableOpacity>
           </View>
-        </View>
-        <View style={styles.ActionButton}>
-          <TouchableOpacity style={styles.AddToCartButton}>
-            <Text>Add To Cart</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -183,8 +191,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   ImageView: {
+    flex: 1,
     width: Dimensions.get('window').width - 30,
-    height: Dimensions.get('window').height / 2,
+    // height: Dimensions.get('window').height / 2,
     overflow: 'hidden',
     margin: SPACING.space_15,
     marginTop: 0,
@@ -195,7 +204,6 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   Info: {
-    overflow: 'hidden',
     paddingHorizontal: SPACING.space_15,
   },
   NameAndRating: {
@@ -218,22 +226,14 @@ const styles = StyleSheet.create({
     color: COLORS.primaryDark,
     marginLeft: SPACING.space_4,
   },
-  Price: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  PriceText: {
-    fontFamily: FONTFAMILY.poppins_semibold,
-    fontSize: 22,
-    color: COLORS.secondaryDark,
-    marginLeft: SPACING.space_4,
-  },
   Description: {
+    marginTop: SPACING.space_8,
     fontFamily: FONTFAMILY.poppins_regular,
     fontSize: FONTSIZE.size_16,
     color: COLORS.primaryDark,
   },
   ColorAndQuantity: {
+    marginTop: SPACING.space_15,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -288,7 +288,38 @@ const styles = StyleSheet.create({
     fontFamily: FONTFAMILY.poppins_medium,
     fontSize: FONTSIZE.size_14,
     color: COLORS.primaryDark,
-    // marginHorizontal: SPACING.space_10,
   },
-  AddToCartButton: {},
+  ActionButton: {},
+  AddToCartButton: {
+    marginVertical: SPACING.space_20,
+    backgroundColor: COLORS.secondaryDark,
+    paddingVertical: SPACING.space_10,
+    borderRadius: 100,
+    flexDirection: 'row',
+    alignContent: 'center',
+    justifyContent: 'center',
+  },
+  AddToCartText: {
+    textAlign: 'center',
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_16,
+    color: COLORS.primaryDark,
+    paddingRight: SPACING.space_15,
+    borderRightWidth: 0.2,
+    borderRightColor: COLORS.primaryDark,
+    marginRight: SPACING.space_15,
+  },
+  Price: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  PriceIcon: {
+    paddingBottom: SPACING.space_2,
+  },
+  PriceText: {
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_16,
+    color: COLORS.primaryDark,
+    marginLeft: SPACING.space_4,
+  },
 });
