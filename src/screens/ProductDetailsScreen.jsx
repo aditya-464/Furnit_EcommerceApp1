@@ -18,6 +18,7 @@ import {
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
+import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 
 const ProductDetailsScreen = () => {
   const [color, setColor] = useState(1);
@@ -155,10 +156,10 @@ const ProductDetailsScreen = () => {
               <Text style={styles.AddToCartText}>Add To Cart</Text>
               <View style={styles.Price}>
                 <View style={styles.PriceIcon}>
-                  <FontAwesome
-                    name="rupee"
+                  <MaterialIcons
+                    name="currency-rupee"
                     size={FONTSIZE.size_18}
-                    color={COLORS.primaryDark}></FontAwesome>
+                    color={COLORS.primaryDark}></MaterialIcons>
                 </View>
                 <Text style={styles.PriceText}>3800</Text>
               </View>
@@ -233,7 +234,7 @@ const styles = StyleSheet.create({
     color: COLORS.primaryDark,
   },
   ColorAndQuantity: {
-    marginTop: SPACING.space_15,
+    marginTop: SPACING.space_20,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -292,6 +293,7 @@ const styles = StyleSheet.create({
   ActionButton: {},
   AddToCartButton: {
     marginVertical: SPACING.space_20,
+    marginBottom: SPACING.space_24,
     backgroundColor: COLORS.secondaryDark,
     paddingVertical: SPACING.space_10,
     borderRadius: 100,
@@ -307,7 +309,7 @@ const styles = StyleSheet.create({
     paddingRight: SPACING.space_15,
     borderRightWidth: 0.2,
     borderRightColor: COLORS.primaryDark,
-    marginRight: SPACING.space_15,
+    marginRight: SPACING.space_10,
   },
   Price: {
     flexDirection: 'row',
@@ -320,6 +322,5 @@ const styles = StyleSheet.create({
     fontFamily: FONTFAMILY.poppins_regular,
     fontSize: FONTSIZE.size_16,
     color: COLORS.primaryDark,
-    marginLeft: SPACING.space_4,
   },
 });
