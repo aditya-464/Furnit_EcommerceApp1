@@ -50,6 +50,7 @@ export const COLORS = {
   // searchField: '#f9fafb',  // Little bit more white
   searchField: '#f8f9fa',
   error: '#D24545',
+  like: '#D80032',
 };
 
 export const FONTFAMILY = {

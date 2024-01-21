@@ -17,12 +17,12 @@ import {
 } from '../theme/Theme';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
-import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 
 const ProductDetailsScreen = () => {
   const [color, setColor] = useState(1);
   const [itemCount, setItemCount] = useState(1);
+  const [like, setLike] = useState(false);
 
   const handleColor = val => {
     setColor(val);
@@ -32,6 +32,10 @@ const ProductDetailsScreen = () => {
     setItemCount(prev =>
       val === 1 ? (prev < 9 ? prev + 1 : prev) : prev > 1 ? prev - 1 : prev,
     );
+  };
+
+  const handleLike = () => {
+    setLike(prev => !prev);
   };
 
   return (
@@ -48,11 +52,14 @@ const ProductDetailsScreen = () => {
             size={FONTSIZE.size_28}
             color={COLORS.primaryDark}></Ionicons>
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.6} style={styles.LikeIcon}>
+        <TouchableOpacity
+          onPress={handleLike}
+          activeOpacity={0.6}
+          style={styles.LikeIcon}>
           <Ionicons
-            name="heart-outline"
+            name={like ? 'heart' : 'heart-outline'}
             size={FONTSIZE.size_28}
-            color={COLORS.primaryDark}></Ionicons>
+            color={like ? COLORS.like : COLORS.primaryDark}></Ionicons>
         </TouchableOpacity>
       </View>
       <View style={styles.ImageView}>
@@ -292,8 +299,8 @@ const styles = StyleSheet.create({
   },
   ActionButton: {},
   AddToCartButton: {
-    marginVertical: SPACING.space_20,
-    marginBottom: SPACING.space_24,
+    marginTop: SPACING.space_24,
+    marginBottom: SPACING.space_28,
     backgroundColor: COLORS.secondaryDark,
     paddingVertical: SPACING.space_10,
     borderRadius: 100,
