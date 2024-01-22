@@ -5,6 +5,7 @@ import LoginScreen from './src/screens/LoginScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import BottomTabNavigator from './src/navigators/BottomTabNavigator';
 import ProductDetailsScreen from './src/screens/ProductDetailsScreen';
+import WishListScreen from './src/screens/WishListScreen';
 
 const App = () => {
   return (
@@ -12,7 +13,8 @@ const App = () => {
       {/* <SignupScreen></SignupScreen> */}
       {/* <LoginScreen></LoginScreen> */}
       {/* <BottomTabNavigator></BottomTabNavigator> */}
-      <ProductDetailsScreen></ProductDetailsScreen>
+      {/* <ProductDetailsScreen></ProductDetailsScreen> */}
+      <WishListScreen></WishListScreen>
     </NavigationContainer>
   );
 };
