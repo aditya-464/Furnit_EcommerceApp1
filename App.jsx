@@ -6,15 +6,17 @@ import {NavigationContainer} from '@react-navigation/native';
 import BottomTabNavigator from './src/navigators/BottomTabNavigator';
 import ProductDetailsScreen from './src/screens/ProductDetailsScreen';
 import WishListScreen from './src/screens/WishListScreen';
+import CartScreen from './src/screens/CartScreen';
 
 const App = () => {
   return (
     <NavigationContainer>
       {/* <SignupScreen></SignupScreen> */}
       {/* <LoginScreen></LoginScreen> */}
-      {/* <BottomTabNavigator></BottomTabNavigator> */}
+      <BottomTabNavigator></BottomTabNavigator>
       {/* <ProductDetailsScreen></ProductDetailsScreen> */}
-      <WishListScreen></WishListScreen>
+      {/* <WishListScreen></WishListScreen> */}
+      {/* <CartScreen></CartScreen> */}
     </NavigationContainer>
   );
 };

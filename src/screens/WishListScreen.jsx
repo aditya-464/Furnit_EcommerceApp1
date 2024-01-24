@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   },
   TitleText: {
     fontFamily: FONTFAMILY.poppins_medium,
-    fontSize: FONTSIZE.size_20,
+    fontSize: FONTSIZE.size_24,
     color: COLORS.primaryDark,
     textAlign: 'center',
   },
@@ -163,7 +163,6 @@ const styles = StyleSheet.create({
     borderRadius: BORDERRADIUS.radius_15,
     overflow: 'hidden',
     marginBottom: SPACING.space_30,
-    // backgroundColor: COLORS.searchField,
   },
   Image: {
     width: 140,
@@ -178,9 +177,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     paddingLeft: SPACING.space_12,
-    // paddingHorizontal: SPACING.space_10,
-    // paddingTop: SPACING.space_4,
-    // paddingBottom: SPACING.space_8,
   },
   Top: {},
   NameAndRating: {
