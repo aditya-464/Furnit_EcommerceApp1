@@ -58,6 +58,20 @@ const data = [
     price: 2200,
     star: 4.5,
   },
+  {
+    id: 6,
+    image: require('../assets/images/chairs/wingback.jpg'),
+    name: 'Wingback',
+    price: 2200,
+    star: 4.5,
+  },
+  {
+    id: 7,
+    image: require('../assets/images/chairs/wingback.jpg'),
+    name: 'Wingback',
+    price: 2200,
+    star: 4.5,
+  },
 ];
 
 const CartScreen = () => {
@@ -80,6 +94,7 @@ const CartScreen = () => {
           containerStyle={{
             backgroundColor: COLORS.primaryLight,
             paddingRight: 0,
+            margin: 0,
           }}
           iconType="material-community"
           checkedIcon="checkbox-marked"
@@ -147,7 +162,12 @@ const CartScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.primaryLight}}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: COLORS.primaryLight,
+        position: 'relative',
+      }}>
       <View style={styles.TitleBar}>
         <TouchableOpacity activeOpacity={0.6} style={styles.BackIcon}>
           <Ionicons
@@ -176,6 +196,22 @@ const CartScreen = () => {
             star={item.star}></FlatListItem>
         )}
         keyExtractor={item => item.id.toString()}></FlatList>
+
+      <View style={styles.CheckOut}>
+        <View style={styles.ItemsAndPrice}>
+          <Text style={styles.ItemsTotal}>Total (2 items) :</Text>
+          <View style={styles.TotalAmount}>
+            <MaterialIcons
+              name="currency-rupee"
+              size={FONTSIZE.size_20}
+              color={COLORS.primaryDark}></MaterialIcons>
+            <Text style={styles.TotalAmountText}>5400</Text>
+          </View>
+        </View>
+        <TouchableOpacity activeOpacity={0.6} style={styles.CheckOutButton}>
+          <Text style={styles.CheckOutText}>Proceed to Checkout</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -271,9 +307,7 @@ const styles = StyleSheet.create({
   ItemCountButton: {
     paddingHorizontal: SPACING.space_4,
     paddingVertical: SPACING.space_2,
-    // borderWidth: 0.2,
-    // borderColor: COLORS.primaryDark,
-    elevation : 1,
+    elevation: 1,
     borderRadius: BORDERRADIUS.radius_10,
   },
   ItemCount: {
@@ -283,6 +317,50 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: FONTFAMILY.poppins_medium,
     fontSize: FONTSIZE.size_14,
+    color: COLORS.primaryDark,
+  },
+  CheckOut: {
+    // position: 'absolute',
+    // bottom: 0,
+    // left: 0,
+    // right: 0,
+    backgroundColor: COLORS.primaryLight,
+    paddingHorizontal: SPACING.space_15,
+    paddingTop: SPACING.space_15,
+  },
+  ItemsAndPrice: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  ItemsTotal: {
+    fontFamily: FONTFAMILY.poppins_medium,
+    fontSize: FONTSIZE.size_16,
+    color: COLORS.primaryDark,
+    opacity: 0.7,
+  },
+  TotalAmount: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: SPACING.space_10,
+  },
+  TotalAmountText: {
+    fontFamily: FONTFAMILY.poppins_medium,
+    fontSize: FONTSIZE.size_16,
+    color: COLORS.primaryDark,
+  },
+  CheckOutButton: {
+    marginTop: SPACING.space_10,
+    marginBottom: SPACING.space_20,
+    backgroundColor: COLORS.secondaryDark,
+    paddingVertical: SPACING.space_10,
+    borderRadius: 10,
+  },
+  CheckOutText: {
+    textAlign: 'center',
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_16,
     color: COLORS.primaryDark,
   },
 });

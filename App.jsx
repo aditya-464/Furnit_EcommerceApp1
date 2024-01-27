@@ -13,10 +13,10 @@ const App = () => {
     <NavigationContainer>
       {/* <SignupScreen></SignupScreen> */}
       {/* <LoginScreen></LoginScreen> */}
-      <BottomTabNavigator></BottomTabNavigator>
+      {/* <BottomTabNavigator></BottomTabNavigator> */}
       {/* <ProductDetailsScreen></ProductDetailsScreen> */}
       {/* <WishListScreen></WishListScreen> */}
-      {/* <CartScreen></CartScreen> */}
+      <CartScreen></CartScreen>
     </NavigationContainer>
   );
 };
