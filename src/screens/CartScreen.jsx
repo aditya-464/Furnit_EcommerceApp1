@@ -27,6 +27,7 @@ const data = [
     id: 1,
     image: require('../assets/images/chairs/armchair.jpg'),
     name: 'Armchair',
+    brand: 'IKEA',
     price: 300,
     star: 4.8,
   },
@@ -34,6 +35,7 @@ const data = [
     id: 2,
     image: require('../assets/images/chairs/recliner.jpg'),
     name: 'Recliner',
+    brand: 'Ashley',
     price: 2400,
     star: 4.6,
   },
@@ -41,6 +43,7 @@ const data = [
     id: 3,
     image: require('../assets/images/chairs/swivel.jpg'),
     name: 'Swivel',
+    brand: 'Herman Miller',
     price: 1200,
     star: 4.2,
   },
@@ -48,6 +51,7 @@ const data = [
     id: 4,
     image: require('../assets/images/chairs/office_chair.jpg'),
     name: 'Office Chair',
+    brand: 'West Elm',
     price: 800,
     star: 4.8,
   },
@@ -55,6 +59,7 @@ const data = [
     id: 5,
     image: require('../assets/images/chairs/wingback.jpg'),
     name: 'Wingback',
+    brand: 'Herman Miller',
     price: 2200,
     star: 4.5,
   },
@@ -62,6 +67,7 @@ const data = [
     id: 6,
     image: require('../assets/images/chairs/wingback.jpg'),
     name: 'Wingback',
+    brand: 'IKEA',
     price: 2200,
     star: 4.5,
   },
@@ -69,6 +75,7 @@ const data = [
     id: 7,
     image: require('../assets/images/chairs/wingback.jpg'),
     name: 'Wingback',
+    brand: 'Ashley',
     price: 2200,
     star: 4.5,
   },
@@ -85,7 +92,7 @@ const CartScreen = () => {
     }));
   };
 
-  const FlatListItem = ({id, name, price, image, star}) => (
+  const FlatListItem = ({id, name, brand, price, image, star}) => (
     <View style={styles.CartItem}>
       <View style={styles.CheckBoxIcon}>
         <CheckBox
@@ -114,6 +121,9 @@ const CartScreen = () => {
             <View style={styles.NameAndRating}>
               <Text style={styles.Name}>{name}</Text>
             </View>
+            <Text style={styles.Brand}>{brand}</Text>
+          </View>
+          <View style={styles.Bottom}>
             <View style={styles.Price}>
               <MaterialIcons
                 name="currency-rupee"
@@ -121,8 +131,6 @@ const CartScreen = () => {
                 color={COLORS.secondaryDark}></MaterialIcons>
               <Text style={styles.PriceText}>{price}</Text>
             </View>
-          </View>
-          <View style={styles.Bottom}>
             <View style={styles.Quantity}>
               <TouchableOpacity
                 onPress={() => handleItemCount(id, 0)}
@@ -191,6 +199,7 @@ const CartScreen = () => {
           <FlatListItem
             id={item.id}
             name={item.name}
+            brand={item.brand}
             image={item.image}
             price={item.price}
             star={item.star}></FlatListItem>
@@ -280,6 +289,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignContent: 'center',
   },
+  Brand: {
+    fontFamily: FONTFAMILY.poppins_medium,
+    fontSize: FONTSIZE.size_12,
+    color: COLORS.primaryDark,
+    opacity: 0.6,
+  },
   Stars: {
     fontFamily: FONTFAMILY.poppins_medium,
     fontSize: FONTSIZE.size_12,
@@ -298,7 +313,7 @@ const styles = StyleSheet.create({
   },
   Bottom: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
   },
   Quantity: {
     flexDirection: 'row',
