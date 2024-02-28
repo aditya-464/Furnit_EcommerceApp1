@@ -128,6 +128,16 @@ const CartScreen = () => {
     }
   };
 
+  const handleRemoveItem = id => {
+    const newData = [];
+    for (let i = 0; i < productsData.length; i++) {
+      if (productsData[i].id !== id) {
+        newData.push(productsData[i]);
+      }
+    }
+    setProductsData([...newData]);
+  };
+
   const toggleCheckbox = id => {
     setSelectItem(prevSelectItem => ({
       ...prevSelectItem,
@@ -185,7 +195,14 @@ const CartScreen = () => {
             <View style={styles.Quantity}>
               <TouchableOpacity
                 // onPress={() => handleTotalAmount(id, price, 0)}
-                onPress={() => handleCount(id, price, -1)}
+                onPress={() => {
+                  if (count === 1) {
+                    handleCount(id, price, -1);
+                    handleRemoveItem(id);
+                  } else {
+                    handleCount(id, price, -1);
+                  }
+                }}
                 activeOpacity={0.6}
                 style={styles.ItemCountButton}>
                 <AntDesign
