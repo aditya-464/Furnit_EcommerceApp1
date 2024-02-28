@@ -30,6 +30,7 @@ const data = [
     brand: 'IKEA',
     price: 300,
     star: 4.8,
+    count: 1,
   },
   {
     id: 2,
@@ -38,6 +39,7 @@ const data = [
     brand: 'Ashley',
     price: 2400,
     star: 4.6,
+    count: 1,
   },
   {
     id: 3,
@@ -46,6 +48,7 @@ const data = [
     brand: 'Herman Miller',
     price: 1200,
     star: 4.2,
+    count: 1,
   },
   {
     id: 4,
@@ -54,6 +57,7 @@ const data = [
     brand: 'West Elm',
     price: 800,
     star: 4.8,
+    count: 1,
   },
   {
     id: 5,
@@ -62,6 +66,7 @@ const data = [
     brand: 'Herman Miller',
     price: 2200,
     star: 4.5,
+    count: 1,
   },
   {
     id: 6,
@@ -70,6 +75,7 @@ const data = [
     brand: 'IKEA',
     price: 2200,
     star: 4.5,
+    count: 1,
   },
   {
     id: 7,
@@ -78,12 +84,49 @@ const data = [
     brand: 'Ashley',
     price: 2200,
     star: 4.5,
+    count: 1,
   },
 ];
 
 const CartScreen = () => {
   const [productsData, setProductsData] = useState([]);
   const [selectItem, setSelectItem] = useState(null);
+  const [itemQuantity, setItemQuantity] = useState(null);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [total, setTotal] = useState(0);
+
+  const handleTotalAmount = (id, amount, add) => {
+    if (add) {
+      setItemQuantity(prev => ({...prev, [id]: prev[id] + 1}));
+      setTotalAmount(prev => prev + amount);
+    } else {
+      setItemQuantity(prev => ({...prev, [id]: prev[id] - 1}));
+      setTotalAmount(prev => prev - amount);
+    }
+    console.log(itemQuantity);
+  };
+
+  const handleCount = (id, price, val) => {
+    if (val === 1) {
+      let newData = productsData;
+      for (let i = 0; i < newData.length; i++) {
+        if (newData[i].id === id) {
+          newData[i].count = newData[i].count + 1;
+          break;
+        }
+      }
+      setProductsData([...newData]);
+    } else {
+      let newData = productsData;
+      for (let i = 0; i < newData.length; i++) {
+        if (newData[i].id === id) {
+          newData[i].count = newData[i].count - 1;
+          break;
+        }
+      }
+      setProductsData([...newData]);
+    }
+  };
 
   const toggleCheckbox = id => {
     setSelectItem(prevSelectItem => ({
@@ -92,7 +135,7 @@ const CartScreen = () => {
     }));
   };
 
-  const FlatListItem = ({id, name, brand, price, image, star}) => (
+  const FlatListItem = ({id, name, brand, price, image, star, count}) => (
     <View style={styles.CartItem}>
       <View style={styles.CheckBoxIcon}>
         <CheckBox
@@ -111,17 +154,25 @@ const CartScreen = () => {
       </View>
       <View style={styles.Product}>
         <View style={styles.Image}>
-          <Image
-            style={{width: '100%', height: '100%'}}
-            source={image}
-            resizeMode="cover"></Image>
+          <TouchableOpacity
+            activeOpacity={0.9}
+            onPress={() => toggleCheckbox(id)}>
+            <Image
+              style={{width: '100%', height: '100%'}}
+              source={image}
+              resizeMode="cover"></Image>
+          </TouchableOpacity>
         </View>
         <View style={styles.Info}>
           <View style={styles.Top}>
-            <View style={styles.NameAndRating}>
-              <Text style={styles.Name}>{name}</Text>
-            </View>
-            <Text style={styles.Brand}>{brand}</Text>
+            <TouchableOpacity
+              activeOpacity={0.9}
+              onPress={() => toggleCheckbox(id)}>
+              <View style={styles.NameAndRating}>
+                <Text style={styles.Name}>{name}</Text>
+              </View>
+              <Text style={styles.Brand}>{brand}</Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.Bottom}>
             <View style={styles.Price}>
@@ -133,7 +184,8 @@ const CartScreen = () => {
             </View>
             <View style={styles.Quantity}>
               <TouchableOpacity
-                onPress={() => handleItemCount(id, 0)}
+                // onPress={() => handleTotalAmount(id, price, 0)}
+                onPress={() => handleCount(id, price, -1)}
                 activeOpacity={0.6}
                 style={styles.ItemCountButton}>
                 <AntDesign
@@ -142,10 +194,11 @@ const CartScreen = () => {
                   color={COLORS.primaryDark}></AntDesign>
               </TouchableOpacity>
               <View style={styles.ItemCount}>
-                <Text style={styles.ItemCountText}>5</Text>
+                <Text style={styles.ItemCountText}>{count}</Text>
               </View>
               <TouchableOpacity
-                onPress={() => handleItemCount(id, 1)}
+                // onPress={() => handleTotalAmount(id, price, 1)}
+                onPress={() => handleCount(id, price, 1)}
                 activeOpacity={0.6}
                 style={styles.ItemCountButton}>
                 <AntDesign
@@ -162,11 +215,27 @@ const CartScreen = () => {
 
   useEffect(() => {
     setProductsData([...data]);
-    let temp = {};
+    // let temp = {};
+    // let temp2 = {};
+    // for (let i = 0; i < data.length; i++) {
+    //   temp[data[i].id] = false;
+    //   temp2[data[i].id] = 1;
+    // }
+    // setSelectItem(temp);
+    // setItemQuantity(temp2);
+
+    let temp = [];
+    let temp2 = [];
     for (let i = 0; i < data.length; i++) {
-      temp[data[i].id] = false;
+      temp.push({
+        [data[i].id]: false,
+      });
+      temp.push({
+        [data[i].id]: 1,
+      });
     }
     setSelectItem(temp);
+    setItemQuantity(temp2);
   }, []);
 
   return (
@@ -202,7 +271,8 @@ const CartScreen = () => {
             brand={item.brand}
             image={item.image}
             price={item.price}
-            star={item.star}></FlatListItem>
+            star={item.star}
+            count={item.count}></FlatListItem>
         )}
         keyExtractor={item => item.id.toString()}></FlatList>
 
@@ -214,7 +284,7 @@ const CartScreen = () => {
               name="currency-rupee"
               size={FONTSIZE.size_20}
               color={COLORS.primaryDark}></MaterialIcons>
-            <Text style={styles.TotalAmountText}>5400</Text>
+            <Text style={styles.TotalAmountText}>{totalAmount}</Text>
           </View>
         </View>
         <TouchableOpacity activeOpacity={0.6} style={styles.CheckOutButton}>
@@ -321,7 +391,7 @@ const styles = StyleSheet.create({
   },
   ItemCountButton: {
     paddingHorizontal: SPACING.space_4,
-    paddingVertical: SPACING.space_2,
+    paddingVertical: SPACING.space_4,
     elevation: 1,
     borderRadius: BORDERRADIUS.radius_10,
   },
@@ -335,13 +405,10 @@ const styles = StyleSheet.create({
     color: COLORS.primaryDark,
   },
   CheckOut: {
-    // position: 'absolute',
-    // bottom: 0,
-    // left: 0,
-    // right: 0,
     backgroundColor: COLORS.primaryLight,
     paddingHorizontal: SPACING.space_15,
     paddingTop: SPACING.space_15,
+    elevation: 5,
   },
   ItemsAndPrice: {
     flexDirection: 'row',
