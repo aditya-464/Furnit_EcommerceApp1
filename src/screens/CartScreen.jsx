@@ -95,7 +95,7 @@ const CartScreen = () => {
   const [totalCount, setTotalCount] = useState(0);
 
   // NOT USING THIS FUNCTION
-  const handleTotalAmount = (id, amount, add) => {
+  const handle = (id, amount, add) => {
     if (add) {
       setItemQuantity(prev => ({...prev, [id]: prev[id] + 1}));
       setTotalAmount(prev => prev + amount);
@@ -141,6 +141,19 @@ const CartScreen = () => {
       }
     }
     setProductsData([...newData]);
+  };
+
+  const handleTotalAmountAndCount = () => {
+    let tempAmount = 0;
+    let tempCount = 0;
+    for (let i = 0; i < productsData.length; i++) {
+      if (selectItem[productsData[i].id]) {
+        tempAmount += productsData[i].count * productsData[i].price;
+        tempCount += productsData[i].count;
+      }
+    }
+    setTotalAmount(tempAmount);
+    setTotalCount(tempCount);
   };
 
   const toggleCheckbox = id => {
@@ -199,7 +212,6 @@ const CartScreen = () => {
             </View>
             <View style={styles.Quantity}>
               <TouchableOpacity
-                // onPress={() => handleTotalAmount(id, price, 0)}
                 onPress={() => {
                   if (count === 1) {
                     handleCount(id, price, -1);
@@ -219,7 +231,6 @@ const CartScreen = () => {
                 <Text style={styles.ItemCountText}>{count}</Text>
               </View>
               <TouchableOpacity
-                // onPress={() => handleTotalAmount(id, price, 1)}
                 onPress={() => {
                   if (count < 9) {
                     handleCount(id, price, 1);
@@ -250,17 +261,18 @@ const CartScreen = () => {
     // setSelectItem(temp);
     // setItemQuantity(temp2);
 
-    let temp = [];
+    let temp = {};
     // let temp2 = [];
     let tempTotal = 0;
     let tempCount = 0;
     for (let i = 0; i < data.length; i++) {
-      temp.push({
-        [data[i].id]: false,
-      });
-      temp.push({
-        [data[i].id]: 1,
-      });
+      // temp.push({
+      //   [data[i].id]: true,
+      // });
+      // temp.push({
+      //   [data[i].id]: 1,
+      // });
+      temp[data[i].id] = true;
       tempTotal += data[i].price;
       tempCount += data[i].count;
     }
@@ -269,6 +281,10 @@ const CartScreen = () => {
     setTotalAmount(tempTotal);
     setTotalCount(tempCount);
   }, []);
+
+  useEffect(() => {
+    handleTotalAmountAndCount();
+  }, [selectItem]);
 
   return (
     <SafeAreaView
