@@ -2,7 +2,6 @@ import {
   FlatList,
   Image,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -50,42 +49,42 @@ const data = [
     star: 4.2,
     count: 1,
   },
-  {
-    id: 4,
-    image: require('../assets/images/chairs/office_chair.jpg'),
-    name: 'Office Chair',
-    brand: 'West Elm',
-    price: 800,
-    star: 4.8,
-    count: 1,
-  },
-  {
-    id: 5,
-    image: require('../assets/images/chairs/wingback.jpg'),
-    name: 'Wingback',
-    brand: 'Herman Miller',
-    price: 2200,
-    star: 4.5,
-    count: 1,
-  },
-  {
-    id: 6,
-    image: require('../assets/images/chairs/wingback.jpg'),
-    name: 'Wingback',
-    brand: 'IKEA',
-    price: 2200,
-    star: 4.5,
-    count: 1,
-  },
-  {
-    id: 7,
-    image: require('../assets/images/chairs/wingback.jpg'),
-    name: 'Wingback',
-    brand: 'Ashley',
-    price: 2200,
-    star: 4.5,
-    count: 1,
-  },
+  // {
+  //   id: 4,
+  //   image: require('../assets/images/chairs/office_chair.jpg'),
+  //   name: 'Office Chair',
+  //   brand: 'West Elm',
+  //   price: 800,
+  //   star: 4.8,
+  //   count: 1,
+  // },
+  // {
+  //   id: 5,
+  //   image: require('../assets/images/chairs/wingback.jpg'),
+  //   name: 'Wingback',
+  //   brand: 'Herman Miller',
+  //   price: 2200,
+  //   star: 4.5,
+  //   count: 1,
+  // },
+  // {
+  //   id: 6,
+  //   image: require('../assets/images/chairs/wingback.jpg'),
+  //   name: 'Wingback',
+  //   brand: 'IKEA',
+  //   price: 2200,
+  //   star: 4.5,
+  //   count: 1,
+  // },
+  // {
+  //   id: 7,
+  //   image: require('../assets/images/chairs/wingback.jpg'),
+  //   name: 'Wingback',
+  //   brand: 'Ashley',
+  //   price: 2200,
+  //   star: 4.5,
+  //   count: 1,
+  // },
 ];
 
 const CartScreen = () => {
@@ -93,8 +92,9 @@ const CartScreen = () => {
   const [selectItem, setSelectItem] = useState(null);
   const [itemQuantity, setItemQuantity] = useState(null);
   const [totalAmount, setTotalAmount] = useState(0);
-  const [total, setTotal] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
 
+  // NOT USING THIS FUNCTION
   const handleTotalAmount = (id, amount, add) => {
     if (add) {
       setItemQuantity(prev => ({...prev, [id]: prev[id] + 1}));
@@ -105,6 +105,7 @@ const CartScreen = () => {
     }
     console.log(itemQuantity);
   };
+  // NOT USING THIS FUNCTION
 
   const handleCount = (id, price, val) => {
     if (val === 1) {
@@ -115,6 +116,8 @@ const CartScreen = () => {
           break;
         }
       }
+      setTotalAmount(prev => prev + price);
+      setTotalCount(prev => prev + 1);
       setProductsData([...newData]);
     } else {
       let newData = productsData;
@@ -124,6 +127,8 @@ const CartScreen = () => {
           break;
         }
       }
+      setTotalAmount(prev => prev - price);
+      setTotalCount(prev => prev - 1);
       setProductsData([...newData]);
     }
   };
@@ -215,7 +220,11 @@ const CartScreen = () => {
               </View>
               <TouchableOpacity
                 // onPress={() => handleTotalAmount(id, price, 1)}
-                onPress={() => handleCount(id, price, 1)}
+                onPress={() => {
+                  if (count < 9) {
+                    handleCount(id, price, 1);
+                  }
+                }}
                 activeOpacity={0.6}
                 style={styles.ItemCountButton}>
                 <AntDesign
@@ -242,7 +251,9 @@ const CartScreen = () => {
     // setItemQuantity(temp2);
 
     let temp = [];
-    let temp2 = [];
+    // let temp2 = [];
+    let tempTotal = 0;
+    let tempCount = 0;
     for (let i = 0; i < data.length; i++) {
       temp.push({
         [data[i].id]: false,
@@ -250,9 +261,13 @@ const CartScreen = () => {
       temp.push({
         [data[i].id]: 1,
       });
+      tempTotal += data[i].price;
+      tempCount += data[i].count;
     }
     setSelectItem(temp);
-    setItemQuantity(temp2);
+    // setItemQuantity(temp2);
+    setTotalAmount(tempTotal);
+    setTotalCount(tempCount);
   }, []);
 
   return (
@@ -295,7 +310,9 @@ const CartScreen = () => {
 
       <View style={styles.CheckOut}>
         <View style={styles.ItemsAndPrice}>
-          <Text style={styles.ItemsTotal}>Total (2 items) :</Text>
+          <Text style={styles.ItemsTotal}>
+            Total ({totalCount} {totalCount > 1 ? 'items' : 'item'}) :
+          </Text>
           <View style={styles.TotalAmount}>
             <MaterialIcons
               name="currency-rupee"
