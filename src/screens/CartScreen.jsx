@@ -152,6 +152,12 @@ const CartScreen = () => {
         tempCount += productsData[i].count;
       }
     }
+    if (tempAmount < 0) {
+      tempAmount = 0;
+    }
+    if (tempCount < 0) {
+      tempCount = 0;
+    }
     setTotalAmount(tempAmount);
     setTotalCount(tempCount);
   };
