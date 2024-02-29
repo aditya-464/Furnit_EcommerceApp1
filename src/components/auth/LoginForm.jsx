@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     marginVertical: SPACING.space_20,
     backgroundColor: COLORS.secondaryDark,
     paddingVertical: SPACING.space_10,
-    borderRadius: 50,
+    borderRadius: 10,
   },
   LoginText: {
     textAlign: 'center',

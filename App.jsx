@@ -11,12 +11,12 @@ import CartScreen from './src/screens/CartScreen';
 const App = () => {
   return (
     <NavigationContainer>
-      {/* <SignupScreen></SignupScreen> */}
+      <SignupScreen></SignupScreen>
       {/* <LoginScreen></LoginScreen> */}
       {/* <BottomTabNavigator></BottomTabNavigator> */}
       {/* <ProductDetailsScreen></ProductDetailsScreen> */}
       {/* <WishListScreen></WishListScreen> */}
-      <CartScreen></CartScreen>
+      {/* <CartScreen></CartScreen> */}
     </NavigationContainer>
   );
 };
