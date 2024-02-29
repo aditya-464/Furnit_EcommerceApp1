@@ -160,12 +160,12 @@ const styles = StyleSheet.create({
     paddingBottom: SPACING.space_12,
     marginRight: SPACING.space_15,
     backgroundColor: COLORS.searchField,
-    borderRadius: BORDERRADIUS.radius_15,
+    borderRadius: BORDERRADIUS.radius_10,
   },
   ImageView: {
     width: 180,
     height: 180,
-    borderRadius: BORDERRADIUS.radius_15,
+    borderRadius: BORDERRADIUS.radius_10,
     overflow: 'hidden',
   },
   Image: {

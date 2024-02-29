@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
   Description: {
     marginTop: SPACING.space_8,
     fontFamily: FONTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_16,
+    fontSize: FONTSIZE.size_14,
     color: COLORS.primaryDark,
   },
   ColorAndQuantity: {
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.space_28,
     backgroundColor: COLORS.secondaryDark,
     paddingVertical: SPACING.space_10,
-    borderRadius: 100,
+    borderRadius: 10,
     flexDirection: 'row',
     alignContent: 'center',
     justifyContent: 'center',

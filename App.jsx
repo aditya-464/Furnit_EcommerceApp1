@@ -7,16 +7,18 @@ import BottomTabNavigator from './src/navigators/BottomTabNavigator';
 import ProductDetailsScreen from './src/screens/ProductDetailsScreen';
 import WishListScreen from './src/screens/WishListScreen';
 import CartScreen from './src/screens/CartScreen';
+import SearchScreen from './src/screens/SearchScreen';
 
 const App = () => {
   return (
     <NavigationContainer>
-      <SignupScreen></SignupScreen>
+      {/* <SignupScreen></SignupScreen> */}
       {/* <LoginScreen></LoginScreen> */}
-      {/* <BottomTabNavigator></BottomTabNavigator> */}
+      <BottomTabNavigator></BottomTabNavigator>
       {/* <ProductDetailsScreen></ProductDetailsScreen> */}
       {/* <WishListScreen></WishListScreen> */}
       {/* <CartScreen></CartScreen> */}
+      {/* <SearchScreen></SearchScreen> */}
     </NavigationContainer>
   );
 };
