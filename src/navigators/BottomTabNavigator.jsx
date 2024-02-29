@@ -15,22 +15,39 @@ const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      screenOptions={{
+      screenOptions={({route}) => ({
         tabBarHideOnKeyboard: true,
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarStyle: styles.tabBarStyle,
-        // tabBarLabelStyle: styles.tabBarLabelStyle,
-        // tabBarActiveTintColor: COLORS.secondaryDark,
-        // tabBarInactiveTintColor: COLORS.placeholder,
-        // tabBarBackground: () => (
-        //   <BlurView
-        //     overlayColor=""
-        //     blurAmount={1}
-        //     style={styles.BlurViewStyles}
-        //   />
-        // ),
-      }}>
+        // tabBarStyle: styles.tabBarStyle,
+        tabBarStyle: {
+          display: route.name === 'Cart' ? 'none' : 'flex',
+          height: 60,
+          position: 'absolute',
+          backgroundColor: COLORS.primaryLight,
+          borderTopWidth: 0,
+          elevation: 0,
+          borderTopColor: 'transparent',
+        },
+      })}
+      // screenOptions={{
+      //   tabBarHideOnKeyboard: true,
+      //   headerShown: false,
+      //   tabBarShowLabel: false,
+      //   tabBarStyle: styles.tabBarStyle,
+      //   //
+      //   tabBarLabelStyle: styles.tabBarLabelStyle,
+      //   tabBarActiveTintColor: COLORS.secondaryDark,
+      //   tabBarInactiveTintColor: COLORS.placeholder,
+      //   tabBarBackground: () => (
+      //     <BlurView
+      //       overlayColor=""
+      //       blurAmount={1}
+      //       style={styles.BlurViewStyles}
+      //     />
+      //   ),
+      // }}
+    >
       <Tab.Screen
         name="Home"
         component={HomeScreen}
