@@ -8,17 +8,19 @@ import ProductDetailsScreen from './src/screens/ProductDetailsScreen';
 import WishListScreen from './src/screens/WishListScreen';
 import CartScreen from './src/screens/CartScreen';
 import SearchScreen from './src/screens/SearchScreen';
+import FilterModal from './src/components/search/FilterModal';
 
 const App = () => {
   return (
     <NavigationContainer>
       {/* <SignupScreen></SignupScreen> */}
       {/* <LoginScreen></LoginScreen> */}
-      <BottomTabNavigator></BottomTabNavigator>
+      {/* <BottomTabNavigator></BottomTabNavigator> */}
       {/* <ProductDetailsScreen></ProductDetailsScreen> */}
       {/* <WishListScreen></WishListScreen> */}
       {/* <CartScreen></CartScreen> */}
       {/* <SearchScreen></SearchScreen> */}
+      <FilterModal></FilterModal>
     </NavigationContainer>
   );
 };

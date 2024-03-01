@@ -47,8 +47,7 @@ const HomeScreen = () => {
           <TextInput
             editable={false}
             style={styles.SearchInput}
-            placeholder="Search"
-            placeholderTextColor={COLORS.primaryDark}></TextInput>
+            placeholder="Find your product..."></TextInput>
           <Octicons
             name="filter"
             size={FONTSIZE.size_20}
