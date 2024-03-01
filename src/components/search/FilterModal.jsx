@@ -17,9 +17,6 @@ import Modal from 'react-native-modal';
 import {Dropdown} from 'react-native-element-dropdown';
 import {Slider} from '@rneui/themed';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
-import AntDesign from 'react-native-vector-icons/dist/AntDesign';
-import Octicons from 'react-native-vector-icons/dist/Octicons';
-import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 
 const FilterModal = () => {
   const categoryData = [
