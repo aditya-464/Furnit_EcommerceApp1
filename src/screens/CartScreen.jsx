@@ -307,7 +307,7 @@ const CartScreen = () => {
             color={COLORS.primaryDark}></Ionicons>
         </TouchableOpacity>
         <Text style={styles.TitleText}>Cart</Text>
-        <TouchableOpacity activeOpacity={0.6} style={styles.LikeIcon}>
+        <TouchableOpacity activeOpacity={0.6} style={styles.ClearCartIcon}>
           <Octicons
             name="trash"
             size={FONTSIZE.size_24}
@@ -360,7 +360,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primaryLight,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignContent: 'center',
+    alignItems: 'center',
   },
   Title: {
     flex: 1,

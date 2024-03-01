@@ -176,7 +176,7 @@ const SearchScreen = () => {
             color={COLORS.primaryDark}></Ionicons>
         </TouchableOpacity>
         <Text style={styles.TitleText}>Search</Text>
-        <TouchableOpacity activeOpacity={0.6} style={styles.LikeIcon}>
+        <TouchableOpacity activeOpacity={0.6} style={styles.FilterIcon}>
           <Octicons
             name="filter"
             size={FONTSIZE.size_24}
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primaryLight,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignContent: 'center',
+    alignItems: 'center',
   },
   Title: {
     flex: 1,
