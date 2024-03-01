@@ -16,6 +16,10 @@ import {
 import Modal from 'react-native-modal';
 import {Dropdown} from 'react-native-element-dropdown';
 import {Slider} from '@rneui/themed';
+import Ionicons from 'react-native-vector-icons/dist/Ionicons';
+import AntDesign from 'react-native-vector-icons/dist/AntDesign';
+import Octicons from 'react-native-vector-icons/dist/Octicons';
+import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 
 const FilterModal = () => {
   const categoryData = [
@@ -52,6 +56,17 @@ const FilterModal = () => {
       }}>
       <Modal isVisible={isModalVisible} useNativeDriver={true}>
         <View style={styles.FilterModal}>
+          <View style={styles.CloseModalIcon}>
+            <TouchableOpacity
+              activeOpacity={0.6}
+              style={styles.CloseModalButton}>
+              <Ionicons
+                name="close"
+                size={FONTSIZE.size_30}
+                color={COLORS.primaryDark}></Ionicons>
+            </TouchableOpacity>
+          </View>
+
           <View style={styles.OptionLabel}>
             <Text style={styles.OptionLabelText}>Category</Text>
             <Dropdown
@@ -62,7 +77,6 @@ const FilterModal = () => {
               containerStyle={styles.ContainerStyle}
               itemContainerStyle={styles.ItemContainerStyle}
               itemTextStyle={styles.ItemTextStyle}
-              mode="default"
               placeholderStyle={styles.PlaceholderStyle}
               selectedTextStyle={styles.SelectedTextStyle}
               data={categoryData}
@@ -92,7 +106,6 @@ const FilterModal = () => {
               containerStyle={styles.ContainerStyle}
               itemContainerStyle={styles.ItemContainerStyle}
               itemTextStyle={styles.ItemTextStyle}
-              mode="default"
               placeholderStyle={styles.PlaceholderStyle}
               selectedTextStyle={styles.SelectedTextStyle}
               data={brandData}
@@ -176,9 +189,14 @@ export default FilterModal;
 
 const styles = StyleSheet.create({
   FilterModal: {
+    paddingTop: SPACING.space_12,
     padding: SPACING.space_20,
     backgroundColor: COLORS.primaryLight,
     borderRadius: BORDERRADIUS.radius_15,
+  },
+  CloseModalButton: {
+    width: '100%',
+    alignItems: 'flex-end',
   },
   OptionLabel: {
     marginVertical: SPACING.space_8,
