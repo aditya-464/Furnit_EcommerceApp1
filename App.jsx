@@ -14,11 +14,11 @@ const App = () => {
     <NavigationContainer>
       {/* <SignupScreen></SignupScreen> */}
       {/* <LoginScreen></LoginScreen> */}
-      <BottomTabNavigator></BottomTabNavigator>
+      {/* <BottomTabNavigator></BottomTabNavigator> */}
       {/* <ProductDetailsScreen></ProductDetailsScreen> */}
       {/* <WishListScreen></WishListScreen> */}
       {/* <CartScreen></CartScreen> */}
-      {/* <SearchScreen></SearchScreen> */}
+      <SearchScreen></SearchScreen>
     </NavigationContainer>
   );
 };
