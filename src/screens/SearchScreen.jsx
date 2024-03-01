@@ -1,7 +1,6 @@
 import {
   FlatList,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -22,9 +21,10 @@ import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
+import filter from 'lodash.filter';
 
 const SearchScreen = () => {
-  const sofaData = [
+  const chairData = [
     {
       id: 1,
       image: require('../assets/images/chairs/armchair.jpg'),
@@ -97,6 +97,30 @@ const SearchScreen = () => {
     },
   ];
   const [numColumnsValue, setNumColumnsValue] = useState(2);
+  const [searchQuery, setSearchQuery] = useState(null);
+  const [resultData, setResultData] = useState([]);
+
+  const handleSearchQuery = val => {
+    setSearchQuery(val);
+    const formattedQuery = val.toLowerCase();
+    const filteredData = filter(chairData, product => {
+      return contains(product, formattedQuery);
+    });
+    setResultData(filteredData);
+  };
+
+  const contains = (product, query) => {
+    const {name, brand, category} = product;
+    if (
+      name.toLowerCase().includes(query) ||
+      brand.toLowerCase().includes(query) ||
+      category.toLowerCase().includes(query)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   const FlatListItem = ({id, name, brand, image, price, star}) => (
     <TouchableOpacity activeOpacity={0.8} style={styles.ProductCard}>
@@ -165,15 +189,15 @@ const SearchScreen = () => {
           size={FONTSIZE.size_20}
           color={COLORS.primaryDark}></AntDesign>
         <TextInput
+          value={searchQuery}
+          onChangeText={text => handleSearchQuery(text)}
           style={styles.SearchInput}
           placeholder="Find your product..."
           autoCapitalize="none"></TextInput>
       </TouchableOpacity>
-      <ScrollView scrollEnabled={true} horizontal={false}></ScrollView>
-
       <View style={styles.ProductList}>
         <FlatList
-          data={sofaData}
+          data={resultData}
           numColumns={numColumnsValue}
           showsVerticalScrollIndicator={false}
           renderItem={({item}) => (
