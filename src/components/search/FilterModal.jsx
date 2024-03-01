@@ -15,6 +15,7 @@ import {
 } from '../../theme/Theme';
 import Modal from 'react-native-modal';
 import {Dropdown} from 'react-native-element-dropdown';
+import {Slider} from '@rneui/themed';
 
 const FilterModal = () => {
   const categoryData = [
@@ -39,6 +40,7 @@ const FilterModal = () => {
   const [isFocus, setIsFocus] = useState(false);
   const [value2, setValue2] = useState(null);
   const [isFocus2, setIsFocus2] = useState(false);
+  const [sliderValue, setSliderValue] = useState(null);
 
   return (
     <SafeAreaView
@@ -48,7 +50,7 @@ const FilterModal = () => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Modal isVisible={isModalVisible}>
+      <Modal isVisible={isModalVisible} useNativeDriver={true}>
         <View style={styles.FilterModal}>
           <View style={styles.OptionLabel}>
             <Text style={styles.OptionLabelText}>Category</Text>
@@ -111,7 +113,50 @@ const FilterModal = () => {
             />
           </View>
           <View style={styles.OptionLabel}>
-            <Text style={styles.OptionLabelText}>Budget Range</Text>
+            <Text
+              style={[
+                styles.OptionLabelText,
+                {marginBottom: SPACING.space_20},
+              ]}>
+              Budget Range
+            </Text>
+
+            <Slider
+              animationType="timing"
+              value={sliderValue}
+              onValueChange={setSliderValue}
+              maximumValue={9000}
+              minimumValue={0}
+              step={500}
+              thumbStyle={{
+                height: 15,
+                width: 15,
+                backgroundColor: COLORS.primaryDark,
+              }}
+              maximumTrackTintColor={COLORS.placeholder}
+              minimumTrackTintColor={COLORS.secondaryDark}
+              trackStyle={{height: 2}}
+              thumbProps={{
+                children: (
+                  <View
+                    style={{
+                      color: COLORS.secondaryDark,
+                      marginTop: -28,
+                      marginLeft: sliderValue < 500 ? 2 : -12,
+                      width: 50,
+                    }}>
+                    <Text
+                      style={{
+                        fontFamily: FONTFAMILY.poppins_regular,
+                        fontSize: FONTSIZE.size_16,
+                        color: COLORS.primaryDark,
+                      }}>
+                      {sliderValue}
+                    </Text>
+                  </View>
+                ),
+              }}
+            />
           </View>
           <View style={styles.Buttons}>
             <TouchableOpacity activeOpacity={0.6} style={styles.ClearButton}>
