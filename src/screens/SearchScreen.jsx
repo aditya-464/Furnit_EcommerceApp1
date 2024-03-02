@@ -281,13 +281,13 @@ const styles = StyleSheet.create({
   ProductCard: {
     width: '50%',
     padding: SPACING.space_8,
-    paddingBottom: SPACING.space_16,
+    paddingBottom: SPACING.space_20,
     backgroundColor: COLORS.searchField,
     borderRadius: BORDERRADIUS.radius_10,
   },
   ImageView: {
     width: '100%',
-    height: 200,
+    height: 180,
     borderRadius: BORDERRADIUS.radius_10,
     overflow: 'hidden',
   },

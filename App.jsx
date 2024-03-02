@@ -15,9 +15,9 @@ const App = () => {
     <NavigationContainer>
       {/* <SignupScreen></SignupScreen> */}
       {/* <LoginScreen></LoginScreen> */}
-      <BottomTabNavigator></BottomTabNavigator>
+      {/* <BottomTabNavigator></BottomTabNavigator> */}
       {/* <ProductDetailsScreen></ProductDetailsScreen> */}
-      {/* <WishListScreen></WishListScreen> */}
+      <WishListScreen></WishListScreen>
       {/* <CartScreen></CartScreen> */}
       {/* <SearchScreen></SearchScreen> */}
       {/* <FilterModal></FilterModal> */}

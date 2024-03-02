@@ -18,6 +18,8 @@ import {
 } from '../theme/Theme';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
+import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
+import Octicons from 'react-native-vector-icons/dist/Octicons';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 
 const data = [
@@ -27,6 +29,7 @@ const data = [
     name: 'Armchair',
     price: 300,
     star: 4.8,
+    brand: 'IKEA',
   },
   {
     id: 2,
@@ -34,6 +37,7 @@ const data = [
     name: 'Recliner',
     price: 2400,
     star: 4.6,
+    brand: 'Ashley',
   },
   {
     id: 3,
@@ -41,6 +45,7 @@ const data = [
     name: 'Swivel',
     price: 1200,
     star: 4.2,
+    brand: 'Herman Miller',
   },
   {
     id: 4,
@@ -48,6 +53,7 @@ const data = [
     name: 'Office Chair',
     price: 800,
     star: 4.8,
+    brand: 'West Elm',
   },
   {
     id: 5,
@@ -55,52 +61,94 @@ const data = [
     name: 'Wingback',
     price: 2200,
     star: 4.5,
+    brand: 'Ashley',
   },
 ];
 
 const WishListScreen = () => {
   const [productsData, setProductsData] = useState([]);
+  const [numColumnsValue, setNumColumnsValue] = useState(2);
 
-  const FlatListItem = ({id, name, price, image, star}) => (
-    <View style={styles.Product}>
-      <View style={styles.Image}>
-        <Image
-          style={{width: '100%', height: '100%'}}
-          source={image}
-          resizeMode="cover"></Image>
-      </View>
-      <View style={styles.Info}>
-        <View style={styles.Top}>
-          <View style={styles.NameAndRating}>
-            <Text style={styles.Name}>{name}</Text>
-            <View style={styles.Rating}>
-              <AntDesign
-                name="star"
-                size={FONTSIZE.size_16}
-                color={COLORS.secondaryLight}></AntDesign>
-              <Text style={styles.Stars}>{star}</Text>
-            </View>
-          </View>
-          <View style={styles.Price}>
-            <MaterialIcons
-              name="currency-rupee"
-              size={FONTSIZE.size_16}
-              color={COLORS.primaryDark}></MaterialIcons>
-            <Text style={styles.PriceText}>{price}</Text>
-          </View>
-        </View>
-        <View style={styles.Bottom}>
-          <TouchableOpacity activeOpacity={0.6} style={styles.AddToCartButton}>
-            <Text style={styles.AddToCartButtonText}>Add To Cart</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </View>
-  );
+  // const FlatListItem = ({id, name, price, image, star}) => (
+  //   <View style={styles.Product}>
+  //     <View style={styles.Image}>
+  //       <Image
+  //         style={{width: '100%', height: '100%'}}
+  //         source={image}
+  //         resizeMode="cover"></Image>
+  //     </View>
+  //     <View style={styles.Info}>
+  //       <View style={styles.Top}>
+  //         <View style={styles.NameAndRating}>
+  //           <Text style={styles.Name}>{name}</Text>
+  //           <View style={styles.Rating}>
+  //             <AntDesign
+  //               name="star"
+  //               size={FONTSIZE.size_16}
+  //               color={COLORS.secondaryLight}></AntDesign>
+  //             <Text style={styles.Stars}>{star}</Text>
+  //           </View>
+  //         </View>
+  //         <View style={styles.Price}>
+  //           <MaterialIcons
+  //             name="currency-rupee"
+  //             size={FONTSIZE.size_16}
+  //             color={COLORS.primaryDark}></MaterialIcons>
+  //           <Text style={styles.PriceText}>{price}</Text>
+  //         </View>
+  //       </View>
+  //       <View style={styles.Bottom}>
+  //         <TouchableOpacity activeOpacity={0.6} style={styles.AddToCartButton}>
+  //           <Text style={styles.AddToCartButtonText}>Add To Cart</Text>
+  //         </TouchableOpacity>
+  //       </View>
+  //     </View>
+  //   </View>
+  // );
 
   useEffect(() => {
     setProductsData([...data]);
   }, []);
+
+  const FlatListItem = ({id, name, brand, image, price, star}) => (
+    <TouchableOpacity activeOpacity={0.8} style={styles.ProductCard}>
+      <View style={styles.ImageView}>
+        <Image style={styles.Image} source={image} resizeMode="cover"></Image>
+      </View>
+      <View style={styles.Info}>
+        <View style={styles.TopInfo}>
+          <Text style={styles.Name}>{name}</Text>
+          <View style={styles.Rating}>
+            <AntDesign
+              name="star"
+              size={FONTSIZE.size_20}
+              color={COLORS.secondaryLight}></AntDesign>
+            <Text style={styles.StarText}>{star}</Text>
+          </View>
+        </View>
+        <Text style={styles.Brand}>{brand}</Text>
+        <View style={styles.BottomInfo}>
+          <View style={styles.Price}>
+            <FontAwesome
+              name="rupee"
+              size={FONTSIZE.size_16}
+              color={COLORS.primaryDark}></FontAwesome>
+            <Text style={styles.PriceText}>{price}</Text>
+          </View>
+          <View style={styles.ActionButton}>
+            <TouchableOpacity
+              activeOpacity={0.6}
+              style={styles.AddToCartButton}>
+              <Octicons
+                name="plus"
+                size={FONTSIZE.size_16}
+                color={COLORS.primaryLight}></Octicons>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.primaryLight}}>
@@ -120,18 +168,26 @@ const WishListScreen = () => {
         </TouchableOpacity>
       </View>
 
-      <FlatList
-        data={productsData}
-        scrollEnabled={true}
-        renderItem={({item}) => (
-          <FlatListItem
-            id={item.id}
-            name={item.name}
-            image={item.image}
-            price={item.price}
-            star={item.star}></FlatListItem>
-        )}
-        keyExtractor={item => item.id.toString()}></FlatList>
+      <View style={styles.ProductList}>
+        <FlatList
+          data={data}
+          numColumns={numColumnsValue}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item}) => (
+            <FlatListItem
+              id={item.id}
+              image={item.image}
+              name={item.name}
+              brand={item.brand}
+              price={item.price}
+              star={item.star}></FlatListItem>
+          )}
+          keyExtractor={item => item.id.toString()}
+          ListFooterComponent={
+            <View
+              style={{height: 60, backgroundColor: COLORS.primaryLight}}></View>
+          }></FlatList>
+      </View>
     </SafeAreaView>
   );
 };
@@ -149,6 +205,7 @@ const styles = StyleSheet.create({
   },
   Title: {
     flex: 1,
+    backgroundColor: COLORS.primaryLight,
   },
   TitleText: {
     fontFamily: FONTFAMILY.poppins_medium,
@@ -156,32 +213,33 @@ const styles = StyleSheet.create({
     color: COLORS.primaryDark,
     textAlign: 'center',
   },
-  Product: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: SPACING.space_15,
-    borderRadius: BORDERRADIUS.radius_15,
+  ProductList: {
+    width: '100%',
+    padding: SPACING.space_8,
+  },
+  ProductCard: {
+    width: '50%',
+    padding: SPACING.space_8,
+    paddingBottom: SPACING.space_20,
+    backgroundColor: COLORS.searchField,
+    borderRadius: BORDERRADIUS.radius_10,
+  },
+  ImageView: {
+    width: '100%',
+    height: 180,
+    borderRadius: BORDERRADIUS.radius_10,
     overflow: 'hidden',
-    marginBottom: SPACING.space_30,
   },
   Image: {
-    width: 140,
-    height: 120,
-    borderRadius: BORDERRADIUS.radius_15,
-    overflow: 'hidden',
+    width: '100%',
+    height: '100%',
   },
   Info: {
-    flex: 1,
-    height: 120,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    paddingLeft: SPACING.space_12,
+    paddingTop: SPACING.space_12,
   },
-  Top: {},
-  NameAndRating: {
+  TopInfo: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'space-between',
   },
   Name: {
@@ -189,40 +247,49 @@ const styles = StyleSheet.create({
     fontSize: FONTSIZE.size_16,
     color: COLORS.primaryDark,
   },
+  Brand: {
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_14,
+    color: COLORS.primaryDark,
+    opacity: 0.5,
+    marginTop: SPACING.space_2,
+  },
   Rating: {
     flexDirection: 'row',
     alignContent: 'center',
+    justifyContent: 'center',
   },
-  Stars: {
+  StarText: {
     fontFamily: FONTFAMILY.poppins_medium,
-    fontSize: FONTSIZE.size_12,
+    fontSize: FONTSIZE.size_14,
     color: COLORS.primaryDark,
-    marginHorizontal: SPACING.space_2,
+    marginLeft: SPACING.space_4,
+  },
+  BottomInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: SPACING.space_2,
   },
   Price: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   PriceText: {
-    fontFamily: FONTFAMILY.poppins_medium,
-    fontSize: FONTSIZE.size_14,
+    fontFamily: FONTFAMILY.poppins_semibold,
+    fontSize: FONTSIZE.size_16,
     color: COLORS.primaryDark,
     marginTop: SPACING.space_2,
+    marginLeft: SPACING.space_4,
   },
-  Bottom: {
-    flexDirection: 'row',
-    // justifyContent: 'flex-end',
-  },
+  ActionButton: {},
   AddToCartButton: {
     backgroundColor: COLORS.secondaryDark,
-    paddingVertical: SPACING.space_8,
-    paddingHorizontal: SPACING.space_15,
-    borderRadius: 100,
-  },
-  AddToCartButtonText: {
-    textAlign: 'center',
-    fontFamily: FONTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_12,
-    color: COLORS.primaryDark,
+    width: 30,
+    height: 30,
+    borderRadius: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
