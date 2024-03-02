@@ -218,6 +218,7 @@ const CartScreen = () => {
             </View>
             <View style={styles.Quantity}>
               <TouchableOpacity
+                disabled={selectItem[id] === true ? false : true}
                 onPress={() => {
                   if (count === 1) {
                     handleCount(id, price, -1);
@@ -237,6 +238,7 @@ const CartScreen = () => {
                 <Text style={styles.ItemCountText}>{count}</Text>
               </View>
               <TouchableOpacity
+                disabled={selectItem[id] === true ? false : true}
                 onPress={() => {
                   if (count < 9) {
                     handleCount(id, price, 1);
