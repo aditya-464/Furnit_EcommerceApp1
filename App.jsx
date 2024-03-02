@@ -23,8 +23,8 @@ const App = () => {
       {/* <CartScreen></CartScreen> */}
       {/* <SearchScreen></SearchScreen> */}
       {/* <FilterModal></FilterModal> */}
-      {/* <ProfileScreen></ProfileScreen> */}
-      <OrderHistoryScreen></OrderHistoryScreen>
+      <ProfileScreen></ProfileScreen>
+      {/* <OrderHistoryScreen></OrderHistoryScreen> */}
     </NavigationContainer>
   );
 };

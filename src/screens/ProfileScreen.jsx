@@ -226,6 +226,7 @@ const styles = StyleSheet.create({
     fontSize: FONTSIZE.size_14,
     color: COLORS.placeholder,
     paddingHorizontal: SPACING.space_15,
+    marginBottom: SPACING.space_4,
   },
   Option: {
     flexDirection: 'row',
@@ -236,17 +237,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.space_15,
     borderRadius: BORDERRADIUS.radius_10,
   },
-  OptionIcon: {
-    width: '15%',
-  },
+  OptionIcon: {},
   OptionName: {
-    width: '70%',
+    flex: 1,
     fontFamily: FONTFAMILY.poppins_regular,
     fontSize: FONTSIZE.size_16,
     color: COLORS.primaryDark,
+    paddingLeft: SPACING.space_20,
   },
-  GoIcon: {
-    width: '15%',
-    alignItems: 'flex-end',
-  },
+  GoIcon: {},
 });
