@@ -10,19 +10,21 @@ import CartScreen from './src/screens/CartScreen';
 import SearchScreen from './src/screens/SearchScreen';
 import FilterModal from './src/components/search/FilterModal';
 import ProfileScreen from './src/screens/ProfileScreen';
+import OrderHistoryScreen from './src/screens/OrderHistoryScreen';
 
 const App = () => {
   return (
     <NavigationContainer>
       {/* <SignupScreen></SignupScreen> */}
       {/* <LoginScreen></LoginScreen> */}
-      <BottomTabNavigator></BottomTabNavigator>
+      {/* <BottomTabNavigator></BottomTabNavigator> */}
       {/* <ProductDetailsScreen></ProductDetailsScreen> */}
       {/* <WishListScreen></WishListScreen> */}
       {/* <CartScreen></CartScreen> */}
       {/* <SearchScreen></SearchScreen> */}
       {/* <FilterModal></FilterModal> */}
       {/* <ProfileScreen></ProfileScreen> */}
+      <OrderHistoryScreen></OrderHistoryScreen>
     </NavigationContainer>
   );
 };
