@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     margin: SPACING.space_15,
   },
   InfoText: {
-    fontFamily: FONTFAMILY.poppins_medium,
+    fontFamily: FONTFAMILY.poppins_regular,
     fontSize: FONTSIZE.size_16,
     color: COLORS.primaryDark,
   },
