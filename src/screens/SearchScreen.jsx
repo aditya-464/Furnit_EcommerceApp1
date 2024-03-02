@@ -173,6 +173,7 @@ const SearchScreen = () => {
       style={{
         flex: 1,
         backgroundColor: COLORS.primaryLight,
+        paddingBottom: 120,
       }}>
       <View style={styles.TitleBar}>
         <TouchableOpacity activeOpacity={0.6} style={styles.BackIcon}>
@@ -219,7 +220,11 @@ const SearchScreen = () => {
               price={item.price}
               star={item.star}></FlatListItem>
           )}
-          keyExtractor={item => item.id.toString()}></FlatList>
+          keyExtractor={item => item.id.toString()}
+          ListFooterComponent={
+            <View
+              style={{height: 60, backgroundColor: COLORS.primaryLight}}></View>
+          }></FlatList>
       </View>
 
       <FilterModal
