@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primaryLight,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignContent: 'center',
+    alignItems: 'center',
   },
   Title: {
     flex: 1,
