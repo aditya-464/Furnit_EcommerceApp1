@@ -11,6 +11,7 @@ import SearchScreen from './src/screens/SearchScreen';
 import FilterModal from './src/components/search/FilterModal';
 import ProfileScreen from './src/screens/ProfileScreen';
 import OrderHistoryScreen from './src/screens/OrderHistoryScreen';
+import AboutUsScreen from './src/screens/AboutUsScreen';
 
 const App = () => {
   return (
@@ -23,8 +24,9 @@ const App = () => {
       {/* <CartScreen></CartScreen> */}
       {/* <SearchScreen></SearchScreen> */}
       {/* <FilterModal></FilterModal> */}
-      <ProfileScreen></ProfileScreen>
+      {/* <ProfileScreen></ProfileScreen> */}
       {/* <OrderHistoryScreen></OrderHistoryScreen> */}
+      <AboutUsScreen></AboutUsScreen>
     </NavigationContainer>
   );
 };
