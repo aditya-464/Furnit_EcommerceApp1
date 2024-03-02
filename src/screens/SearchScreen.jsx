@@ -22,6 +22,7 @@ import Octicons from 'react-native-vector-icons/dist/Octicons';
 import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 import filter from 'lodash.filter';
+import FilterModal from '../components/search/FilterModal';
 
 const SearchScreen = () => {
   const chairData = [
@@ -99,6 +100,11 @@ const SearchScreen = () => {
   const [numColumnsValue, setNumColumnsValue] = useState(2);
   const [searchQuery, setSearchQuery] = useState(null);
   const [resultData, setResultData] = useState([]);
+  const [showFilterModal, setShowFilterModal] = useState(false);
+
+  const handleFilterModal = val => {
+    setShowFilterModal(val);
+  };
 
   const handleSearchQuery = val => {
     setSearchQuery(val);
@@ -176,13 +182,17 @@ const SearchScreen = () => {
             color={COLORS.primaryDark}></Ionicons>
         </TouchableOpacity>
         <Text style={styles.TitleText}>Search</Text>
-        <TouchableOpacity activeOpacity={0.6} style={styles.FilterIcon}>
+        <TouchableOpacity
+          onPress={() => setShowFilterModal(true)}
+          activeOpacity={0.6}
+          style={styles.FilterIcon}>
           <Octicons
             name="filter"
             size={FONTSIZE.size_24}
             color={COLORS.primaryDark}></Octicons>
         </TouchableOpacity>
       </View>
+
       <TouchableOpacity activeOpacity={0.6} style={styles.Search}>
         <AntDesign
           name="search1"
@@ -211,6 +221,10 @@ const SearchScreen = () => {
           )}
           keyExtractor={item => item.id.toString()}></FlatList>
       </View>
+
+      <FilterModal
+        showFilterModal={showFilterModal}
+        handleFilterModal={handleFilterModal}></FilterModal>
     </SafeAreaView>
   );
 };

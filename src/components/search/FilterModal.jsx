@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   BORDERRADIUS,
   COLORS,
@@ -18,30 +18,36 @@ import {Dropdown} from 'react-native-element-dropdown';
 import {Slider} from '@rneui/themed';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 
-const FilterModal = () => {
-  const categoryData = [
-    {label: 'Beds', value: 'Beds'},
-    {label: 'Sofas', value: 'Sofas'},
-    {label: 'Lamps', value: 'Lamps'},
-    {label: 'Chairs', value: 'Chairs'},
-    {label: 'Tables', value: 'Tables'},
-    {label: 'Mirrors', value: 'Mirrors'},
-    {label: 'Cupboards', value: 'Cupboards'},
-    {label: 'Storage units', value: 'Storage units'},
-  ];
-  const brandData = [
-    {label: 'IKEA', value: 'IKEA'},
-    {label: 'Ashley', value: 'Ashley'},
-    {label: 'Herman Miller', value: 'Herman Miller'},
-    {label: 'West Elm', value: 'West Elm'},
-  ];
+const categoryData = [
+  {label: 'Beds', value: 'Beds'},
+  {label: 'Sofas', value: 'Sofas'},
+  {label: 'Lamps', value: 'Lamps'},
+  {label: 'Chairs', value: 'Chairs'},
+  {label: 'Tables', value: 'Tables'},
+  {label: 'Mirrors', value: 'Mirrors'},
+  {label: 'Cupboards', value: 'Cupboards'},
+  {label: 'Storage units', value: 'Storage units'},
+];
+const brandData = [
+  {label: 'IKEA', value: 'IKEA'},
+  {label: 'Ashley', value: 'Ashley'},
+  {label: 'Herman Miller', value: 'Herman Miller'},
+  {label: 'West Elm', value: 'West Elm'},
+];
 
-  const [isModalVisible, setIsModalVisible] = useState(true);
+const FilterModal = props => {
+  const {showFilterModal, handleFilterModal} = props;
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const [value2, setValue2] = useState(null);
   const [isFocus2, setIsFocus2] = useState(false);
   const [sliderValue, setSliderValue] = useState(null);
+
+  useEffect(() => {
+    setIsModalVisible(showFilterModal);
+  }, [showFilterModal]);
 
   return (
     <SafeAreaView
@@ -55,6 +61,7 @@ const FilterModal = () => {
         <View style={styles.FilterModal}>
           <View style={styles.CloseModalIcon}>
             <TouchableOpacity
+              onPress={() => handleFilterModal(false)}
               activeOpacity={0.6}
               style={styles.CloseModalButton}>
               <Ionicons

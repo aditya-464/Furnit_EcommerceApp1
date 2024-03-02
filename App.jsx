@@ -19,8 +19,8 @@ const App = () => {
       {/* <ProductDetailsScreen></ProductDetailsScreen> */}
       {/* <WishListScreen></WishListScreen> */}
       {/* <CartScreen></CartScreen> */}
-      {/* <SearchScreen></SearchScreen> */}
-      <FilterModal></FilterModal>
+      <SearchScreen></SearchScreen>
+      {/* <FilterModal></FilterModal> */}
     </NavigationContainer>
   );
 };
