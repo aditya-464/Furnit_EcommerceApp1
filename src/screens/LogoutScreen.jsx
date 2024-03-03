@@ -84,14 +84,14 @@ const styles = StyleSheet.create({
     margin: SPACING.space_15,
   },
   Buttons: {
-    marginHorizontal: SPACING.space_15,
+    // marginHorizontal: SPACING.space_15,
     marginTop: SPACING.space_10,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: "space-evenly",
     alignItems: 'center',
   },
   No: {
-    width: '47%',
+    width: '40%',
     borderWidth: 1,
     borderColor: COLORS.primaryDark,
     backgroundColor: COLORS.primaryLight,
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     padding: SPACING.space_10,
   },
   Yes: {
-    width: '47%',
+    width: '40%',
     borderWidth: 1,
     borderColor: COLORS.secondaryDark,
     backgroundColor: COLORS.secondaryDark,
