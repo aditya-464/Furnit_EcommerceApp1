@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.space_24,
   },
   TitleText: {
-    fontFamily: FONTFAMILY.poppins_bold,
+    fontFamily: FONTFAMILY.poppins_semibold,
     fontSize: FONTSIZE.size_28,
     color: COLORS.primaryDark,
     opacity: 0.9,

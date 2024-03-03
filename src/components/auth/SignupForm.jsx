@@ -106,6 +106,7 @@ const SignupForm = () => {
                         : COLORS.placeholder,
                     },
                   ]}
+                  autoCapitalize="none"
                   name="email"
                   placeholder="Email"
                   placeholderTextColor={COLORS.placeholder}
@@ -263,7 +264,7 @@ const styles = StyleSheet.create({
   },
   ErrorText: {
     fontFamily: FONTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_14,
+    fontSize: FONTSIZE.size_12,
     color: COLORS.error,
   },
 });

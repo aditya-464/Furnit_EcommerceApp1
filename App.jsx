@@ -20,7 +20,7 @@ import NotificationsScreen from './src/screens/NotificationsScreen';
 const App = () => {
   return (
     <NavigationContainer>
-      {/* <SignupScreen></SignupScreen> */}
+      <SignupScreen></SignupScreen>
       {/* <LoginScreen></LoginScreen> */}
       {/* <BottomTabNavigator></BottomTabNavigator> */}
       {/* <ProductDetailsScreen></ProductDetailsScreen> */}
@@ -34,7 +34,7 @@ const App = () => {
       {/* <PrivacyAndPolicyScreen></PrivacyAndPolicyScreen> */}
       {/* <TermsAndConditionsScreen></TermsAndConditionsScreen> */}
       {/* <LogoutScreen></LogoutScreen> */}
-      <NotificationsScreen></NotificationsScreen>
+      {/* <NotificationsScreen></NotificationsScreen> */}
     </NavigationContainer>
   );
 };
