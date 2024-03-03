@@ -15,6 +15,7 @@ import AboutUsScreen from './src/screens/AboutUsScreen';
 import PrivacyAndPolicyScreen from './src/screens/PrivacyAndPolicyScreen';
 import TermsAndConditionsScreen from './src/screens/TermsAndConditionsScreen';
 import LogoutScreen from './src/screens/LogoutScreen';
+import NotificationsScreen from './src/screens/NotificationsScreen';
 
 const App = () => {
   return (
@@ -32,7 +33,8 @@ const App = () => {
       {/* <AboutUsScreen></AboutUsScreen> */}
       {/* <PrivacyAndPolicyScreen></PrivacyAndPolicyScreen> */}
       {/* <TermsAndConditionsScreen></TermsAndConditionsScreen> */}
-      <LogoutScreen></LogoutScreen>
+      {/* <LogoutScreen></LogoutScreen> */}
+      <NotificationsScreen></NotificationsScreen>
     </NavigationContainer>
   );
 };
