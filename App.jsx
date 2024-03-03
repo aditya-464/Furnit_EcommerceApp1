@@ -13,6 +13,7 @@ import ProfileScreen from './src/screens/ProfileScreen';
 import OrderHistoryScreen from './src/screens/OrderHistoryScreen';
 import AboutUsScreen from './src/screens/AboutUsScreen';
 import PrivacyAndPolicyScreen from './src/screens/PrivacyAndPolicyScreen';
+import TermsAndConditionsScreen from './src/screens/TermsAndConditionsScreen';
 
 const App = () => {
   return (
@@ -28,7 +29,8 @@ const App = () => {
       {/* <ProfileScreen></ProfileScreen> */}
       {/* <OrderHistoryScreen></OrderHistoryScreen> */}
       {/* <AboutUsScreen></AboutUsScreen> */}
-      <PrivacyAndPolicyScreen></PrivacyAndPolicyScreen>
+      {/* <PrivacyAndPolicyScreen></PrivacyAndPolicyScreen> */}
+      <TermsAndConditionsScreen></TermsAndConditionsScreen>
     </NavigationContainer>
   );
 };
