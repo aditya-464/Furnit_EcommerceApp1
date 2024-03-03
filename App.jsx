@@ -12,6 +12,7 @@ import FilterModal from './src/components/search/FilterModal';
 import ProfileScreen from './src/screens/ProfileScreen';
 import OrderHistoryScreen from './src/screens/OrderHistoryScreen';
 import AboutUsScreen from './src/screens/AboutUsScreen';
+import PrivacyAndPolicyScreen from './src/screens/PrivacyAndPolicyScreen';
 
 const App = () => {
   return (
@@ -26,7 +27,8 @@ const App = () => {
       {/* <FilterModal></FilterModal> */}
       {/* <ProfileScreen></ProfileScreen> */}
       {/* <OrderHistoryScreen></OrderHistoryScreen> */}
-      <AboutUsScreen></AboutUsScreen>
+      {/* <AboutUsScreen></AboutUsScreen> */}
+      <PrivacyAndPolicyScreen></PrivacyAndPolicyScreen>
     </NavigationContainer>
   );
 };
