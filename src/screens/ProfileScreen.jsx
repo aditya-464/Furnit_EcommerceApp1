@@ -129,7 +129,7 @@ const ProfileScreen = () => {
                   size={FONTSIZE.size_24}
                   color={COLORS.primaryDark}></Ionicons>
               </View>
-              <Text style={styles.OptionName}>Privacy & Policy</Text>
+              <Text style={styles.OptionName}>Privacy Policy</Text>
               <View style={styles.GoIcon}>
                 <Ionicons
                   name="chevron-forward"

@@ -26,11 +26,11 @@ const App = () => {
       {/* <CartScreen></CartScreen> */}
       {/* <SearchScreen></SearchScreen> */}
       {/* <FilterModal></FilterModal> */}
-      {/* <ProfileScreen></ProfileScreen> */}
+      <ProfileScreen></ProfileScreen>
       {/* <OrderHistoryScreen></OrderHistoryScreen> */}
       {/* <AboutUsScreen></AboutUsScreen> */}
       {/* <PrivacyAndPolicyScreen></PrivacyAndPolicyScreen> */}
-      <TermsAndConditionsScreen></TermsAndConditionsScreen>
+      {/* <TermsAndConditionsScreen></TermsAndConditionsScreen> */}
     </NavigationContainer>
   );
 };
