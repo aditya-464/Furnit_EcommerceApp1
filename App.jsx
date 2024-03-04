@@ -1,5 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {store} from './app/store';
+import {Provider} from 'react-redux';
 import SignupScreen from './src/screens/SignupScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import {NavigationContainer} from '@react-navigation/native';
@@ -20,21 +22,23 @@ import NotificationsScreen from './src/screens/NotificationsScreen';
 const App = () => {
   return (
     <NavigationContainer>
-      {/* <SignupScreen></SignupScreen> */}
-      {/* <LoginScreen></LoginScreen> */}
-      <BottomTabNavigator></BottomTabNavigator>
-      {/* <ProductDetailsScreen></ProductDetailsScreen> */}
-      {/* <WishListScreen></WishListScreen> */}
-      {/* <CartScreen></CartScreen> */}
-      {/* <SearchScreen></SearchScreen> */}
-      {/* <FilterModal></FilterModal> */}
-      {/* <ProfileScreen></ProfileScreen> */}
-      {/* <OrderHistoryScreen></OrderHistoryScreen> */}
-      {/* <AboutUsScreen></AboutUsScreen> */}
-      {/* <PrivacyAndPolicyScreen></PrivacyAndPolicyScreen> */}
-      {/* <TermsAndConditionsScreen></TermsAndConditionsScreen> */}
-      {/* <LogoutScreen></LogoutScreen> */}
-      {/* <NotificationsScreen></NotificationsScreen> */}
+      <Provider store={store}>
+        {/* <SignupScreen></SignupScreen> */}
+        {/* <LoginScreen></LoginScreen> */}
+        <BottomTabNavigator></BottomTabNavigator>
+        {/* <ProductDetailsScreen></ProductDetailsScreen> */}
+        {/* <WishListScreen></WishListScreen> */}
+        {/* <CartScreen></CartScreen> */}
+        {/* <SearchScreen></SearchScreen> */}
+        {/* <FilterModal></FilterModal> */}
+        {/* <ProfileScreen></ProfileScreen> */}
+        {/* <OrderHistoryScreen></OrderHistoryScreen> */}
+        {/* <AboutUsScreen></AboutUsScreen> */}
+        {/* <PrivacyAndPolicyScreen></PrivacyAndPolicyScreen> */}
+        {/* <TermsAndConditionsScreen></TermsAndConditionsScreen> */}
+        {/* <LogoutScreen></LogoutScreen> */}
+        {/* <NotificationsScreen></NotificationsScreen> */}
+      </Provider>
     </NavigationContainer>
   );
 };
