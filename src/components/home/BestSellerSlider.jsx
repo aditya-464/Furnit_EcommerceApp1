@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     marginRight: SPACING.space_10,
   },
   ProductCard: {
-    width: (Dimensions.get('screen').width - 30) / 2,
+    width: (Dimensions.get('screen').width - 20) / 2,
     padding: SPACING.space_8,
     paddingBottom: SPACING.space_20,
     marginRight: SPACING.space_10,

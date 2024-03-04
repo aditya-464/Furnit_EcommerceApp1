@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
   Image,
+  Dimensions,
 } from 'react-native';
 import React, {useState} from 'react';
 import {
@@ -280,6 +281,7 @@ const styles = StyleSheet.create({
   },
   ProductCard: {
     width: '50%',
+    // width: (Dimensions.get('screen').width - 30) / 2,
     padding: SPACING.space_8,
     paddingBottom: SPACING.space_20,
     backgroundColor: COLORS.searchField,
