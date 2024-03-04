@@ -1,4 +1,5 @@
 import {
+  Dimensions,
   FlatList,
   Image,
   StyleSheet,
@@ -26,6 +27,7 @@ const ProductSlider = () => {
       name: 'Armchair',
       price: 300,
       star: 4.8,
+      brand: 'IKEA',
     },
     {
       id: 2,
@@ -33,6 +35,7 @@ const ProductSlider = () => {
       name: 'Recliner',
       price: 2400,
       star: 4.6,
+      brand: 'Ashley',
     },
     {
       id: 3,
@@ -40,6 +43,7 @@ const ProductSlider = () => {
       name: 'Swivel',
       price: 1200,
       star: 4.2,
+      brand: 'Herman Miller',
     },
     {
       id: 4,
@@ -47,6 +51,7 @@ const ProductSlider = () => {
       name: 'Office Chair',
       price: 800,
       star: 4.8,
+      brand: 'IKEA',
     },
     {
       id: 5,
@@ -54,17 +59,62 @@ const ProductSlider = () => {
       name: 'Wingback',
       price: 2200,
       star: 4.5,
+      brand: 'West Elm',
     },
   ];
 
-  const FlatListItem = ({id, name, image, price, star}) => (
+  // const FlatListItem = ({id, name, image, price, star}) => (
+  //   <TouchableOpacity
+  //     activeOpacity={0.8}
+  //     style={[
+  //       styles.ProductCard,
+  //       {
+  //         marginLeft: id === 1 ? SPACING.space_15 : 0,
+  //       },
+  //     ]}>
+  //     <View style={styles.ImageView}>
+  //       <Image style={styles.Image} source={image} resizeMode="cover"></Image>
+  //     </View>
+  //     <View style={styles.Info}>
+  //       <View style={styles.TopInfo}>
+  //         <Text style={styles.Name}>{name}</Text>
+  //         <View style={styles.Rating}>
+  //           <AntDesign
+  //             name="star"
+  //             size={FONTSIZE.size_20}
+  //             color={COLORS.secondaryLight}></AntDesign>
+  //           <Text style={styles.StarText}>{star}</Text>
+  //         </View>
+  //       </View>
+  //       <View style={styles.BottomInfo}>
+  //         <View style={styles.Price}>
+  //           <FontAwesome
+  //             name="rupee"
+  //             size={FONTSIZE.size_20}
+  //             color={COLORS.primaryDark}></FontAwesome>
+  //           <Text style={styles.PriceText}>{price}</Text>
+  //         </View>
+  //         <View style={styles.ActionButton}>
+  //           <TouchableOpacity
+  //             activeOpacity={0.6}
+  //             style={styles.AddToCartButton}>
+  //             <Octicons
+  //               name="plus"
+  //               size={FONTSIZE.size_20}
+  //               color={COLORS.primaryLight}></Octicons>
+  //           </TouchableOpacity>
+  //         </View>
+  //       </View>
+  //     </View>
+  //   </TouchableOpacity>
+  // );
+
+  const FlatListItem = ({index, id, name, brand, image, price, star}) => (
     <TouchableOpacity
       activeOpacity={0.8}
       style={[
         styles.ProductCard,
-        {
-          marginLeft: id === 1 ? SPACING.space_15 : 0,
-        },
+        {marginLeft: index === 0 ? SPACING.space_8 : 0},
       ]}>
       <View style={styles.ImageView}>
         <Image style={styles.Image} source={image} resizeMode="cover"></Image>
@@ -80,11 +130,12 @@ const ProductSlider = () => {
             <Text style={styles.StarText}>{star}</Text>
           </View>
         </View>
+        <Text style={styles.Brand}>{brand}</Text>
         <View style={styles.BottomInfo}>
           <View style={styles.Price}>
             <FontAwesome
               name="rupee"
-              size={FONTSIZE.size_20}
+              size={FONTSIZE.size_16}
               color={COLORS.primaryDark}></FontAwesome>
             <Text style={styles.PriceText}>{price}</Text>
           </View>
@@ -94,7 +145,7 @@ const ProductSlider = () => {
               style={styles.AddToCartButton}>
               <Octicons
                 name="plus"
-                size={FONTSIZE.size_20}
+                size={FONTSIZE.size_16}
                 color={COLORS.primaryLight}></Octicons>
             </TouchableOpacity>
           </View>
@@ -116,11 +167,13 @@ const ProductSlider = () => {
         snapToAlignment="center"
         showsHorizontalScrollIndicator={false}
         scrollEnabled={true}
-        renderItem={({item}) => (
+        renderItem={({item, index}) => (
           <FlatListItem
+            index={index}
             id={item.id}
             image={item.image}
             name={item.name}
+            brand={item.brand}
             price={item.price}
             star={item.star}></FlatListItem>
         )}
@@ -133,14 +186,15 @@ export default ProductSlider;
 
 const styles = StyleSheet.create({
   ProductCard: {
+    width: (Dimensions.get('screen').width - 30) / 2,
     padding: SPACING.space_8,
-    paddingBottom: SPACING.space_12,
+    paddingBottom: SPACING.space_20,
     marginRight: SPACING.space_15,
     backgroundColor: COLORS.searchField,
     borderRadius: BORDERRADIUS.radius_10,
   },
   ImageView: {
-    width: 180,
+    width: '100%',
     height: 180,
     borderRadius: BORDERRADIUS.radius_10,
     overflow: 'hidden',
@@ -162,6 +216,13 @@ const styles = StyleSheet.create({
     fontSize: FONTSIZE.size_16,
     color: COLORS.primaryDark,
   },
+  Brand: {
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_14,
+    color: COLORS.primaryDark,
+    opacity: 0.5,
+    marginTop: SPACING.space_2,
+  },
   Rating: {
     flexDirection: 'row',
     alignContent: 'center',
@@ -169,7 +230,7 @@ const styles = StyleSheet.create({
   },
   StarText: {
     fontFamily: FONTFAMILY.poppins_medium,
-    fontSize: FONTSIZE.size_16,
+    fontSize: FONTSIZE.size_14,
     color: COLORS.primaryDark,
     marginLeft: SPACING.space_4,
   },
@@ -177,7 +238,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: SPACING.space_10,
+    marginTop: SPACING.space_2,
   },
   Price: {
     flexDirection: 'row',
@@ -185,7 +246,7 @@ const styles = StyleSheet.create({
   },
   PriceText: {
     fontFamily: FONTFAMILY.poppins_semibold,
-    fontSize: FONTSIZE.size_18,
+    fontSize: FONTSIZE.size_16,
     color: COLORS.primaryDark,
     marginTop: SPACING.space_2,
     marginLeft: SPACING.space_4,
@@ -193,9 +254,9 @@ const styles = StyleSheet.create({
   ActionButton: {},
   AddToCartButton: {
     backgroundColor: COLORS.secondaryDark,
-    width: 40,
-    height: 40,
-    borderRadius: 50,
+    width: 30,
+    height: 30,
+    borderRadius: 10,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

@@ -20,9 +20,9 @@ import NotificationsScreen from './src/screens/NotificationsScreen';
 const App = () => {
   return (
     <NavigationContainer>
-      <SignupScreen></SignupScreen>
+      {/* <SignupScreen></SignupScreen> */}
       {/* <LoginScreen></LoginScreen> */}
-      {/* <BottomTabNavigator></BottomTabNavigator> */}
+      <BottomTabNavigator></BottomTabNavigator>
       {/* <ProductDetailsScreen></ProductDetailsScreen> */}
       {/* <WishListScreen></WishListScreen> */}
       {/* <CartScreen></CartScreen> */}
