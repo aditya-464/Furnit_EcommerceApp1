@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     width: (Dimensions.get('screen').width - 30) / 2,
     padding: SPACING.space_8,
     paddingBottom: SPACING.space_20,
-    marginRight: SPACING.space_15,
+    marginRight: SPACING.space_10,
     backgroundColor: COLORS.searchField,
     borderRadius: BORDERRADIUS.radius_10,
   },

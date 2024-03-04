@@ -25,7 +25,10 @@ const HomeScreen = () => {
         backgroundColor: COLORS.primaryLight,
         marginBottom: 60,
       }}>
-      <ScrollView scrollEnabled={true} horizontal={false}>
+      <ScrollView
+        scrollEnabled={true}
+        horizontal={false}
+        showsVerticalScrollIndicator={false}>
         <View style={styles.TitleBar}>
           <View style={styles.Title}>
             <Text style={styles.TitleText}>
