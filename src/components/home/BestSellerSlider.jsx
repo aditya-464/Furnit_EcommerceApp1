@@ -20,7 +20,9 @@ import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 
-const BestSellerSlider = () => {
+const BestSellerSlider = props => {
+  const {navigation} = props;
+
   const slides = [
     {
       id: 1,
@@ -120,6 +122,16 @@ const BestSellerSlider = () => {
 
   const FlatListItem = ({index, id, name, brand, image, price, star}) => (
     <TouchableOpacity
+      onPress={() =>
+        navigation.navigate('ProductDetailsScreen', {
+          id: id,
+          name: name,
+          brand: brand,
+          image: image,
+          price: price,
+          star: star,
+        })
+      }
       activeOpacity={0.8}
       style={[
         styles.ProductCard,

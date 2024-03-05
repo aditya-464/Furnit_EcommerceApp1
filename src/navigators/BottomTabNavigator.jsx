@@ -1,5 +1,5 @@
 import React from 'react';
-import {Easing, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BlurView} from '@react-native-community/blur';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/Theme';

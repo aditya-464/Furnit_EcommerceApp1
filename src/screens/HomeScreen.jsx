@@ -67,7 +67,7 @@ const HomeScreen = props => {
         <CarouselSlider></CarouselSlider>
         <CategoriesSlider></CategoriesSlider>
         <ProductSlider navigation={navigation}></ProductSlider>
-        <BestSellerSlider></BestSellerSlider>
+        <BestSellerSlider navigation={navigation}></BestSellerSlider>
       </ScrollView>
     </SafeAreaView>
   );
