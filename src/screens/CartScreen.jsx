@@ -214,7 +214,7 @@ const CartScreen = props => {
               <MaterialIcons
                 name="currency-rupee"
                 size={FONTSIZE.size_16}
-                color={COLORS.secondaryDark}></MaterialIcons>
+                color={COLORS.primaryDark}></MaterialIcons>
               <Text style={styles.PriceText}>{price}</Text>
             </View>
             <View style={styles.Quantity}>
@@ -441,7 +441,7 @@ const styles = StyleSheet.create({
   PriceText: {
     fontFamily: FONTFAMILY.poppins_medium,
     fontSize: FONTSIZE.size_14,
-    color: COLORS.secondaryDark,
+    color: COLORS.primaryDark,
     marginTop: SPACING.space_2,
   },
   Bottom: {
