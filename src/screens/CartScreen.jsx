@@ -87,7 +87,8 @@ const data = [
   // },
 ];
 
-const CartScreen = () => {
+const CartScreen = props => {
+  const {navigation} = props;
   const [productsData, setProductsData] = useState([]);
   const [selectItem, setSelectItem] = useState(null);
   const [itemQuantity, setItemQuantity] = useState(null);
@@ -302,7 +303,10 @@ const CartScreen = () => {
         position: 'relative',
       }}>
       <View style={styles.TitleBar}>
-        <TouchableOpacity activeOpacity={0.6} style={styles.BackIcon}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          activeOpacity={0.6}
+          style={styles.BackIcon}>
           <Ionicons
             name="chevron-back"
             size={FONTSIZE.size_28}

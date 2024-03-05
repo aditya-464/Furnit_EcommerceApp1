@@ -23,7 +23,8 @@ import Octicons from 'react-native-vector-icons/dist/Octicons';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 import UserProfileImg from '../assets/images/profile/userProfile.jpg';
 
-const ProfileScreen = () => {
+const ProfileScreen = props => {
+  const {navigation} = props;
   return (
     <SafeAreaView
       style={{
@@ -32,7 +33,10 @@ const ProfileScreen = () => {
         paddingBottom: 60,
       }}>
       <View style={styles.TitleBar}>
-        <TouchableOpacity activeOpacity={0.6} style={styles.BackIcon}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          activeOpacity={0.6}
+          style={styles.BackIcon}>
           <Ionicons
             name="chevron-back"
             size={FONTSIZE.size_28}

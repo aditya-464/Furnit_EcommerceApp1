@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {store} from './app/store';
+import {store} from './src/redux/store';
 import {Provider} from 'react-redux';
 import SignupScreen from './src/screens/SignupScreen';
 import LoginScreen from './src/screens/LoginScreen';
@@ -18,27 +18,27 @@ import PrivacyAndPolicyScreen from './src/screens/PrivacyAndPolicyScreen';
 import TermsAndConditionsScreen from './src/screens/TermsAndConditionsScreen';
 import LogoutScreen from './src/screens/LogoutScreen';
 import NotificationsScreen from './src/screens/NotificationsScreen';
+import InnerStackNavigator from './src/navigators/InnerStackNavigator';
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Provider store={store}>
-        {/* <SignupScreen></SignupScreen> */}
-        {/* <LoginScreen></LoginScreen> */}
-        <BottomTabNavigator></BottomTabNavigator>
-        {/* <ProductDetailsScreen></ProductDetailsScreen> */}
-        {/* <WishListScreen></WishListScreen> */}
-        {/* <CartScreen></CartScreen> */}
-        {/* <SearchScreen></SearchScreen> */}
-        {/* <FilterModal></FilterModal> */}
-        {/* <ProfileScreen></ProfileScreen> */}
-        {/* <OrderHistoryScreen></OrderHistoryScreen> */}
-        {/* <AboutUsScreen></AboutUsScreen> */}
-        {/* <PrivacyAndPolicyScreen></PrivacyAndPolicyScreen> */}
-        {/* <TermsAndConditionsScreen></TermsAndConditionsScreen> */}
-        {/* <LogoutScreen></LogoutScreen> */}
-        {/* <NotificationsScreen></NotificationsScreen> */}
-      </Provider>
+      {/* <SignupScreen></SignupScreen> */}
+      {/* <LoginScreen></LoginScreen> */}
+      {/* <BottomTabNavigator></BottomTabNavigator> */}
+      <InnerStackNavigator></InnerStackNavigator>
+      {/* <ProductDetailsScreen></ProductDetailsScreen> */}
+      {/* <WishListScreen></WishListScreen> */}
+      {/* <CartScreen></CartScreen> */}
+      {/* <SearchScreen></SearchScreen> */}
+      {/* <FilterModal></FilterModal> */}
+      {/* <ProfileScreen></ProfileScreen> */}
+      {/* <OrderHistoryScreen></OrderHistoryScreen> */}
+      {/* <AboutUsScreen></AboutUsScreen> */}
+      {/* <PrivacyAndPolicyScreen></PrivacyAndPolicyScreen> */}
+      {/* <TermsAndConditionsScreen></TermsAndConditionsScreen> */}
+      {/* <LogoutScreen></LogoutScreen> */}
+      {/* <NotificationsScreen></NotificationsScreen> */}
     </NavigationContainer>
   );
 };

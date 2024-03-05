@@ -19,7 +19,9 @@ import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 
-const ProductDetailsScreen = () => {
+const ProductDetailsScreen = props => {
+  const {navigation} = props;
+
   const [color, setColor] = useState(1);
   const [itemCount, setItemCount] = useState(1);
   const [like, setLike] = useState(false);
@@ -46,7 +48,10 @@ const ProductDetailsScreen = () => {
         backgroundColor: COLORS.primaryLight,
       }}>
       <View style={styles.TitleBar}>
-        <TouchableOpacity activeOpacity={0.6} style={styles.BackIcon}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          activeOpacity={0.6}
+          style={styles.BackIcon}>
           <Ionicons
             name="chevron-back"
             size={FONTSIZE.size_28}

@@ -16,7 +16,9 @@ import CategoriesSlider from '../components/home/CategoriesSlider';
 import ProductSlider from '../components/home/ProductSlider';
 import BestSellerSlider from '../components/home/BestSellerSlider';
 
-const HomeScreen = () => {
+const HomeScreen = props => {
+  const {navigation} = props;
+
   return (
     <SafeAreaView
       style={{
@@ -35,14 +37,20 @@ const HomeScreen = () => {
               Let's Find Your Dream Furniture!
             </Text>
           </View>
-          <View style={styles.BellIcon}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('NotificationsScreen')}
+            activeOpacity={0.6}
+            style={styles.BellIcon}>
             <Octicons
               name="bell"
               size={FONTSIZE.size_24}
               color={COLORS.primaryDark}></Octicons>
-          </View>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity activeOpacity={0.6} style={styles.Search}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('SearchScreen')}
+          activeOpacity={0.6}
+          style={styles.Search}>
           <AntDesign
             name="search1"
             size={FONTSIZE.size_20}
@@ -58,7 +66,7 @@ const HomeScreen = () => {
         </TouchableOpacity>
         <CarouselSlider></CarouselSlider>
         <CategoriesSlider></CategoriesSlider>
-        <ProductSlider></ProductSlider>
+        <ProductSlider navigation={navigation}></ProductSlider>
         <BestSellerSlider></BestSellerSlider>
       </ScrollView>
     </SafeAreaView>

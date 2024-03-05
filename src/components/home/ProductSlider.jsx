@@ -19,7 +19,9 @@ import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 
-const ProductSlider = () => {
+const ProductSlider = props => {
+  const {navigation} = props;
+
   const chairSlides = [
     {
       id: 1,
@@ -111,6 +113,16 @@ const ProductSlider = () => {
 
   const FlatListItem = ({index, id, name, brand, image, price, star}) => (
     <TouchableOpacity
+      onPress={() =>
+        navigation.navigate('ProductDetailsScreen', {
+          id: id,
+          name: name,
+          brand: brand,
+          image: image,
+          price: price,
+          star: star,
+        })
+      }
       activeOpacity={0.8}
       style={[
         styles.ProductCard,

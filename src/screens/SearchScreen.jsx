@@ -25,7 +25,9 @@ import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 import filter from 'lodash.filter';
 import FilterModal from '../components/search/FilterModal';
 
-const SearchScreen = () => {
+const SearchScreen = props => {
+  const {navigation} = props;
+
   const chairData = [
     {
       id: 1,
@@ -177,7 +179,10 @@ const SearchScreen = () => {
         paddingBottom: 120,
       }}>
       <View style={styles.TitleBar}>
-        <TouchableOpacity activeOpacity={0.6} style={styles.BackIcon}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          activeOpacity={0.6}
+          style={styles.BackIcon}>
           <Ionicons
             name="chevron-back"
             size={FONTSIZE.size_28}

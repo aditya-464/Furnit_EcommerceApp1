@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {Easing, StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BlurView} from '@react-native-community/blur';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/Theme';
@@ -14,14 +14,14 @@ const Tab = createBottomTabNavigator();
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="HomeScreen"
       screenOptions={({route}) => ({
         tabBarHideOnKeyboard: true,
         headerShown: false,
         tabBarShowLabel: false,
         // tabBarStyle: styles.tabBarStyle,
         tabBarStyle: {
-          display: route.name === 'Cart' ? 'none' : 'flex',
+          display: route.name === 'CartScreen' ? 'none' : 'flex',
           height: 60,
           position: 'absolute',
           backgroundColor: COLORS.primaryLight,
@@ -49,7 +49,7 @@ const BottomTabNavigator = () => {
       // }}
     >
       <Tab.Screen
-        name="Home"
+        name="HomeScreen"
         component={HomeScreen}
         options={{
           tabBarIcon: ({focused}) => (
@@ -61,7 +61,7 @@ const BottomTabNavigator = () => {
           ),
         }}></Tab.Screen>
       <Tab.Screen
-        name="Search"
+        name="SearchScreen"
         component={SearchScreen}
         options={{
           tabBarIcon: ({focused}) => (
@@ -73,7 +73,7 @@ const BottomTabNavigator = () => {
           ),
         }}></Tab.Screen>
       <Tab.Screen
-        name="Cart"
+        name="CartScreen"
         component={CartScreen}
         options={{
           tabBarIcon: ({focused}) => (
@@ -85,7 +85,7 @@ const BottomTabNavigator = () => {
           ),
         }}></Tab.Screen>
       <Tab.Screen
-        name="Profile"
+        name="ProfileScreen"
         component={ProfileScreen}
         options={{
           tabBarIcon: ({focused}) => (
