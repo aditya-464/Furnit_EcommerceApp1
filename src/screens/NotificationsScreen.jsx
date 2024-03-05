@@ -65,9 +65,9 @@ export default NotificationsScreen;
 
 const styles = StyleSheet.create({
   TitleBar: {
-    paddingVertical: SPACING.space_12,
     paddingRight: SPACING.space_15,
     paddingLeft: SPACING.space_10,
+    paddingVertical: SPACING.space_12,
     backgroundColor: COLORS.primaryLight,
     flexDirection: 'row',
     justifyContent: 'space-between',

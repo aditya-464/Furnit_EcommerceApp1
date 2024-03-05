@@ -22,9 +22,10 @@ import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 import UserProfileImg from '../assets/images/profile/userProfile.jpg';
+import {useNavigation} from '@react-navigation/native';
 
-const ProfileScreen = props => {
-  const {navigation} = props;
+const ProfileScreen = () => {
+  const navigation = useNavigation();
   return (
     <SafeAreaView
       style={{
@@ -43,7 +44,10 @@ const ProfileScreen = props => {
             color={COLORS.primaryDark}></Ionicons>
         </TouchableOpacity>
         <Text style={styles.TitleText}>Profile</Text>
-        <TouchableOpacity activeOpacity={0.6} style={styles.BellIcon}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('NotificationsScreen')}
+          activeOpacity={0.6}
+          style={styles.BellIcon}>
           <Octicons
             name="bell"
             size={FONTSIZE.size_24}
@@ -63,7 +67,10 @@ const ProfileScreen = props => {
         <View style={styles.BottomContent}>
           <View style={styles.OptionsCategory}>
             <Text style={styles.CategoryName}>Account</Text>
-            <TouchableOpacity activeOpacity={0.2} style={styles.Option}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('WishListScreen')}
+              activeOpacity={0.2}
+              style={styles.Option}>
               <View style={styles.OptionIcon}>
                 <Ionicons
                   name={'heart-outline'}
@@ -78,7 +85,10 @@ const ProfileScreen = props => {
                   color={COLORS.primaryDark}></Ionicons>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.2} style={styles.Option}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('OrderHistoryScreen')}
+              activeOpacity={0.2}
+              style={styles.Option}>
               <View style={styles.OptionIcon}>
                 <Ionicons
                   name={'time-outline'}
@@ -93,7 +103,10 @@ const ProfileScreen = props => {
                   color={COLORS.primaryDark}></Ionicons>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.2} style={styles.Option}>
+            <TouchableOpacity
+              // onPress={() => navigation.navigate('NotificationsScreen')}
+              activeOpacity={0.2}
+              style={styles.Option}>
               <View style={styles.OptionIcon}>
                 <Ionicons
                   name={'settings-outline'}
@@ -111,7 +124,10 @@ const ProfileScreen = props => {
           </View>
           <View style={styles.OptionsCategory}>
             <Text style={styles.CategoryName}>General</Text>
-            <TouchableOpacity activeOpacity={0.2} style={styles.Option}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('AboutUsScreen')}
+              activeOpacity={0.2}
+              style={styles.Option}>
               <View style={styles.OptionIcon}>
                 <Ionicons
                   name={'information-circle-outline'}
@@ -126,7 +142,10 @@ const ProfileScreen = props => {
                   color={COLORS.primaryDark}></Ionicons>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.2} style={styles.Option}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('PrivacyAndPolicyScreen')}
+              activeOpacity={0.2}
+              style={styles.Option}>
               <View style={styles.OptionIcon}>
                 <Ionicons
                   name={'lock-closed-outline'}
@@ -141,7 +160,10 @@ const ProfileScreen = props => {
                   color={COLORS.primaryDark}></Ionicons>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.2} style={styles.Option}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('TermsAndConditionsScreen')}
+              activeOpacity={0.2}
+              style={styles.Option}>
               <View style={styles.OptionIcon}>
                 <Ionicons
                   name={'document-text-outline'}
@@ -156,7 +178,10 @@ const ProfileScreen = props => {
                   color={COLORS.primaryDark}></Ionicons>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.2} style={styles.Option}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('LogoutScreen')}
+              activeOpacity={0.2}
+              style={styles.Option}>
               <View style={styles.OptionIcon}>
                 <Ionicons
                   name={'log-out-outline'}
@@ -182,7 +207,8 @@ export default ProfileScreen;
 
 const styles = StyleSheet.create({
   TitleBar: {
-    paddingHorizontal: SPACING.space_15,
+    paddingRight: SPACING.space_15,
+    paddingLeft: SPACING.space_10,
     paddingVertical: SPACING.space_12,
     backgroundColor: COLORS.primaryLight,
     flexDirection: 'row',

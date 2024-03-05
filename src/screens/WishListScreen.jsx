@@ -65,7 +65,8 @@ const data = [
   },
 ];
 
-const WishListScreen = () => {
+const WishListScreen = props => {
+  const {navigation, route} = props;
   const [productsData, setProductsData] = useState([]);
   const [numColumnsValue, setNumColumnsValue] = useState(2);
 
@@ -153,7 +154,10 @@ const WishListScreen = () => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.primaryLight}}>
       <View style={styles.TitleBar}>
-        <TouchableOpacity activeOpacity={0.6} style={styles.BackIcon}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          activeOpacity={0.6}
+          style={styles.BackIcon}>
           <Ionicons
             name="chevron-back"
             size={FONTSIZE.size_28}
@@ -196,7 +200,8 @@ export default WishListScreen;
 
 const styles = StyleSheet.create({
   TitleBar: {
-    paddingHorizontal: SPACING.space_15,
+    paddingRight: SPACING.space_15,
+    paddingLeft: SPACING.space_10,
     paddingVertical: SPACING.space_12,
     backgroundColor: COLORS.primaryLight,
     flexDirection: 'row',

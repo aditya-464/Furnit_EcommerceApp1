@@ -187,7 +187,8 @@ export default ProductDetailsScreen;
 
 const styles = StyleSheet.create({
   TitleBar: {
-    paddingHorizontal: SPACING.space_15,
+    paddingRight: SPACING.space_15,
+    paddingLeft: SPACING.space_10,
     paddingVertical: SPACING.space_12,
     backgroundColor: COLORS.primaryLight,
     flexDirection: 'row',

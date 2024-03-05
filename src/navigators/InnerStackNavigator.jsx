@@ -7,6 +7,12 @@ import {
 import BottomTabNavigator from './BottomTabNavigator';
 import ProductDetailsScreen from '../screens/ProductDetailsScreen';
 import NotificationsScreen from '../screens/NotificationsScreen';
+import WishListScreen from '../screens/WishListScreen';
+import OrderHistoryScreen from '../screens/OrderHistoryScreen';
+import AboutUsScreen from '../screens/AboutUsScreen';
+import PrivacyAndPolicyScreen from '../screens/PrivacyAndPolicyScreen';
+import TermsAndConditionsScreen from '../screens/TermsAndConditionsScreen';
+import LogoutScreen from '../screens/LogoutScreen';
 
 const Stack = createStackNavigator();
 
@@ -58,6 +64,48 @@ const InnerStackNavigator = () => {
       <Stack.Screen
         name="ProductDetailsScreen"
         component={ProductDetailsScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="WishListScreen"
+        component={WishListScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="OrderHistoryScreen"
+        component={OrderHistoryScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="AboutUsScreen"
+        component={AboutUsScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="PrivacyAndPolicyScreen"
+        component={PrivacyAndPolicyScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="TermsAndConditionsScreen"
+        component={TermsAndConditionsScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="LogoutScreen"
+        component={LogoutScreen}
         options={{
           headerShown: false,
         }}

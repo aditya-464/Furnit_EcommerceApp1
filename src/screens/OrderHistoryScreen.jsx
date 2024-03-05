@@ -19,7 +19,8 @@ import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 
-const OrderHistoryScreen = () => {
+const OrderHistoryScreen = props => {
+  const {navigation} = props;
   return (
     <SafeAreaView
       style={{
@@ -27,7 +28,10 @@ const OrderHistoryScreen = () => {
         backgroundColor: COLORS.primaryLight,
       }}>
       <View style={styles.TitleBar}>
-        <TouchableOpacity activeOpacity={0.6} style={styles.BackIcon}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          activeOpacity={0.6}
+          style={styles.BackIcon}>
           <Ionicons
             name="chevron-back"
             size={FONTSIZE.size_28}
@@ -115,7 +119,8 @@ export default OrderHistoryScreen;
 
 const styles = StyleSheet.create({
   TitleBar: {
-    paddingHorizontal: SPACING.space_15,
+    paddingRight: SPACING.space_15,
+    paddingLeft: SPACING.space_10,
     paddingVertical: SPACING.space_12,
     backgroundColor: COLORS.primaryLight,
     flexDirection: 'row',

@@ -19,11 +19,13 @@ import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 
-const LogoutScreen = () => {
+const LogoutScreen = props => {
+  const {navigation} = props;
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.primaryLight}}>
       <View style={styles.TitleBar}>
         <TouchableOpacity
+          onPress={() => navigation.goBack()}
           activeOpacity={0.6}
           style={[styles.BackIcon, {alignItems: 'flex-start'}]}>
           <Ionicons
@@ -58,7 +60,7 @@ export default LogoutScreen;
 
 const styles = StyleSheet.create({
   TitleBar: {
-    paddingHorizontal: SPACING.space_15,
+    paddingRight: SPACING.space_15,
     paddingLeft: SPACING.space_10,
     paddingVertical: SPACING.space_12,
     backgroundColor: COLORS.primaryLight,
@@ -87,7 +89,7 @@ const styles = StyleSheet.create({
     // marginHorizontal: SPACING.space_15,
     marginTop: SPACING.space_10,
     flexDirection: 'row',
-    justifyContent: "space-evenly",
+    justifyContent: 'space-evenly',
     alignItems: 'center',
   },
   No: {

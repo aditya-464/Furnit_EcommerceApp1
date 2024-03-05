@@ -34,7 +34,9 @@ const HomeScreen = props => {
         <View style={styles.TitleBar}>
           <View style={styles.Title}>
             <Text style={styles.TitleText}>
-              Let's Find Your Dream Furniture!
+              Let's Find Your{' '}
+              <Text style={{color: COLORS.secondaryDark}}>Dream</Text>{' '}
+              Furniture!
             </Text>
           </View>
           <TouchableOpacity

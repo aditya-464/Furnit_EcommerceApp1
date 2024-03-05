@@ -13,11 +13,14 @@ import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 
-const TermsAndConditionsScreen = () => {
+const TermsAndConditionsScreen = ({navigation}) => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.primaryLight}}>
       <View style={styles.TitleBar}>
-        <TouchableOpacity activeOpacity={0.6} style={styles.BackIcon}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          activeOpacity={0.6}
+          style={styles.BackIcon}>
           <Ionicons
             name="chevron-back"
             size={FONTSIZE.size_28}
@@ -95,8 +98,8 @@ const TermsAndConditionsScreen = () => {
         </View>
         <View style={styles.InfoSection}>
           <Text style={styles.TermsText}>
-          By using FurnIt, you agree to these Terms and Conditions. For any queries,
-            contact us at - adityagiri@gmail.com
+            By using FurnIt, you agree to these Terms and Conditions. For any
+            queries, contact us at - adityagiri@gmail.com
           </Text>
           <Text style={styles.TermsText}>Last updated : March 03, 2024</Text>
           <Text style={styles.TermsText}>Thank you for choosing FurnIt!</Text>
@@ -110,7 +113,8 @@ export default TermsAndConditionsScreen;
 
 const styles = StyleSheet.create({
   TitleBar: {
-    paddingHorizontal: SPACING.space_15,
+    paddingRight: SPACING.space_15,
+    paddingLeft: SPACING.space_10,
     paddingVertical: SPACING.space_12,
     backgroundColor: COLORS.primaryLight,
     flexDirection: 'row',
