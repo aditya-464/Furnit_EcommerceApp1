@@ -20,6 +20,7 @@ import Octicons from 'react-native-vector-icons/dist/Octicons';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 import Fontisto from 'react-native-vector-icons/dist/Fontisto';
 import {TextInput} from 'react-native-paper';
+import OrderItemsList from '../components/checkOut/OrderItemsList';
 
 const CheckOutScreen = () => {
   const [name, setName] = useState(null);
@@ -363,7 +364,19 @@ const CheckOutScreen = () => {
               </View>
             </View>
           </View>
-          <View style={styles.OrderDetails}></View>
+          <View style={styles.OrderDetails}>
+            <Text
+              style={[
+                styles.IntroText,
+                {
+                  marginHorizontal: SPACING.space_15,
+                  marginBottom: SPACING.space_4,
+                },
+              ]}>
+              Order Items
+            </Text>
+            <OrderItemsList></OrderItemsList>
+          </View>
         </View>
       </ScrollView>
       <View style={styles.ActionButtonView}>
@@ -445,10 +458,11 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.space_15,
   },
   Preview: {
-    padding: SPACING.space_15,
+    paddingVertical: SPACING.space_15,
   },
   ShippingDetails: {
     marginBottom: SPACING.space_28,
+    marginHorizontal: SPACING.space_15,
   },
   ShippingImage: {
     width: '20%',
@@ -462,7 +476,10 @@ const styles = StyleSheet.create({
     fontSize: FONTSIZE.size_14,
     color: COLORS.primaryDark,
   },
-  PaymentDetails: {},
+  PaymentDetails: {
+    marginBottom: SPACING.space_28,
+    marginHorizontal: SPACING.space_15,
+  },
   CardImage: {
     width: '20%',
     alignItems: 'center',
