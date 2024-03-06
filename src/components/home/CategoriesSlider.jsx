@@ -1,6 +1,12 @@
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
-import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../../theme/Theme';
+import {
+  BORDERRADIUS,
+  COLORS,
+  FONTFAMILY,
+  FONTSIZE,
+  SPACING,
+} from '../../theme/Theme';
 
 const slides = [
   {
@@ -117,7 +123,7 @@ const styles = StyleSheet.create({
   CategoryButton: {
     paddingVertical: SPACING.space_8,
     paddingHorizontal: SPACING.space_20,
-    borderRadius: 50,
+    borderRadius: BORDERRADIUS.radius_10,
   },
   CategoryText: {
     fontFamily: FONTFAMILY.poppins_regular,

@@ -19,26 +19,31 @@ import TermsAndConditionsScreen from './src/screens/TermsAndConditionsScreen';
 import LogoutScreen from './src/screens/LogoutScreen';
 import NotificationsScreen from './src/screens/NotificationsScreen';
 import InnerStackNavigator from './src/navigators/InnerStackNavigator';
+import CheckOutScreen from './src/screens/CheckOutScreen';
+import {PaperProvider} from 'react-native-paper';
 
 const App = () => {
   return (
     <NavigationContainer>
-      {/* <SignupScreen></SignupScreen> */}
-      {/* <LoginScreen></LoginScreen> */}
-      {/* <BottomTabNavigator></BottomTabNavigator> */}
-      <InnerStackNavigator></InnerStackNavigator>
-      {/* <ProductDetailsScreen></ProductDetailsScreen> */}
-      {/* <WishListScreen></WishListScreen> */}
-      {/* <CartScreen></CartScreen> */}
-      {/* <SearchScreen></SearchScreen> */}
-      {/* <FilterModal></FilterModal> */}
-      {/* <ProfileScreen></ProfileScreen> */}
-      {/* <OrderHistoryScreen></OrderHistoryScreen> */}
-      {/* <AboutUsScreen></AboutUsScreen> */}
-      {/* <PrivacyAndPolicyScreen></PrivacyAndPolicyScreen> */}
-      {/* <TermsAndConditionsScreen></TermsAndConditionsScreen> */}
-      {/* <LogoutScreen></LogoutScreen> */}
-      {/* <NotificationsScreen></NotificationsScreen> */}
+      <PaperProvider>
+        {/* <SignupScreen></SignupScreen> */}
+        {/* <LoginScreen></LoginScreen> */}
+        {/* <BottomTabNavigator></BottomTabNavigator> */}
+        {/* <InnerStackNavigator></InnerStackNavigator> */}
+        {/* <ProductDetailsScreen></ProductDetailsScreen> */}
+        {/* <WishListScreen></WishListScreen> */}
+        {/* <CartScreen></CartScreen> */}
+        {/* <SearchScreen></SearchScreen> */}
+        {/* <FilterModal></FilterModal> */}
+        {/* <ProfileScreen></ProfileScreen> */}
+        {/* <OrderHistoryScreen></OrderHistoryScreen> */}
+        {/* <AboutUsScreen></AboutUsScreen> */}
+        {/* <PrivacyAndPolicyScreen></PrivacyAndPolicyScreen> */}
+        {/* <TermsAndConditionsScreen></TermsAndConditionsScreen> */}
+        {/* <LogoutScreen></LogoutScreen> */}
+        {/* <NotificationsScreen></NotificationsScreen> */}
+        <CheckOutScreen></CheckOutScreen>
+      </PaperProvider>
     </NavigationContainer>
   );
 };
