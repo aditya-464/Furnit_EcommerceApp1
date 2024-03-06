@@ -15,7 +15,7 @@ import {
   SPACING,
 } from '../theme/Theme';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
-import AntDesign from 'react-native-vector-icons/dist/AntDesign';
+import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 import Fontisto from 'react-native-vector-icons/dist/Fontisto';
@@ -373,15 +373,18 @@ const CheckOutScreen = () => {
                   marginBottom: SPACING.space_4,
                 },
               ]}>
-              Order Items
+              Order Details
             </Text>
             <OrderItemsList></OrderItemsList>
           </View>
         </View>
       </ScrollView>
       <View style={styles.ActionButtonView}>
-        <TouchableOpacity activeOpacity={0.6} style={styles.ActionButton}>
+        {/* <TouchableOpacity activeOpacity={0.6} style={styles.ActionButton}>
           <Text style={styles.ActionText}>Continue</Text>
+        </TouchableOpacity> */}
+        <TouchableOpacity activeOpacity={0.6} style={styles.PaymentButton}>
+          <Text style={styles.PayText}>Confirm Payment</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -510,4 +513,30 @@ const styles = StyleSheet.create({
     color: COLORS.primaryDark,
     textAlign: 'center',
   },
+  PaymentButton: {
+    backgroundColor: COLORS.secondaryDark,
+    padding: SPACING.space_10,
+    borderRadius: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  PayText: {
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_16,
+    color: COLORS.primaryDark,
+    textAlign: 'center',
+    marginRight: SPACING.space_10,
+  },
+  // Price: {
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  // },
+  // PriceText: {
+  //   fontFamily: FONTFAMILY.poppins_regular,
+  //   fontSize: FONTSIZE.size_16,
+  //   color: COLORS.primaryDark,
+  //   marginTop: SPACING.space_2,
+  //   marginLeft: SPACING.space_4,
+  // },
 });
