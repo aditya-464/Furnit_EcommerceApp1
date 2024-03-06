@@ -23,7 +23,7 @@ import {TextInput} from 'react-native-paper';
 import OrderItemsList from '../components/checkOut/OrderItemsList';
 import OrderSummary from '../components/checkOut/OrderSummary';
 
-const CheckOutScreen = () => {
+const CheckOutScreen = ({navigation}) => {
   const [name, setName] = useState(null);
   const [phone, setPhone] = useState(null);
   const [address, setAddress] = useState(null);

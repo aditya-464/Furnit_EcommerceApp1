@@ -13,6 +13,7 @@ import AboutUsScreen from '../screens/AboutUsScreen';
 import PrivacyAndPolicyScreen from '../screens/PrivacyAndPolicyScreen';
 import TermsAndConditionsScreen from '../screens/TermsAndConditionsScreen';
 import LogoutScreen from '../screens/LogoutScreen';
+import CheckOutScreen from '../screens/CheckOutScreen';
 
 const Stack = createStackNavigator();
 
@@ -50,6 +51,13 @@ const InnerStackNavigator = () => {
       <Stack.Screen
         name="BottomTabNavigator"
         component={BottomTabNavigator}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="CheckOutScreen"
+        component={CheckOutScreen}
         options={{
           headerShown: false,
         }}

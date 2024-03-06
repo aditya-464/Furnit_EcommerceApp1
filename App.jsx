@@ -29,7 +29,7 @@ const App = () => {
         {/* <SignupScreen></SignupScreen> */}
         {/* <LoginScreen></LoginScreen> */}
         {/* <BottomTabNavigator></BottomTabNavigator> */}
-        {/* <InnerStackNavigator></InnerStackNavigator> */}
+        <InnerStackNavigator></InnerStackNavigator>
         {/* <ProductDetailsScreen></ProductDetailsScreen> */}
         {/* <WishListScreen></WishListScreen> */}
         {/* <CartScreen></CartScreen> */}
@@ -42,7 +42,7 @@ const App = () => {
         {/* <TermsAndConditionsScreen></TermsAndConditionsScreen> */}
         {/* <LogoutScreen></LogoutScreen> */}
         {/* <NotificationsScreen></NotificationsScreen> */}
-        <CheckOutScreen></CheckOutScreen>
+        {/* <CheckOutScreen></CheckOutScreen> */}
       </PaperProvider>
     </NavigationContainer>
   );

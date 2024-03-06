@@ -349,7 +349,10 @@ const CartScreen = props => {
             <Text style={styles.TotalAmountText}>{totalAmount}</Text>
           </View>
         </View>
-        <TouchableOpacity activeOpacity={0.6} style={styles.CheckOutButton}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('CheckOutScreen')}
+          activeOpacity={0.6}
+          style={styles.CheckOutButton}>
           <Text style={styles.CheckOutText}>Proceed to Checkout</Text>
         </TouchableOpacity>
       </View>
