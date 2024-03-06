@@ -21,6 +21,7 @@ import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 import Fontisto from 'react-native-vector-icons/dist/Fontisto';
 import {TextInput} from 'react-native-paper';
 import OrderItemsList from '../components/checkOut/OrderItemsList';
+import OrderSummary from '../components/checkOut/OrderSummary';
 
 const CheckOutScreen = () => {
   const [name, setName] = useState(null);
@@ -300,7 +301,8 @@ const CheckOutScreen = () => {
                 marginTop: SPACING.space_10,
                 paddingHorizontal: SPACING.space_10,
                 paddingVertical: SPACING.space_15,
-                elevation: 1,
+                borderWidth: 0.5,
+                borderColor: COLORS.placeholder,
                 borderRadius: 10,
               }}>
               <View style={styles.ShippingImage}>
@@ -343,7 +345,8 @@ const CheckOutScreen = () => {
                 marginTop: SPACING.space_10,
                 paddingHorizontal: SPACING.space_10,
                 paddingVertical: SPACING.space_15,
-                elevation: 1,
+                borderWidth: 0.5,
+                borderColor: COLORS.placeholder,
                 borderRadius: 10,
               }}>
               <View style={styles.CardImage}>
@@ -376,6 +379,19 @@ const CheckOutScreen = () => {
               Order Details
             </Text>
             <OrderItemsList></OrderItemsList>
+          </View>
+          <View style={styles.OrderSummary}>
+            <Text
+              style={[
+                styles.IntroText,
+                {
+                  marginHorizontal: SPACING.space_15,
+                  marginBottom: SPACING.space_4,
+                },
+              ]}>
+              Order Summary
+            </Text>
+            <OrderSummary></OrderSummary>
           </View>
         </View>
       </ScrollView>
@@ -494,6 +510,9 @@ const styles = StyleSheet.create({
     fontFamily: FONTFAMILY.poppins_regular,
     fontSize: FONTSIZE.size_14,
     color: COLORS.primaryDark,
+  },
+  OrderDetails: {
+    marginBottom: SPACING.space_28,
   },
   ActionButtonView: {
     bottom: 0,
