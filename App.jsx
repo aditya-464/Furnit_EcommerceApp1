@@ -21,6 +21,7 @@ import NotificationsScreen from './src/screens/NotificationsScreen';
 import InnerStackNavigator from './src/navigators/InnerStackNavigator';
 import CheckOutScreen from './src/screens/CheckOutScreen';
 import {PaperProvider} from 'react-native-paper';
+import OnboardingScreen from './src/screens/OnboardingScreen';
 
 const App = () => {
   return (
@@ -29,7 +30,7 @@ const App = () => {
         {/* <SignupScreen></SignupScreen> */}
         {/* <LoginScreen></LoginScreen> */}
         {/* <BottomTabNavigator></BottomTabNavigator> */}
-        <InnerStackNavigator></InnerStackNavigator>
+        {/* <InnerStackNavigator></InnerStackNavigator> */}
         {/* <ProductDetailsScreen></ProductDetailsScreen> */}
         {/* <WishListScreen></WishListScreen> */}
         {/* <CartScreen></CartScreen> */}
@@ -43,6 +44,7 @@ const App = () => {
         {/* <LogoutScreen></LogoutScreen> */}
         {/* <NotificationsScreen></NotificationsScreen> */}
         {/* <CheckOutScreen></CheckOutScreen> */}
+        <OnboardingScreen></OnboardingScreen>
       </PaperProvider>
     </NavigationContainer>
   );
