@@ -10,7 +10,6 @@ import {
 import React from 'react';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/Theme';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
-import LoginFormNew from '../components/auth/LoginFormNew';
 import SignupFormNew from '../components/auth/SignupFormNew';
 
 const SignupScreenNew = ({navigation}) => {

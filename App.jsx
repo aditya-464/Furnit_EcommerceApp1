@@ -29,29 +29,31 @@ import SignupScreenNew from './src/screens/SignupScreenNew';
 const App = () => {
   return (
     <NavigationContainer>
-      <PaperProvider>
-        {/* <SignupScreen></SignupScreen> */}
-        {/* <LoginScreen></LoginScreen> */}
-        {/* <ProductDetailsScreen></ProductDetailsScreen> */}
-        {/* <WishListScreen></WishListScreen> */}
-        {/* <CartScreen></CartScreen> */}
-        {/* <SearchScreen></SearchScreen> */}
-        {/* <FilterModal></FilterModal> */}
-        {/* <ProfileScreen></ProfileScreen> */}
-        {/* <OrderHistoryScreen></OrderHistoryScreen> */}
-        {/* <AboutUsScreen></AboutUsScreen> */}
-        {/* <PrivacyAndPolicyScreen></PrivacyAndPolicyScreen> */}
-        {/* <TermsAndConditionsScreen></TermsAndConditionsScreen> */}
-        {/* <LogoutScreen></LogoutScreen> */}
-        {/* <NotificationsScreen></NotificationsScreen> */}
-        {/* <CheckOutScreen></CheckOutScreen> */}
-        {/* <OnboardingScreen></OnboardingScreen> */}
-        {/* <BottomTabNavigator></BottomTabNavigator> */}
-        {/* <InnerStackNavigator></InnerStackNavigator> */}
-        <OuterStackNavigator></OuterStackNavigator>
-        {/* <LoginScreenNew></LoginScreenNew> */}
-        {/* <SignupScreenNew></SignupScreenNew> */}
-      </PaperProvider>
+      <Provider store={store}>
+        <PaperProvider>
+          {/* <SignupScreen></SignupScreen> */}
+          {/* <LoginScreen></LoginScreen> */}
+          {/* <ProductDetailsScreen></ProductDetailsScreen> */}
+          {/* <WishListScreen></WishListScreen> */}
+          {/* <CartScreen></CartScreen> */}
+          {/* <SearchScreen></SearchScreen> */}
+          {/* <FilterModal></FilterModal> */}
+          {/* <ProfileScreen></ProfileScreen> */}
+          {/* <OrderHistoryScreen></OrderHistoryScreen> */}
+          {/* <AboutUsScreen></AboutUsScreen> */}
+          {/* <PrivacyAndPolicyScreen></PrivacyAndPolicyScreen> */}
+          {/* <TermsAndConditionsScreen></TermsAndConditionsScreen> */}
+          {/* <LogoutScreen></LogoutScreen> */}
+          {/* <NotificationsScreen></NotificationsScreen> */}
+          {/* <CheckOutScreen></CheckOutScreen> */}
+          {/* <OnboardingScreen></OnboardingScreen> */}
+          {/* <BottomTabNavigator></BottomTabNavigator> */}
+          {/* <InnerStackNavigator></InnerStackNavigator> */}
+          <OuterStackNavigator></OuterStackNavigator>
+          {/* <LoginScreenNew></LoginScreenNew> */}
+          {/* <SignupScreenNew></SignupScreenNew> */}
+        </PaperProvider>
+      </Provider>
     </NavigationContainer>
   );
 };

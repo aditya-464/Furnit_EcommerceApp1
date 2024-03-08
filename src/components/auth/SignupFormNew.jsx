@@ -2,10 +2,31 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../../theme/Theme';
 import {TextInput} from 'react-native-paper';
+import auth from '@react-native-firebase/auth';
+import {useDispatch} from 'react-redux';
+import {setUid} from '../../redux/auth';
 
 const SignupFormNew = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const dispatch = useDispatch();
+
+  const handleSignup = async () => {
+    try {
+      const createUser = await auth().createUserWithEmailAndPassword(
+        email,
+        password,
+      );
+      if (createUser) {
+        setEmail('');
+        setPassword('');
+        dispatch(setUid(createUser.user.uid));
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <View
@@ -79,7 +100,10 @@ const SignupFormNew = () => {
         value={password}
         numberOfLines={1}
         secureTextEntry={true}></TextInput>
-      <TouchableOpacity activeOpacity={0.6} style={styles.SignupButton}>
+      <TouchableOpacity
+        onPress={() => handleSignup()}
+        activeOpacity={0.6}
+        style={styles.SignupButton}>
         <Text style={styles.SignupButtonText}>Signup</Text>
       </TouchableOpacity>
     </View>
