@@ -6,7 +6,7 @@ import auth from '@react-native-firebase/auth';
 import {useDispatch} from 'react-redux';
 import {setUid} from '../../redux/auth';
 
-const LoginFormNew = () => {
+const LoginFormNew = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -18,6 +18,7 @@ const LoginFormNew = () => {
       if (login) {
         setEmail('');
         setPassword('');
+        navigation.navigate('PassDataScreen');
         dispatch(setUid(login.user.uid));
       }
     } catch (error) {

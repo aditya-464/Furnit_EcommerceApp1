@@ -49,9 +49,9 @@ const LoginScreenNew = ({navigation}) => {
           <View style={styles.LoginImageView}>
             <Image
               style={styles.Image}
-              source={require('../assets/images/auth/login.png')}></Image>
+              source={require('../assets/images/auth/login1.png')}></Image>
           </View>
-          <LoginFormNew></LoginFormNew>
+          <LoginFormNew navigation={navigation}></LoginFormNew>
         </View>
         <View style={styles.BottomContent}>
           <TouchableOpacity

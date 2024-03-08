@@ -10,6 +10,7 @@ import OnboardingScreen from '../screens/OnboardingScreen';
 import InnerStackNavigator from './InnerStackNavigator';
 import LoginScreenNew from '../screens/LoginScreenNew';
 import SignupScreenNew from '../screens/SignupScreenNew';
+import PassDataScreen from '../screens/PassDataScreen';
 
 const Stack = createStackNavigator();
 
@@ -61,6 +62,13 @@ const OuterStackNavigator = () => {
       <Stack.Screen
         name="SignupScreenNew"
         component={SignupScreenNew}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="PassDataScreen"
+        component={PassDataScreen}
         options={{
           headerShown: false,
         }}

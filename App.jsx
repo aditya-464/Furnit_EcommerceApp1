@@ -25,6 +25,7 @@ import OnboardingScreen from './src/screens/OnboardingScreen';
 import OuterStackNavigator from './src/navigators/OuterStackNavigator';
 import LoginScreenNew from './src/screens/LoginScreenNew';
 import SignupScreenNew from './src/screens/SignupScreenNew';
+import PassDataScreen from './src/screens/PassDataScreen';
 
 const App = () => {
   return (
@@ -52,6 +53,7 @@ const App = () => {
           <OuterStackNavigator></OuterStackNavigator>
           {/* <LoginScreenNew></LoginScreenNew> */}
           {/* <SignupScreenNew></SignupScreenNew> */}
+          {/* <PassDataScreen></PassDataScreen> */}
         </PaperProvider>
       </Provider>
     </NavigationContainer>
