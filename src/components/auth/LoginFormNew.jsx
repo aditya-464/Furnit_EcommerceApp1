@@ -18,7 +18,7 @@ const LoginFormNew = ({navigation}) => {
       if (login) {
         setEmail('');
         setPassword('');
-        navigation.navigate('PassDataScreen');
+        navigation.navigate('InnerStackNavigator');
         dispatch(setUid(login.user.uid));
       }
     } catch (error) {

@@ -71,7 +71,7 @@ const FilterModal = props => {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.OptionLabel}>
+          <View style={[styles.OptionLabel, {marginTop: 0}]}>
             <Text style={styles.OptionLabelText}>Category</Text>
             <Dropdown
               style={[
@@ -85,7 +85,7 @@ const FilterModal = props => {
               selectedTextStyle={styles.SelectedTextStyle}
               data={categoryData}
               autoScroll={false}
-              maxHeight={200}
+              maxHeight={250}
               activeColor={COLORS.secondaryDark}
               labelField="label"
               valueField="value"

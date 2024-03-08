@@ -9,7 +9,6 @@ import {
 import React, {useEffect, useState} from 'react';
 import {COLORS, SPACING} from '../theme/Theme';
 import firestore from '@react-native-firebase/firestore';
-import data from '../data/productData';
 
 const PassDataScreen = ({navigation}) => {
   const [name, setname] = useState('');

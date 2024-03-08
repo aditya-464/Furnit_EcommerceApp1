@@ -152,7 +152,7 @@ const SearchScreen = props => {
           <View style={styles.Price}>
             <FontAwesome
               name="rupee"
-              size={FONTSIZE.size_16}
+              size={FONTSIZE.size_14}
               color={COLORS.primaryDark}></FontAwesome>
             <Text style={styles.PriceText}>{price}</Text>
           </View>
@@ -313,12 +313,12 @@ const styles = StyleSheet.create({
   },
   Name: {
     fontFamily: FONTFAMILY.poppins_medium,
-    fontSize: FONTSIZE.size_16,
+    fontSize: FONTSIZE.size_14,
     color: COLORS.primaryDark,
   },
   Brand: {
     fontFamily: FONTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_14,
+    fontSize: FONTSIZE.size_12,
     color: COLORS.primaryDark,
     opacity: 0.5,
     marginTop: SPACING.space_2,
@@ -345,8 +345,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   PriceText: {
-    fontFamily: FONTFAMILY.poppins_semibold,
-    fontSize: FONTSIZE.size_16,
+    fontFamily: FONTFAMILY.poppins_medium,
+    fontSize: FONTSIZE.size_14,
     color: COLORS.primaryDark,
     marginTop: SPACING.space_2,
     marginLeft: SPACING.space_4,
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.secondaryDark,
     width: 30,
     height: 30,
-    borderRadius: 10,
+    borderRadius: 8,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
