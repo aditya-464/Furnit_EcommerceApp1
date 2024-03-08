@@ -92,7 +92,7 @@ const Dots = ({selected}) => {
   );
 };
 
-const OnboardingScreen = () => {
+const OnboardingScreen = ({navigation}) => {
   return (
     <Onboarding
       SkipButtonComponent={SkipButton}
@@ -102,6 +102,8 @@ const OnboardingScreen = () => {
       imageContainerStyles={{paddingBottom: 30}}
       bottomBarColor={'#F5F7F8'}
       bottomBarHeight={60}
+      onSkip={() => navigation.navigate('SignupScreenNew')}
+      onDone={() => navigation.navigate('SignupScreenNew')}
       pages={[
         {
           backgroundColor: '#F5F7F8',

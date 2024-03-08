@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "263500980438",
+    "project_id": "ecommerce01-furnit",
+    "storage_bucket": "ecommerce01-furnit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:263500980438:android:12b93205435df0e889a977",
+        "android_client_info": {
+          "package_name": "com.ecommerceapp1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCulRxxQVP0nHSLgeQr1Wg_5c_mGfdkkws"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

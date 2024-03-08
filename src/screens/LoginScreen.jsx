@@ -9,7 +9,7 @@ import React from 'react';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/Theme';
 import LoginForm from '../components/auth/LoginForm';
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.primaryLight}}>
       <View style={styles.TitleBar}>
@@ -17,13 +17,16 @@ const LoginScreen = () => {
       </View>
       <View style={styles.Content}>
         <View>
-          <LoginForm></LoginForm>
+          <LoginForm navigation={navigation}></LoginForm>
         </View>
         <View style={styles.BottomContent}>
           <TouchableOpacity disabled={true}>
             <Text style={styles.InfoText}>Don't have an account?</Text>
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.4} style={styles.SignupButton}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SignupScreen')}
+            activeOpacity={0.4}
+            style={styles.SignupButton}>
             <Text style={styles.SignupButtonText}>Signup</Text>
           </TouchableOpacity>
         </View>
