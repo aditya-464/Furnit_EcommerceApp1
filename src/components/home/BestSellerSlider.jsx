@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   BORDERRADIUS,
   COLORS,
@@ -19,60 +19,12 @@ import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 const BestSellerSlider = props => {
   const {navigation} = props;
-
-  const slides = [
-    {
-      id: 1,
-      image: require('../../assets/images/sofa/lawson.jpg'),
-      name: 'Lawson Sofa',
-      price: 3800,
-      star: 4.6,
-      brand: 'West Elm',
-    },
-    {
-      id: 2,
-      image: require('../../assets/images/chairs/swivel.jpg'),
-      name: 'Swivel',
-      price: 1200,
-      star: 4.2,
-      brand: 'Herman Miller',
-    },
-    {
-      id: 3,
-      image: require('../../assets/images/tables/coffee_table.jpg'),
-      name: 'Coffee Table',
-      price: 1200,
-      star: 4.8,
-      brand: 'West Elm',
-    },
-    {
-      id: 4,
-      image: require('../../assets/images/cupboards/wardrobe.jpg'),
-      name: 'Wardrobe',
-      price: 8000,
-      star: 4.6,
-      brand: 'Ashley',
-    },
-    {
-      id: 5,
-      image: require('../../assets/images/lamps/night_lamp.jpg'),
-      name: 'Night Lamp',
-      price: 450,
-      star: 4.2,
-      brand: 'Herman Miller',
-    },
-    {
-      id: 6,
-      image: require('../../assets/images/Storage/ottoman.jpg'),
-      name: 'Ottoman',
-      price: 1200,
-      star: 4.4,
-      brand: 'IKEA',
-    },
-  ];
+  const [data, setData] = useState(null);
 
   // const FlatListItem = ({id, name, image, price, star}) => (
   //   <TouchableOpacity
@@ -120,60 +72,115 @@ const BestSellerSlider = props => {
   //   </TouchableOpacity>
   // );
 
-  const FlatListItem = ({index, id, name, brand, image, price, star}) => (
-    <TouchableOpacity
-      onPress={() =>
-        navigation.navigate('ProductDetailsScreen', {
-          id: id,
-          name: name,
-          brand: brand,
-          image: image,
-          price: price,
-          star: star,
-        })
+  const FlatListItem = ({index, id, name, brand, imageType, price, star}) => {
+    const [url, setUrl] = useState(null);
+    const imgName = id + '.' + imageType;
+
+    const getDownloadImageUrl = async () => {
+      try {
+        const res = await storage()
+          .ref('product-images/' + imgName)
+          .getDownloadURL();
+
+        if (res) {
+          setUrl(res);
+        }
+      } catch (error) {
+        console.log(error.message);
       }
-      activeOpacity={0.8}
-      style={[
-        styles.ProductCard,
-        {marginLeft: index === 0 ? SPACING.space_8 : 0},
-      ]}>
-      <View style={styles.ImageView}>
-        <Image style={styles.Image} source={image} resizeMode="cover"></Image>
-      </View>
-      <View style={styles.Info}>
-        <View style={styles.TopInfo}>
-          <Text style={styles.Name}>{name}</Text>
-          <View style={styles.Rating}>
-            <AntDesign
-              name="star"
-              size={FONTSIZE.size_20}
-              color={COLORS.secondaryLight}></AntDesign>
-            <Text style={styles.StarText}>{star}</Text>
-          </View>
+    };
+
+    useEffect(() => {
+      getDownloadImageUrl();
+    }, [imageType, id]);
+
+    return (
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('ProductDetailsScreen', {
+            id: id,
+            name: name,
+            brand: brand,
+            image: url,
+            price: price,
+            star: star,
+          })
+        }
+        activeOpacity={0.8}
+        style={[
+          styles.ProductCard,
+          {marginLeft: index === 0 ? SPACING.space_8 : 0},
+        ]}>
+        <View style={styles.ImageView}>
+          {url !== null && (
+            <Image
+              style={styles.Image}
+              source={{uri: url}}
+              resizeMode="cover"></Image>
+          )}
         </View>
-        <Text style={styles.Brand}>{brand}</Text>
-        <View style={styles.BottomInfo}>
-          <View style={styles.Price}>
-            <FontAwesome
-              name="rupee"
-              size={FONTSIZE.size_14}
-              color={COLORS.primaryDark}></FontAwesome>
-            <Text style={styles.PriceText}>{price}</Text>
+        <View style={styles.Info}>
+          <View style={styles.TopInfo}>
+            <Text style={styles.Name}>{name}</Text>
+            <View style={styles.Rating}>
+              <AntDesign
+                name="star"
+                size={FONTSIZE.size_20}
+                color={COLORS.secondaryLight}></AntDesign>
+              <Text style={styles.StarText}>{star}</Text>
+            </View>
           </View>
-          <View style={styles.ActionButton}>
-            <TouchableOpacity
-              activeOpacity={0.6}
-              style={styles.AddToCartButton}>
-              <Octicons
-                name="plus"
+          <Text style={styles.Brand}>{brand}</Text>
+          <View style={styles.BottomInfo}>
+            <View style={styles.Price}>
+              <FontAwesome
+                name="rupee"
                 size={FONTSIZE.size_14}
-                color={COLORS.primaryLight}></Octicons>
-            </TouchableOpacity>
+                color={COLORS.primaryDark}></FontAwesome>
+              <Text style={styles.PriceText}>{price}</Text>
+            </View>
+            <View style={styles.ActionButton}>
+              <TouchableOpacity
+                activeOpacity={0.6}
+                style={styles.AddToCartButton}>
+                <Octicons
+                  name="plus"
+                  size={FONTSIZE.size_14}
+                  color={COLORS.primaryLight}></Octicons>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
+  };
+
+  const getData = res => {
+    let temp = [];
+    for (let i = 0; i < res.length; i++) {
+      temp.push(res[i]._data);
+    }
+    setData([...temp]);
+  };
+
+  const getBestSellerProducts = async () => {
+    try {
+      const res = await firestore()
+        .collection('Products')
+        .where('star', '>=', 4.4)
+        .get();
+
+      if (res) {
+        getData(res.docs);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getBestSellerProducts();
+  }, []);
 
   return (
     <View
@@ -189,7 +196,7 @@ const BestSellerSlider = props => {
           color={COLORS.primaryDark}></Ionicons>
       </View>
       <FlatList
-        data={slides}
+        data={data}
         horizontal
         snapToAlignment="center"
         showsHorizontalScrollIndicator={false}
@@ -197,14 +204,14 @@ const BestSellerSlider = props => {
         renderItem={({item, index}) => (
           <FlatListItem
             index={index}
-            id={item.id}
-            image={item.image}
+            id={item.pid}
+            imageType={item.imageType}
             name={item.name}
             brand={item.brand}
             price={item.price}
             star={item.star}></FlatListItem>
         )}
-        keyExtractor={item => item.id.toString()}></FlatList>
+        keyExtractor={item => item.pid}></FlatList>
     </View>
   );
 };
