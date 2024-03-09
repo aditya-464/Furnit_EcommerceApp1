@@ -30,7 +30,7 @@ const categoryData = [
   {label: 'Storage unit', value: 'storage unit'},
 ];
 const brandData = [
-  {label: 'All', value: 'All'},
+  {label: 'All', value: 'all'},
   {label: 'IKEA', value: 'IKEA'},
   {label: 'Ashley', value: 'Ashley'},
   {label: 'Herman Miller', value: 'Herman Miller'},
@@ -48,7 +48,7 @@ const FilterModal = props => {
   const [sliderValue, setSliderValue] = useState(5000);
 
   const handleApplyFilter = () => {
-    getFilterValues(value, value2, sliderValue);
+    getFilterValues(value2, sliderValue);
     handleFilterModal(false);
   };
 
@@ -78,7 +78,7 @@ const FilterModal = props => {
             </TouchableOpacity>
           </View>
 
-          <View style={[styles.OptionLabel, {marginTop: 0}]}>
+          {/* <View style={[styles.OptionLabel, {marginTop: 0}]}>
             <Text style={styles.OptionLabelText}>Category</Text>
             <Dropdown
               style={[
@@ -106,7 +106,8 @@ const FilterModal = props => {
                 setIsFocus(false);
               }}
             />
-          </View>
+          </View> */}
+
           <View style={styles.OptionLabel}>
             <Text style={styles.OptionLabelText}>Brand</Text>
             <Dropdown

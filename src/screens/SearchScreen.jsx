@@ -9,7 +9,7 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback, useRef} from 'react';
 import {
   BORDERRADIUS,
   COLORS,
@@ -22,7 +22,7 @@ import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
-import filter from 'lodash.filter';
+// import filter from 'lodash.filter';
 import FilterModal from '../components/search/FilterModal';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
@@ -30,81 +30,106 @@ import storage from '@react-native-firebase/storage';
 const SearchScreen = props => {
   const {navigation} = props;
   const [numColumnsValue, setNumColumnsValue] = useState(2);
-  const [searchQuery, setSearchQuery] = useState('');
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [data, setData] = useState(null);
+  // const [filter1, setFilter1] = useState('all');
+  const [filter2, setFilter2] = useState('all');
+  const [filter3, setFilter3] = useState(9000);
+  const inputRef = useRef();
 
   const handleFilterModal = val => {
     setShowFilterModal(val);
   };
 
-  const FlatListItem = ({id, name, brand, imageType, price, star}) => {
-    const [url, setUrl] = useState(null);
-    const imgName = id + '.' + imageType;
+  const FlatListItem = React.memo(
+    ({id, name, brand, imageType, price, star}) => {
+      // const [url, setUrl] = useState(null);
+      // const imgName = id + '.' + imageType;
 
-    const getDownloadImageUrl = async () => {
-      try {
-        const res = await storage()
-          .ref('product-images/' + imgName)
-          .getDownloadURL();
+      // const getDownloadImageUrl = async () => {
+      //   try {
+      //     const res = await storage()
+      //       .ref('product-images/' + imgName)
+      //       .getDownloadURL();
 
-        if (res) {
-          setUrl(res);
+      //     if (res) {
+      //       setUrl(res);
+      //     }
+      //   } catch (error) {
+      //     console.log(error.message);
+      //   }
+      // };
+
+      // useEffect(() => {
+      //   getDownloadImageUrl();
+      // }, [imageType, id]);
+
+      const [url, setUrl] = useState(null);
+
+      const getDownloadImageUrl = useCallback(async () => {
+        try {
+          const res = await storage()
+            .ref('product-images/' + id + '.' + imageType)
+            .getDownloadURL();
+
+          if (res) {
+            setUrl(res);
+          }
+        } catch (error) {
+          console.log(error.message);
         }
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
+      }, [id, imageType]);
 
-    useEffect(() => {
-      getDownloadImageUrl();
-    }, [imageType, id]);
+      useEffect(() => {
+        getDownloadImageUrl();
+      }, [getDownloadImageUrl]);
 
-    return (
-      <TouchableOpacity activeOpacity={0.8} style={styles.ProductCard}>
-        <View style={styles.ImageView}>
-          {url !== null && (
-            <Image
-              style={styles.Image}
-              source={{uri: url}}
-              resizeMode="cover"></Image>
-          )}
-        </View>
-        <View style={styles.Info}>
-          <View style={styles.TopInfo}>
-            <Text style={styles.Name}>{name}</Text>
-            <View style={styles.Rating}>
-              <AntDesign
-                name="star"
-                size={FONTSIZE.size_20}
-                color={COLORS.secondaryLight}></AntDesign>
-              <Text style={styles.StarText}>{star}</Text>
+      return (
+        <TouchableOpacity activeOpacity={0.8} style={styles.ProductCard}>
+          <View style={styles.ImageView}>
+            {url !== null && (
+              <Image
+                style={styles.Image}
+                source={{uri: url}}
+                resizeMode="cover"></Image>
+            )}
+          </View>
+          <View style={styles.Info}>
+            <View style={styles.TopInfo}>
+              <Text style={styles.Name}>{name}</Text>
+              <View style={styles.Rating}>
+                <AntDesign
+                  name="star"
+                  size={FONTSIZE.size_20}
+                  color={COLORS.secondaryLight}></AntDesign>
+                <Text style={styles.StarText}>{star}</Text>
+              </View>
+            </View>
+            <Text style={styles.Brand}>{brand}</Text>
+            <View style={styles.BottomInfo}>
+              <View style={styles.Price}>
+                <FontAwesome
+                  name="rupee"
+                  size={FONTSIZE.size_14}
+                  color={COLORS.primaryDark}></FontAwesome>
+                <Text style={styles.PriceText}>{price}</Text>
+              </View>
+              <View style={styles.ActionButton}>
+                <TouchableOpacity
+                  activeOpacity={0.6}
+                  style={styles.AddToCartButton}>
+                  <Octicons
+                    name="plus"
+                    size={FONTSIZE.size_16}
+                    color={COLORS.primaryLight}></Octicons>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-          <Text style={styles.Brand}>{brand}</Text>
-          <View style={styles.BottomInfo}>
-            <View style={styles.Price}>
-              <FontAwesome
-                name="rupee"
-                size={FONTSIZE.size_14}
-                color={COLORS.primaryDark}></FontAwesome>
-              <Text style={styles.PriceText}>{price}</Text>
-            </View>
-            <View style={styles.ActionButton}>
-              <TouchableOpacity
-                activeOpacity={0.6}
-                style={styles.AddToCartButton}>
-                <Octicons
-                  name="plus"
-                  size={FONTSIZE.size_16}
-                  color={COLORS.primaryLight}></Octicons>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
-  };
+        </TouchableOpacity>
+      );
+    },
+  );
 
   const getData = (res1, res2) => {
     let temp = new Set();
@@ -123,14 +148,27 @@ const SearchScreen = props => {
 
   const getProducts = async (searchName, searchCategory) => {
     try {
+      // const query1 = filter1 === 'all' ? searchCategory : filter1;
+      const query2 =
+        filter2 === 'all'
+          ? ['IKEA', 'Ashley', 'West Elm', 'Herman Miller']
+          : [filter2];
+
+      console.log(searchName, searchCategory);
+      console.log(query2, filter3);
+
       const res1 = await firestore()
         .collection('Products')
         .where('category', '==', searchCategory)
+        .where('brand', 'in', query2)
+        .where('price', '<=', filter3)
         .get();
 
       const res2 = await firestore()
         .collection('Products')
         .where('name', '==', searchName)
+        .where('brand', 'in', query2)
+        .where('price', '<=', filter3)
         .get();
 
       if (res1 && res2) {
@@ -144,7 +182,7 @@ const SearchScreen = props => {
   };
 
   const formatQuery = value => {
-    let val = searchQuery;
+    let val = inputRef.text;
     val = val.trim();
     val = val.toLowerCase();
     if (val[val.length - 1] === 's') {
@@ -159,15 +197,17 @@ const SearchScreen = props => {
   };
 
   const handleSubmitEditing = () => {
-    if (searchQuery !== '') {
+    if (inputRef.text !== '') {
       const searchCategory = formatQuery(0);
       const searchName = formatQuery(1);
       getProducts(searchName, searchCategory);
     }
   };
 
-  const getFilterValues = (category, brand, budget) => {
-    console.log(category, brand, budget);
+  const getFilterValues = (brand, budget) => {
+    // setFilter1(category);
+    setFilter2(brand);
+    setFilter3(budget);
   };
 
   return (
@@ -205,9 +245,11 @@ const SearchScreen = props => {
           size={FONTSIZE.size_20}
           color={COLORS.primaryDark}></AntDesign>
         <TextInput
-          value={searchQuery}
+          ref={inputRef}
           onSubmitEditing={handleSubmitEditing}
-          onChangeText={text => setSearchQuery(text)}
+          // value={searchQuery}
+          // onChangeText={text => setSearchQuery(text)}
+          onChangeText={text => (inputRef.text = text)}
           style={styles.SearchInput}
           placeholder="Find your product..."
           enterKeyHint="search"></TextInput>

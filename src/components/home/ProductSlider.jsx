@@ -20,10 +20,12 @@ import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
+import {useSelector} from 'react-redux';
 
 const ProductSlider = props => {
   const {navigation, category, scrollToStart} = props;
   const [data, setData] = useState(null);
+  const {uid} = useSelector(state => state.auth);
   const FlatListRef = useRef(null);
 
   // const FlatListItem = ({id, name, image, price, star}) => (
@@ -72,7 +74,16 @@ const ProductSlider = props => {
   //   </TouchableOpacity>
   // );
 
-  const FlatListItem = ({index, id, name, brand, imageType, price, star}) => {
+  const FlatListItem = ({
+    index,
+    id,
+    name,
+    brand,
+    imageType,
+    price,
+    star,
+    count,
+  }) => {
     const [url, setUrl] = useState(null);
     const imgName = id + '.' + imageType;
 
@@ -141,6 +152,9 @@ const ProductSlider = props => {
             </View>
             <View style={styles.ActionButton}>
               <TouchableOpacity
+                onPress={() =>
+                  handleAddToCart(id, name, brand, price, star, count, url)
+                }
                 activeOpacity={0.6}
                 style={styles.AddToCartButton}>
                 <Octicons
@@ -182,6 +196,33 @@ const ProductSlider = props => {
     FlatListRef.current.scrollToOffset({animated: true, offset: 0});
   };
 
+  const handleAddToCart = async (id, name, brand, price, star, count, url) => {
+    try {
+      const newItemData = {
+        [pid]: id,
+        name,
+        brand,
+        price,
+        star,
+        count,
+        [image]: url,
+      };
+      const oldData = await firestore().collection('Cart').doc(uid).get();
+
+      if (oldData) {
+        let temp = oldData;
+        temp.push(newItemData);
+        const newData = await firestore().collection('Cart').doc(uid).set(temp);
+
+        if (newData) {
+          console.log('Item added to Cart!');
+        }
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   useEffect(() => {
     getCategoryProducts();
   }, [category]);
@@ -212,7 +253,8 @@ const ProductSlider = props => {
             name={item.name}
             brand={item.brand}
             price={item.price}
-            star={item.star}></FlatListItem>
+            star={item.star}
+            count={item.count}></FlatListItem>
         )}
         keyExtractor={item => item.pid}></FlatList>
     </View>
