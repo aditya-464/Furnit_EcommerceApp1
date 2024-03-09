@@ -9,7 +9,7 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   BORDERRADIUS,
   COLORS,
@@ -24,152 +24,151 @@ import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 import filter from 'lodash.filter';
 import FilterModal from '../components/search/FilterModal';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 const SearchScreen = props => {
   const {navigation} = props;
-
-  const chairData = [
-    {
-      id: 1,
-      image: require('../assets/images/chairs/armchair.jpg'),
-      name: 'Armchair',
-      brand: 'IKEA',
-      price: 300,
-      star: 4.8,
-      count: 1,
-      category: 'chair-chairs',
-    },
-    {
-      id: 2,
-      image: require('../assets/images/chairs/recliner.jpg'),
-      name: 'Recliner',
-      brand: 'Ashley',
-      price: 2400,
-      star: 4.6,
-      count: 1,
-      category: 'chair-chairs',
-    },
-    {
-      id: 3,
-      image: require('../assets/images/chairs/swivel.jpg'),
-      name: 'Swivel',
-      brand: 'Herman Miller',
-      price: 1200,
-      star: 4.2,
-      count: 1,
-      category: 'chair-chairs',
-    },
-    {
-      id: 4,
-      image: require('../assets/images/chairs/office_chair.jpg'),
-      name: 'Office Chair',
-      brand: 'West Elm',
-      price: 800,
-      star: 4.8,
-      count: 1,
-      category: 'chair-chairs',
-    },
-    {
-      id: 5,
-      image: require('../assets/images/chairs/wingback.jpg'),
-      name: 'Wingback',
-      brand: 'Herman Miller',
-      price: 2200,
-      star: 4.5,
-      count: 1,
-      category: 'chair-chairs',
-    },
-    {
-      id: 6,
-      image: require('../assets/images/chairs/wingback.jpg'),
-      name: 'Wingback',
-      brand: 'IKEA',
-      price: 2200,
-      star: 4.5,
-      count: 1,
-      category: 'chair-chairs',
-    },
-    {
-      id: 7,
-      image: require('../assets/images/chairs/wingback.jpg'),
-      name: 'Wingback',
-      brand: 'Ashley',
-      price: 2200,
-      star: 4.5,
-      count: 1,
-      category: 'chair-chairs',
-    },
-  ];
   const [numColumnsValue, setNumColumnsValue] = useState(2);
-  const [searchQuery, setSearchQuery] = useState(null);
-  const [resultData, setResultData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const [showFilterModal, setShowFilterModal] = useState(false);
+  const [data, setData] = useState(null);
 
   const handleFilterModal = val => {
     setShowFilterModal(val);
   };
 
-  const handleSearchQuery = val => {
-    setSearchQuery(val);
-    const formattedQuery = val.toLowerCase();
-    const filteredData = filter(chairData, product => {
-      return contains(product, formattedQuery);
-    });
-    setResultData(filteredData);
+  const FlatListItem = ({id, name, brand, imageType, price, star}) => {
+    const [url, setUrl] = useState(null);
+    const imgName = id + '.' + imageType;
+
+    const getDownloadImageUrl = async () => {
+      try {
+        const res = await storage()
+          .ref('product-images/' + imgName)
+          .getDownloadURL();
+
+        if (res) {
+          setUrl(res);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    useEffect(() => {
+      getDownloadImageUrl();
+    }, [imageType, id]);
+
+    return (
+      <TouchableOpacity activeOpacity={0.8} style={styles.ProductCard}>
+        <View style={styles.ImageView}>
+          {url !== null && (
+            <Image
+              style={styles.Image}
+              source={{uri: url}}
+              resizeMode="cover"></Image>
+          )}
+        </View>
+        <View style={styles.Info}>
+          <View style={styles.TopInfo}>
+            <Text style={styles.Name}>{name}</Text>
+            <View style={styles.Rating}>
+              <AntDesign
+                name="star"
+                size={FONTSIZE.size_20}
+                color={COLORS.secondaryLight}></AntDesign>
+              <Text style={styles.StarText}>{star}</Text>
+            </View>
+          </View>
+          <Text style={styles.Brand}>{brand}</Text>
+          <View style={styles.BottomInfo}>
+            <View style={styles.Price}>
+              <FontAwesome
+                name="rupee"
+                size={FONTSIZE.size_14}
+                color={COLORS.primaryDark}></FontAwesome>
+              <Text style={styles.PriceText}>{price}</Text>
+            </View>
+            <View style={styles.ActionButton}>
+              <TouchableOpacity
+                activeOpacity={0.6}
+                style={styles.AddToCartButton}>
+                <Octicons
+                  name="plus"
+                  size={FONTSIZE.size_16}
+                  color={COLORS.primaryLight}></Octicons>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
   };
 
-  const contains = (product, query) => {
-    const {name, brand, category} = product;
-    if (
-      name.toLowerCase().includes(query) ||
-      brand.toLowerCase().includes(query) ||
-      category.toLowerCase().includes(query)
-    ) {
-      return true;
-    } else {
-      return false;
+  const getData = (res1, res2) => {
+    let temp = new Set();
+    for (let i = 0; i < res1.length; i++) {
+      temp.add(res1[i]._data);
+    }
+    for (let i = 0; i < res2.length; i++) {
+      temp.add(res2[i]._data);
+    }
+    // setData([...temp]());
+    // console.log({...temp}());
+
+    let temp2 = [...temp];
+    setData([...temp2]);
+  };
+
+  const getProducts = async (searchName, searchCategory) => {
+    try {
+      const res1 = await firestore()
+        .collection('Products')
+        .where('category', '==', searchCategory)
+        .get();
+
+      const res2 = await firestore()
+        .collection('Products')
+        .where('name', '==', searchName)
+        .get();
+
+      if (res1 && res2) {
+        console.log(res1.docs);
+        console.log(res2.docs);
+        getData(res1.docs, res2.docs);
+      }
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
-  const FlatListItem = ({id, name, brand, image, price, star}) => (
-    <TouchableOpacity activeOpacity={0.8} style={styles.ProductCard}>
-      <View style={styles.ImageView}>
-        <Image style={styles.Image} source={image} resizeMode="cover"></Image>
-      </View>
-      <View style={styles.Info}>
-        <View style={styles.TopInfo}>
-          <Text style={styles.Name}>{name}</Text>
-          <View style={styles.Rating}>
-            <AntDesign
-              name="star"
-              size={FONTSIZE.size_20}
-              color={COLORS.secondaryLight}></AntDesign>
-            <Text style={styles.StarText}>{star}</Text>
-          </View>
-        </View>
-        <Text style={styles.Brand}>{brand}</Text>
-        <View style={styles.BottomInfo}>
-          <View style={styles.Price}>
-            <FontAwesome
-              name="rupee"
-              size={FONTSIZE.size_14}
-              color={COLORS.primaryDark}></FontAwesome>
-            <Text style={styles.PriceText}>{price}</Text>
-          </View>
-          <View style={styles.ActionButton}>
-            <TouchableOpacity
-              activeOpacity={0.6}
-              style={styles.AddToCartButton}>
-              <Octicons
-                name="plus"
-                size={FONTSIZE.size_16}
-                color={COLORS.primaryLight}></Octicons>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
+  const formatQuery = value => {
+    let val = searchQuery;
+    val = val.trim();
+    val = val.toLowerCase();
+    if (val[val.length - 1] === 's') {
+      val = val.substring(0, val.length - 1);
+    }
+    if (value === 0) {
+      return val;
+    } else {
+      val = val[0].toUpperCase() + val.substring(1, val.length);
+      return val;
+    }
+  };
+
+  const handleSubmitEditing = () => {
+    if (searchQuery !== '') {
+      const searchCategory = formatQuery(0);
+      const searchName = formatQuery(1);
+      getProducts(searchName, searchCategory);
+    }
+  };
+
+  const getFilterValues = (category, brand, budget) => {
+    console.log(category, brand, budget);
+  };
 
   return (
     <SafeAreaView
@@ -207,26 +206,27 @@ const SearchScreen = props => {
           color={COLORS.primaryDark}></AntDesign>
         <TextInput
           value={searchQuery}
-          onChangeText={text => handleSearchQuery(text)}
+          onSubmitEditing={handleSubmitEditing}
+          onChangeText={text => setSearchQuery(text)}
           style={styles.SearchInput}
           placeholder="Find your product..."
-          autoCapitalize="none"></TextInput>
+          enterKeyHint="search"></TextInput>
       </TouchableOpacity>
       <View style={styles.ProductList}>
         <FlatList
-          data={resultData}
+          data={data}
           numColumns={numColumnsValue}
           showsVerticalScrollIndicator={false}
           renderItem={({item}) => (
             <FlatListItem
-              id={item.id}
-              image={item.image}
+              id={item.pid}
+              imageType={item.imageType}
               name={item.name}
               brand={item.brand}
               price={item.price}
               star={item.star}></FlatListItem>
           )}
-          keyExtractor={item => item.id.toString()}
+          keyExtractor={item => item.pid}
           ListFooterComponent={
             <View
               style={{height: 60, backgroundColor: COLORS.primaryLight}}></View>
@@ -234,6 +234,7 @@ const SearchScreen = props => {
       </View>
 
       <FilterModal
+        getFilterValues={getFilterValues}
         showFilterModal={showFilterModal}
         handleFilterModal={handleFilterModal}></FilterModal>
     </SafeAreaView>

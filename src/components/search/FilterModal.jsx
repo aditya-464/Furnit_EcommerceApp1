@@ -19,16 +19,18 @@ import {Slider} from '@rneui/themed';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 
 const categoryData = [
-  {label: 'Beds', value: 'Beds'},
-  {label: 'Sofas', value: 'Sofas'},
-  {label: 'Lamps', value: 'Lamps'},
-  {label: 'Chairs', value: 'Chairs'},
-  {label: 'Tables', value: 'Tables'},
-  {label: 'Mirrors', value: 'Mirrors'},
-  {label: 'Cupboards', value: 'Cupboards'},
-  {label: 'Storage units', value: 'Storage units'},
+  {label: 'All', value: 'all'},
+  {label: 'Bed', value: 'bed'},
+  {label: 'Sofa', value: 'sofa'},
+  {label: 'Lamp', value: 'lamp'},
+  {label: 'Chair', value: 'chair'},
+  {label: 'Table', value: 'table'},
+  {label: 'Mirror', value: 'mirror'},
+  {label: 'Cupboard', value: 'cupboard'},
+  {label: 'Storage unit', value: 'storage unit'},
 ];
 const brandData = [
+  {label: 'All', value: 'All'},
   {label: 'IKEA', value: 'IKEA'},
   {label: 'Ashley', value: 'Ashley'},
   {label: 'Herman Miller', value: 'Herman Miller'},
@@ -36,14 +38,19 @@ const brandData = [
 ];
 
 const FilterModal = props => {
-  const {showFilterModal, handleFilterModal} = props;
+  const {getFilterValues, showFilterModal, handleFilterModal} = props;
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState('all');
   const [isFocus, setIsFocus] = useState(false);
-  const [value2, setValue2] = useState(null);
+  const [value2, setValue2] = useState('all');
   const [isFocus2, setIsFocus2] = useState(false);
-  const [sliderValue, setSliderValue] = useState(null);
+  const [sliderValue, setSliderValue] = useState(5000);
+
+  const handleApplyFilter = () => {
+    getFilterValues(value, value2, sliderValue);
+    handleFilterModal(false);
+  };
 
   useEffect(() => {
     setIsModalVisible(showFilterModal);
@@ -176,10 +183,13 @@ const FilterModal = props => {
             />
           </View>
           <View style={styles.Buttons}>
-            <TouchableOpacity activeOpacity={0.6} style={styles.ClearButton}>
+            {/* <TouchableOpacity activeOpacity={0.6} style={styles.ClearButton}>
               <Text style={styles.ClearText}>Clear</Text>
-            </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.6} style={styles.ApplyButton}>
+            </TouchableOpacity> */}
+            <TouchableOpacity
+              onPress={() => handleApplyFilter()}
+              activeOpacity={0.6}
+              style={styles.ApplyButton}>
               <Text style={styles.ApplyText}>Apply</Text>
             </TouchableOpacity>
           </View>
@@ -246,22 +256,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: SPACING.space_10,
   },
-  ClearButton: {
-    width: '47%',
-    backgroundColor: COLORS.primaryLight,
-    borderWidth: 1,
-    borderRadius: BORDERRADIUS.radius_10,
-    borderColor: COLORS.primaryDark,
-    padding: SPACING.space_10,
-  },
-  ClearText: {
-    fontFamily: FONTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_16,
-    color: COLORS.primaryDark,
-    textAlign: 'center',
-  },
+  // ClearButton: {
+  //   width: '47%',
+  //   backgroundColor: COLORS.primaryLight,
+  //   borderWidth: 1,
+  //   borderRadius: BORDERRADIUS.radius_10,
+  //   borderColor: COLORS.primaryDark,
+  //   padding: SPACING.space_10,
+  // },
+  // ClearText: {
+  //   fontFamily: FONTFAMILY.poppins_regular,
+  //   fontSize: FONTSIZE.size_16,
+  //   color: COLORS.primaryDark,
+  //   textAlign: 'center',
+  // },
   ApplyButton: {
-    width: '47%',
+    // width: '47%',
+    flex: 1,
     backgroundColor: COLORS.secondaryDark,
     borderWidth: 1,
     borderRadius: BORDERRADIUS.radius_10,
