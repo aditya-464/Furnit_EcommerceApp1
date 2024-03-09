@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   BORDERRADIUS,
   COLORS,
@@ -18,52 +18,13 @@ import {
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 const ProductSlider = props => {
-  const {navigation} = props;
-
-  const chairSlides = [
-    {
-      id: 1,
-      image: require('../../assets/images/chairs/armchair.jpg'),
-      name: 'Armchair',
-      price: 300,
-      star: 4.8,
-      brand: 'IKEA',
-    },
-    {
-      id: 2,
-      image: require('../../assets/images/chairs/recliner.jpg'),
-      name: 'Recliner',
-      price: 2400,
-      star: 4.6,
-      brand: 'Ashley',
-    },
-    {
-      id: 3,
-      image: require('../../assets/images/chairs/swivel.jpg'),
-      name: 'Swivel',
-      price: 1200,
-      star: 4.2,
-      brand: 'Herman Miller',
-    },
-    {
-      id: 4,
-      image: require('../../assets/images/chairs/office_chair.jpg'),
-      name: 'Office Chair',
-      price: 800,
-      star: 4.8,
-      brand: 'IKEA',
-    },
-    {
-      id: 5,
-      image: require('../../assets/images/chairs/wingback.jpg'),
-      name: 'Wingback',
-      price: 2200,
-      star: 4.5,
-      brand: 'West Elm',
-    },
-  ];
+  const {navigation, category, scrollToStart} = props;
+  const [data, setData] = useState(null);
+  const FlatListRef = useRef(null);
 
   // const FlatListItem = ({id, name, image, price, star}) => (
   //   <TouchableOpacity
@@ -111,60 +72,123 @@ const ProductSlider = props => {
   //   </TouchableOpacity>
   // );
 
-  const FlatListItem = ({index, id, name, brand, image, price, star}) => (
-    <TouchableOpacity
-      onPress={() =>
-        navigation.navigate('ProductDetailsScreen', {
-          id: id,
-          name: name,
-          brand: brand,
-          image: image,
-          price: price,
-          star: star,
-        })
+  const FlatListItem = ({index, id, name, brand, imageType, price, star}) => {
+    const [url, setUrl] = useState(null);
+    const imgName = id + '.' + imageType;
+
+    const getDownloadImageUrl = async () => {
+      try {
+        const res = await storage()
+          .ref('product-images/' + imgName)
+          .getDownloadURL();
+
+        if (res) {
+          setUrl(res);
+        }
+      } catch (error) {
+        console.log(error.message);
       }
-      activeOpacity={0.8}
-      style={[
-        styles.ProductCard,
-        {marginLeft: index === 0 ? SPACING.space_8 : 0},
-      ]}>
-      <View style={styles.ImageView}>
-        <Image style={styles.Image} source={image} resizeMode="cover"></Image>
-      </View>
-      <View style={styles.Info}>
-        <View style={styles.TopInfo}>
-          <Text style={styles.Name}>{name}</Text>
-          <View style={styles.Rating}>
-            <AntDesign
-              name="star"
-              size={FONTSIZE.size_20}
-              color={COLORS.secondaryLight}></AntDesign>
-            <Text style={styles.StarText}>{star}</Text>
-          </View>
+    };
+
+    useEffect(() => {
+      getDownloadImageUrl();
+    }, [imageType, id]);
+
+    return (
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('ProductDetailsScreen', {
+            id: id,
+            name: name,
+            brand: brand,
+            image: url,
+            price: price,
+            star: star,
+          })
+        }
+        activeOpacity={0.8}
+        style={[
+          styles.ProductCard,
+          {marginLeft: index === 0 ? SPACING.space_8 : 0},
+        ]}>
+        <View style={styles.ImageView}>
+          {url !== null && (
+            <Image
+              style={styles.Image}
+              source={{uri: url}}
+              resizeMode="cover"></Image>
+          )}
         </View>
-        <Text style={styles.Brand}>{brand}</Text>
-        <View style={styles.BottomInfo}>
-          <View style={styles.Price}>
-            <FontAwesome
-              name="rupee"
-              size={FONTSIZE.size_14}
-              color={COLORS.primaryDark}></FontAwesome>
-            <Text style={styles.PriceText}>{price}</Text>
+        <View style={styles.Info}>
+          <View style={styles.TopInfo}>
+            <Text style={styles.Name}>{name}</Text>
+            <View style={styles.Rating}>
+              <AntDesign
+                name="star"
+                size={FONTSIZE.size_20}
+                color={COLORS.secondaryLight}></AntDesign>
+              <Text style={styles.StarText}>{star}</Text>
+            </View>
           </View>
-          <View style={styles.ActionButton}>
-            <TouchableOpacity
-              activeOpacity={0.6}
-              style={styles.AddToCartButton}>
-              <Octicons
-                name="plus"
+          <Text style={styles.Brand}>{brand}</Text>
+          <View style={styles.BottomInfo}>
+            <View style={styles.Price}>
+              <FontAwesome
+                name="rupee"
                 size={FONTSIZE.size_14}
-                color={COLORS.primaryLight}></Octicons>
-            </TouchableOpacity>
+                color={COLORS.primaryDark}></FontAwesome>
+              <Text style={styles.PriceText}>{price}</Text>
+            </View>
+            <View style={styles.ActionButton}>
+              <TouchableOpacity
+                activeOpacity={0.6}
+                style={styles.AddToCartButton}>
+                <Octicons
+                  name="plus"
+                  size={FONTSIZE.size_14}
+                  color={COLORS.primaryLight}></Octicons>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
+  };
+
+  const getData = res => {
+    let temp = [];
+    for (let i = 0; i < res.length; i++) {
+      temp.push(res[i]._data);
+    }
+    setData([...temp]);
+  };
+
+  const getCategoryProducts = async () => {
+    try {
+      const res = await firestore()
+        .collection('Products')
+        .where('category', 'in', [category])
+        .get();
+
+      if (res) {
+        getData(res.docs);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const scrollFlatListToStart = () => {
+    FlatListRef.current.scrollToOffset({animated: true, offset: 0});
+  };
+
+  useEffect(() => {
+    getCategoryProducts();
+  }, [category]);
+
+  useEffect(() => {
+    scrollFlatListToStart();
+  }, [scrollToStart]);
 
   return (
     <View
@@ -174,7 +198,8 @@ const ProductSlider = props => {
         backgroundColor: COLORS.primaryLight,
       }}>
       <FlatList
-        data={chairSlides}
+        ref={FlatListRef}
+        data={data}
         horizontal
         snapToAlignment="center"
         showsHorizontalScrollIndicator={false}
@@ -182,14 +207,14 @@ const ProductSlider = props => {
         renderItem={({item, index}) => (
           <FlatListItem
             index={index}
-            id={item.id}
-            image={item.image}
+            id={item.pid}
+            imageType={item.imageType}
             name={item.name}
             brand={item.brand}
             price={item.price}
             star={item.star}></FlatListItem>
         )}
-        keyExtractor={item => item.id.toString()}></FlatList>
+        keyExtractor={item => item.pid}></FlatList>
     </View>
   );
 };

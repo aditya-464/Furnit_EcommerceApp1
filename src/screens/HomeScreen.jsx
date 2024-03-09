@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/Theme';
 import Octicons from 'react-native-vector-icons/Octicons';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
@@ -18,6 +18,16 @@ import BestSellerSlider from '../components/home/BestSellerSlider';
 
 const HomeScreen = props => {
   const {navigation} = props;
+  const [category, setCategory] = useState('chair');
+  const [scrollToStart, setScrollToStart] = useState(0);
+
+  const selectCategory = val => {
+    setCategory(val);
+  };
+
+  const handleScrollToStart = () => {
+    setScrollToStart(prev => !prev);
+  };
 
   return (
     <SafeAreaView
@@ -67,8 +77,13 @@ const HomeScreen = props => {
             color={COLORS.primaryDark}></Octicons>
         </TouchableOpacity>
         <CarouselSlider></CarouselSlider>
-        <CategoriesSlider></CategoriesSlider>
-        <ProductSlider navigation={navigation}></ProductSlider>
+        <CategoriesSlider
+          handleScrollToStart={handleScrollToStart}
+          selectCategory={selectCategory}></CategoriesSlider>
+        <ProductSlider
+          scrollToStart={scrollToStart}
+          category={category}
+          navigation={navigation}></ProductSlider>
         <BestSellerSlider navigation={navigation}></BestSellerSlider>
       </ScrollView>
     </SafeAreaView>

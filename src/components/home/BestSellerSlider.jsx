@@ -58,7 +58,7 @@ const BestSellerSlider = props => {
     },
     {
       id: 5,
-      image: require('../../assets/images/lamps/night_lamp3.jpg'),
+      image: require('../../assets/images/lamps/night_lamp.jpg'),
       name: 'Night Lamp',
       price: 450,
       star: 4.2,

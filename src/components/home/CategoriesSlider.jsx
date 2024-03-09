@@ -11,55 +11,58 @@ import {
 const slides = [
   {
     id: 1,
-    category: 'Chairs',
+    category: 'chair',
     active: 1,
   },
   {
     id: 2,
-    category: 'Tables',
+    category: 'table',
     active: 0,
   },
   {
     id: 3,
-    category: 'Lamps',
+    category: 'lamp',
     active: 0,
   },
   {
     id: 4,
-    category: 'Sofas',
+    category: 'sofa',
     active: 0,
   },
   {
     id: 5,
-    category: 'Cupboards',
+    category: 'cupboard',
     active: 0,
   },
   {
     id: 6,
-    category: 'Drawers',
+    category: 'drawer',
     active: 0,
   },
   {
     id: 7,
-    category: 'Storage',
+    category: 'storage',
     active: 0,
   },
   {
     id: 8,
-    category: 'Bedroom',
+    category: 'bedroom',
     active: 0,
   },
   {
     id: 9,
-    category: 'Mirrors',
+    category: 'mirror',
     active: 0,
   },
 ];
 
-const CategoriesSlider = () => {
+const CategoriesSlider = props => {
+  const {selectCategory, handleScrollToStart} = props;
   const [data, setData] = useState([...slides]);
 
-  const handleSelectCategory = id => {
+  const handleSelectCategory = (id, category) => {
+    handleScrollToStart();
+    selectCategory(category);
     const updatedData = data.map(item => ({
       ...item,
       active: item.id === id ? 1 : 0,
@@ -70,7 +73,7 @@ const CategoriesSlider = () => {
 
   const FlatListItem = ({id, active, category}) => (
     <TouchableOpacity
-      onPress={() => handleSelectCategory(id)}
+      onPress={() => handleSelectCategory(id, category)}
       activeOpacity={0.6}
       style={[
         styles.CategoryButton,
@@ -129,5 +132,6 @@ const styles = StyleSheet.create({
     fontFamily: FONTFAMILY.poppins_regular,
     fontSize: FONTSIZE.size_14,
     color: COLORS.primaryDark,
+    textTransform: 'capitalize',
   },
 });
