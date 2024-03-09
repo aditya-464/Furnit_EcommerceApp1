@@ -182,27 +182,33 @@ const SearchScreen = props => {
   };
 
   const formatQuery = value => {
-    let val = inputRef.text;
-    val = val.trim();
-    val = val.toLowerCase();
-    if (val[val.length - 1] === 's') {
-      val = val.substring(0, val.length - 1);
-    }
-    if (value === 0) {
-      return val;
-    } else {
-      val = val[0].toUpperCase() + val.substring(1, val.length);
-      return val;
+    let val = inputRef?.current.value;
+    if (val) {
+      val = val.trim();
+      val = val.toLowerCase();
+      if (val[val.length - 1] === 's') {
+        val = val.substring(0, val.length - 1);
+      }
+      if (value === 0) {
+        return val;
+      } else {
+        val = val[0].toUpperCase() + val.substring(1, val.length);
+        return val;
+      }
     }
   };
 
   const handleSubmitEditing = () => {
-    if (inputRef.text !== '') {
+    if (inputRef.current.value !== '') {
       const searchCategory = formatQuery(0);
       const searchName = formatQuery(1);
       getProducts(searchName, searchCategory);
     }
   };
+
+  useEffect(() => {
+    handleSubmitEditing();
+  }, [filter2, filter3]);
 
   const getFilterValues = (brand, budget) => {
     // setFilter1(category);
@@ -249,7 +255,7 @@ const SearchScreen = props => {
           onSubmitEditing={handleSubmitEditing}
           // value={searchQuery}
           // onChangeText={text => setSearchQuery(text)}
-          onChangeText={text => (inputRef.text = text)}
+          onChangeText={text => (inputRef.current.value = text)}
           style={styles.SearchInput}
           placeholder="Find your product..."
           enterKeyHint="search"></TextInput>
