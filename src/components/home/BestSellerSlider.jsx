@@ -21,10 +21,12 @@ import Octicons from 'react-native-vector-icons/dist/Octicons';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
+import {useSelector} from 'react-redux';
 
 const BestSellerSlider = props => {
   const {navigation} = props;
   const [data, setData] = useState(null);
+  const {uid} = useSelector(state => state.auth);
 
   // const FlatListItem = ({id, name, image, price, star}) => (
   //   <TouchableOpacity
@@ -72,7 +74,16 @@ const BestSellerSlider = props => {
   //   </TouchableOpacity>
   // );
 
-  const FlatListItem = ({index, id, name, brand, imageType, price, star}) => {
+  const FlatListItem = ({
+    index,
+    id,
+    name,
+    brand,
+    imageType,
+    price,
+    star,
+    count,
+  }) => {
     const [url, setUrl] = useState(null);
     const imgName = id + '.' + imageType;
 
@@ -141,6 +152,9 @@ const BestSellerSlider = props => {
             </View>
             <View style={styles.ActionButton}>
               <TouchableOpacity
+                onPress={() =>
+                  handleAddToCart(id, name, brand, price, star, count, url)
+                }
                 activeOpacity={0.6}
                 style={styles.AddToCartButton}>
                 <Octicons
@@ -178,6 +192,39 @@ const BestSellerSlider = props => {
     }
   };
 
+  const handleAddToCart = async (id, name, brand, price, star, count, url) => {
+    try {
+      const newItemData = {
+        pid: id,
+        name,
+        brand,
+        price,
+        star,
+        count,
+        image: url,
+      };
+      const oldData = await firestore().collection('Cart').doc(uid).get();
+
+      if (oldData.exists) {
+        const newData = await firestore()
+          .collection('Cart')
+          .doc(uid)
+          .set({[id]: newItemData}, {merge: true});
+
+        if (newData) {
+          console.log('Item added to Cart!');
+        }
+      } else {
+        const newData = await firestore()
+          .collection('Cart')
+          .doc(uid)
+          .set({[id]: newItemData});
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   useEffect(() => {
     getBestSellerProducts();
   }, []);
@@ -209,7 +256,8 @@ const BestSellerSlider = props => {
             name={item.name}
             brand={item.brand}
             price={item.price}
-            star={item.star}></FlatListItem>
+            star={item.star}
+            count={item.count}></FlatListItem>
         )}
         keyExtractor={item => item.pid}></FlatList>
     </View>

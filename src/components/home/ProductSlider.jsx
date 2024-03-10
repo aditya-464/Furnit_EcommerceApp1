@@ -199,24 +199,30 @@ const ProductSlider = props => {
   const handleAddToCart = async (id, name, brand, price, star, count, url) => {
     try {
       const newItemData = {
-        [pid]: id,
+        pid: id,
         name,
         brand,
         price,
         star,
         count,
-        [image]: url,
+        image: url,
       };
       const oldData = await firestore().collection('Cart').doc(uid).get();
 
-      if (oldData) {
-        let temp = oldData;
-        temp.push(newItemData);
-        const newData = await firestore().collection('Cart').doc(uid).set(temp);
+      if (oldData.exists) {
+        const newData = await firestore()
+          .collection('Cart')
+          .doc(uid)
+          .set({[id]: newItemData}, {merge: true});
 
         if (newData) {
           console.log('Item added to Cart!');
         }
+      } else {
+        const newData = await firestore()
+          .collection('Cart')
+          .doc(uid)
+          .set({[id]: newItemData});
       }
     } catch (error) {
       console.log(error.message);

@@ -26,9 +26,11 @@ import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 import FilterModal from '../components/search/FilterModal';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
+import {useSelector} from 'react-redux';
 
 const SearchScreen = props => {
   const {navigation} = props;
+  const {uid} = useSelector(state => state.auth);
   const [numColumnsValue, setNumColumnsValue] = useState(2);
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [data, setData] = useState(null);
@@ -41,96 +43,76 @@ const SearchScreen = props => {
     setShowFilterModal(val);
   };
 
-  const FlatListItem = React.memo(
-    ({id, name, brand, imageType, price, star}) => {
-      // const [url, setUrl] = useState(null);
-      // const imgName = id + '.' + imageType;
+  const FlatListItem = ({id, name, brand, imageType, price, star, count}) => {
+    const [url, setUrl] = useState(null);
+    const imgName = id + '.' + imageType;
 
-      // const getDownloadImageUrl = async () => {
-      //   try {
-      //     const res = await storage()
-      //       .ref('product-images/' + imgName)
-      //       .getDownloadURL();
+    const getDownloadImageUrl = async () => {
+      try {
+        const res = await storage()
+          .ref('product-images/' + imgName)
+          .getDownloadURL();
 
-      //     if (res) {
-      //       setUrl(res);
-      //     }
-      //   } catch (error) {
-      //     console.log(error.message);
-      //   }
-      // };
-
-      // useEffect(() => {
-      //   getDownloadImageUrl();
-      // }, [imageType, id]);
-
-      const [url, setUrl] = useState(null);
-
-      const getDownloadImageUrl = useCallback(async () => {
-        try {
-          const res = await storage()
-            .ref('product-images/' + id + '.' + imageType)
-            .getDownloadURL();
-
-          if (res) {
-            setUrl(res);
-          }
-        } catch (error) {
-          console.log(error.message);
+        if (res) {
+          setUrl(res);
         }
-      }, [id, imageType]);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
 
-      useEffect(() => {
-        getDownloadImageUrl();
-      }, [getDownloadImageUrl]);
+    useEffect(() => {
+      getDownloadImageUrl();
+    }, [imageType, id]);
 
-      return (
-        <TouchableOpacity activeOpacity={0.8} style={styles.ProductCard}>
-          <View style={styles.ImageView}>
-            {url !== null && (
-              <Image
-                style={styles.Image}
-                source={{uri: url}}
-                resizeMode="cover"></Image>
-            )}
-          </View>
-          <View style={styles.Info}>
-            <View style={styles.TopInfo}>
-              <Text style={styles.Name}>{name}</Text>
-              <View style={styles.Rating}>
-                <AntDesign
-                  name="star"
-                  size={FONTSIZE.size_20}
-                  color={COLORS.secondaryLight}></AntDesign>
-                <Text style={styles.StarText}>{star}</Text>
-              </View>
-            </View>
-            <Text style={styles.Brand}>{brand}</Text>
-            <View style={styles.BottomInfo}>
-              <View style={styles.Price}>
-                <FontAwesome
-                  name="rupee"
-                  size={FONTSIZE.size_14}
-                  color={COLORS.primaryDark}></FontAwesome>
-                <Text style={styles.PriceText}>{price}</Text>
-              </View>
-              <View style={styles.ActionButton}>
-                <TouchableOpacity
-                  activeOpacity={0.6}
-                  style={styles.AddToCartButton}>
-                  <Octicons
-                    name="plus"
-                    size={FONTSIZE.size_16}
-                    color={COLORS.primaryLight}></Octicons>
-                </TouchableOpacity>
-              </View>
+    return (
+      <TouchableOpacity activeOpacity={0.8} style={styles.ProductCard}>
+        <View style={styles.ImageView}>
+          {url !== null && (
+            <Image
+              style={styles.Image}
+              source={{uri: url}}
+              resizeMode="cover"></Image>
+          )}
+        </View>
+        <View style={styles.Info}>
+          <View style={styles.TopInfo}>
+            <Text style={styles.Name}>{name}</Text>
+            <View style={styles.Rating}>
+              <AntDesign
+                name="star"
+                size={FONTSIZE.size_20}
+                color={COLORS.secondaryLight}></AntDesign>
+              <Text style={styles.StarText}>{star}</Text>
             </View>
           </View>
-        </TouchableOpacity>
-      );
-    },
-  );
-
+          <Text style={styles.Brand}>{brand}</Text>
+          <View style={styles.BottomInfo}>
+            <View style={styles.Price}>
+              <FontAwesome
+                name="rupee"
+                size={FONTSIZE.size_14}
+                color={COLORS.primaryDark}></FontAwesome>
+              <Text style={styles.PriceText}>{price}</Text>
+            </View>
+            <View style={styles.ActionButton}>
+              <TouchableOpacity
+                onPress={() =>
+                  handleAddToCart(id, name, brand, price, star, count, url)
+                }
+                activeOpacity={0.6}
+                style={styles.AddToCartButton}>
+                <Octicons
+                  name="plus"
+                  size={FONTSIZE.size_16}
+                  color={COLORS.primaryLight}></Octicons>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
   const getData = (res1, res2) => {
     let temp = new Set();
     for (let i = 0; i < res1.length; i++) {
@@ -206,6 +188,39 @@ const SearchScreen = props => {
     }
   };
 
+  const handleAddToCart = async (id, name, brand, price, star, count, url) => {
+    try {
+      const newItemData = {
+        pid: id,
+        name,
+        brand,
+        price,
+        star,
+        count,
+        image: url,
+      };
+      const oldData = await firestore().collection('Cart').doc(uid).get();
+
+      if (oldData.exists) {
+        const newData = await firestore()
+          .collection('Cart')
+          .doc(uid)
+          .set({[id]: newItemData}, {merge: true});
+
+        if (newData) {
+          console.log('Item added to Cart!');
+        }
+      } else {
+        const newData = await firestore()
+          .collection('Cart')
+          .doc(uid)
+          .set({[id]: newItemData});
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   useEffect(() => {
     handleSubmitEditing();
   }, [filter2, filter3]);
@@ -272,7 +287,8 @@ const SearchScreen = props => {
               name={item.name}
               brand={item.brand}
               price={item.price}
-              star={item.star}></FlatListItem>
+              star={item.star}
+              count={item.count}></FlatListItem>
           )}
           keyExtractor={item => item.pid}
           ListFooterComponent={
