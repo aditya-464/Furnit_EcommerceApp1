@@ -109,12 +109,13 @@ const ProductSlider = props => {
       <TouchableOpacity
         onPress={() =>
           navigation.navigate('ProductDetailsScreen', {
-            id: id,
-            name: name,
-            brand: brand,
+            id,
+            name,
+            brand,
             image: url,
-            price: price,
-            star: star,
+            price,
+            star,
+            count,
           })
         }
         activeOpacity={0.8}

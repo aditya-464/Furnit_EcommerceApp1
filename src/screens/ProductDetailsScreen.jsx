@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   BORDERRADIUS,
   COLORS,
@@ -18,10 +18,13 @@ import {
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
+import firestore from '@react-native-firebase/firestore';
+import {useSelector} from 'react-redux';
 
 const ProductDetailsScreen = props => {
-  const {navigation} = props;
-
+  const {navigation, route} = props;
+  const {id, name, brand, price, star, count, image} = route.params;
+  const {uid} = useSelector(state => state.auth);
   const [color, setColor] = useState(1);
   const [itemCount, setItemCount] = useState(1);
   const [like, setLike] = useState(false);
@@ -36,9 +39,87 @@ const ProductDetailsScreen = props => {
     );
   };
 
-  const handleLike = () => {
-    setLike(prev => !prev);
+  const handleLike = async () => {
+    if (like === false) {
+      setLike(prev => !prev);
+      let product = {
+        id,
+        name,
+        brand,
+        price,
+        star,
+        count: 1,
+        image,
+      };
+
+      const updateWishlist = await firestore()
+        .collection('Wishlist')
+        .doc(uid)
+        .set(
+          {
+            [id]: product,
+          },
+          {merge: true},
+        );
+    } else {
+      setLike(prev => !prev);
+
+      const updateWishlist = await firestore()
+        .collection('Wishlist')
+        .doc(uid)
+        .update({
+          [id]: firestore.FieldValue.delete(),
+        });
+    }
   };
+
+  const handleAddToCart = async () => {
+    try {
+      const newItemData = {
+        pid: id,
+        name,
+        brand,
+        price,
+        star,
+        count: itemCount,
+        image,
+      };
+      const oldData = await firestore().collection('Cart').doc(uid).get();
+
+      if (oldData.exists) {
+        const newData = await firestore()
+          .collection('Cart')
+          .doc(uid)
+          .set({[id]: newItemData}, {merge: true});
+      } else {
+        const newData = await firestore()
+          .collection('Cart')
+          .doc(uid)
+          .set({[id]: newItemData});
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const getWishlist = async () => {
+    try {
+      const wishlist = await firestore().collection('Wishlist').doc(uid).get();
+      if (wishlist.exists) {
+        for (let key in wishlist._data) {
+          if (key === id) {
+            setLike(true);
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getWishlist();
+  }, [uid]);
 
   return (
     <SafeAreaView
@@ -70,19 +151,19 @@ const ProductDetailsScreen = props => {
       <View style={styles.ImageView}>
         <Image
           style={styles.Image}
-          source={require('../assets/images/chairs/recliner.jpg')}
+          source={{uri: image}}
           resizeMode="cover"></Image>
       </View>
       <View style={styles.Info}>
         <View style={styles.InfoTop}>
           <View style={styles.NameAndRating}>
-            <Text style={styles.Name}>Lawson Sofa</Text>
+            <Text style={styles.Name}>{name}</Text>
             <View style={styles.Rating}>
               <AntDesign
                 name="star"
                 size={FONTSIZE.size_24}
                 color={COLORS.secondaryLight}></AntDesign>
-              <Text style={styles.Star}>4.8</Text>
+              <Text style={styles.Star}>{star}</Text>
             </View>
           </View>
           <Text style={styles.Description}>
@@ -163,6 +244,7 @@ const ProductDetailsScreen = props => {
           </View>
           <View style={styles.ActionButton}>
             <TouchableOpacity
+              onPress={() => handleAddToCart()}
               activeOpacity={0.6}
               style={styles.AddToCartButton}>
               <Text style={styles.AddToCartText}>Add To Cart</Text>
@@ -173,7 +255,7 @@ const ProductDetailsScreen = props => {
                     size={FONTSIZE.size_18}
                     color={COLORS.primaryDark}></MaterialIcons>
                 </View>
-                <Text style={styles.PriceText}>3800</Text>
+                <Text style={styles.PriceText}>{price}</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -288,11 +370,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   ItemCountButton: {
-    paddingHorizontal: SPACING.space_8,
+    paddingHorizontal: 6,
     paddingVertical: SPACING.space_4,
     borderWidth: 1,
     borderColor: COLORS.primaryDark,
-    borderRadius: BORDERRADIUS.radius_10,
+    borderRadius: 8,
   },
   ItemCount: {
     width: 25,
@@ -306,7 +388,7 @@ const styles = StyleSheet.create({
   ActionButton: {},
   AddToCartButton: {
     marginTop: SPACING.space_24,
-    marginBottom: SPACING.space_28,
+    marginBottom: SPACING.space_20,
     backgroundColor: COLORS.secondaryDark,
     paddingVertical: SPACING.space_10,
     borderRadius: 10,

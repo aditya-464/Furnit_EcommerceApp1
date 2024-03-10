@@ -66,7 +66,20 @@ const SearchScreen = props => {
     }, [imageType, id]);
 
     return (
-      <TouchableOpacity activeOpacity={0.8} style={styles.ProductCard}>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('ProductDetailsScreen', {
+            id,
+            name,
+            brand,
+            image: url,
+            price,
+            star,
+            count,
+          })
+        }
+        activeOpacity={0.8}
+        style={styles.ProductCard}>
         <View style={styles.ImageView}>
           {url !== null && (
             <Image
