@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {memo} from 'react';
 import {BORDERRADIUS, COLORS, SPACING} from '../../theme/Theme';
 
 const CarouselSlider = () => {
@@ -59,7 +59,7 @@ const CarouselSlider = () => {
   );
 };
 
-export default CarouselSlider;
+export default memo(CarouselSlider);
 
 const styles = StyleSheet.create({
   Slide: {

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {
   BORDERRADIUS,
   COLORS,
@@ -268,7 +268,7 @@ const BestSellerSlider = props => {
   );
 };
 
-export default BestSellerSlider;
+export default memo(BestSellerSlider);
 
 const styles = StyleSheet.create({
   TitleText: {
