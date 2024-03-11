@@ -19,12 +19,14 @@ import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 import firestore from '@react-native-firebase/firestore';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {increment} from '../redux/cartItemAdded';
 
 const ProductDetailsScreen = props => {
   const {navigation, route} = props;
   const {id, name, brand, price, star, count, image} = route.params;
   const {uid} = useSelector(state => state.auth);
+  const dispatch = useDispatch();
   const [color, setColor] = useState(1);
   const [itemCount, setItemCount] = useState(1);
   const [like, setLike] = useState(false);
@@ -244,7 +246,10 @@ const ProductDetailsScreen = props => {
           </View>
           <View style={styles.ActionButton}>
             <TouchableOpacity
-              onPress={() => handleAddToCart()}
+              onPress={() => {
+                handleAddToCart();
+                dispatch(increment());
+              }}
               activeOpacity={0.6}
               style={styles.AddToCartButton}>
               <Text style={styles.AddToCartText}>Add To Cart</Text>

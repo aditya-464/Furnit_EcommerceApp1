@@ -26,11 +26,13 @@ import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 import FilterModal from '../components/search/FilterModal';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {increment} from '../redux/cartItemAdded';
 
 const SearchScreen = props => {
   const {navigation} = props;
   const {uid} = useSelector(state => state.auth);
+  const dispatch = useDispatch();
   const [numColumnsValue, setNumColumnsValue] = useState(2);
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [data, setData] = useState(null);
@@ -110,9 +112,10 @@ const SearchScreen = props => {
             </View>
             <View style={styles.ActionButton}>
               <TouchableOpacity
-                onPress={() =>
-                  handleAddToCart(id, name, brand, price, star, count, url)
-                }
+                onPress={() => {
+                  handleAddToCart(id, name, brand, price, star, count, url);
+                  dispatch(increment());
+                }}
                 activeOpacity={0.6}
                 style={styles.AddToCartButton}>
                 <Octicons

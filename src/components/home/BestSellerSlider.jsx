@@ -21,12 +21,14 @@ import Octicons from 'react-native-vector-icons/dist/Octicons';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {increment} from '../../redux/cartItemAdded';
 
 const BestSellerSlider = props => {
   const {navigation} = props;
   const [data, setData] = useState(null);
   const {uid} = useSelector(state => state.auth);
+  const dispatch = useDispatch();
 
   // const FlatListItem = ({id, name, image, price, star}) => (
   //   <TouchableOpacity
@@ -153,9 +155,10 @@ const BestSellerSlider = props => {
             </View>
             <View style={styles.ActionButton}>
               <TouchableOpacity
-                onPress={() =>
-                  handleAddToCart(id, name, brand, price, star, count, url)
-                }
+                onPress={() => {
+                  handleAddToCart(id, name, brand, price, star, count, url);
+                  dispatch(increment());
+                }}
                 activeOpacity={0.6}
                 style={styles.AddToCartButton}>
                 <Octicons

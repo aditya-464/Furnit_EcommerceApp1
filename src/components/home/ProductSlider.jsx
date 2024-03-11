@@ -20,12 +20,14 @@ import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {increment} from '../../redux/cartItemAdded';
 
 const ProductSlider = props => {
   const {navigation, category, scrollToStart} = props;
   const [data, setData] = useState(null);
   const {uid} = useSelector(state => state.auth);
+  const dispatch = useDispatch();
   const FlatListRef = useRef(null);
 
   // const FlatListItem = ({id, name, image, price, star}) => (
@@ -153,9 +155,10 @@ const ProductSlider = props => {
             </View>
             <View style={styles.ActionButton}>
               <TouchableOpacity
-                onPress={() =>
-                  handleAddToCart(id, name, brand, price, star, count, url)
-                }
+                onPress={() => {
+                  handleAddToCart(id, name, brand, price, star, count, url);
+                  dispatch(increment());
+                }}
                 activeOpacity={0.6}
                 style={styles.AddToCartButton}>
                 <Octicons
