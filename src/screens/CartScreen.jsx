@@ -155,6 +155,12 @@ const CartScreen = props => {
       ];
       return updatedProductsData;
     });
+
+    setSelectItem(prevSelectItem => {
+      const updatedSelectItem = {...prevSelectItem};
+      delete updatedSelectItem[pid];
+      return updatedSelectItem;
+    });
   };
 
   const handleTotalAmountAndCount = () => {
