@@ -20,7 +20,7 @@ import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 import firestore from '@react-native-firebase/firestore';
 import {useSelector, useDispatch} from 'react-redux';
-import {increment} from '../redux/cartItemAdded';
+import {setCartPressVal} from '../redux/cart';
 
 const ProductDetailsScreen = props => {
   const {navigation, route} = props;
@@ -248,7 +248,7 @@ const ProductDetailsScreen = props => {
             <TouchableOpacity
               onPress={() => {
                 handleAddToCart();
-                dispatch(increment());
+                dispatch(setCartPressVal());
               }}
               activeOpacity={0.6}
               style={styles.AddToCartButton}>

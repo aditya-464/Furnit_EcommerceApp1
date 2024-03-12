@@ -27,7 +27,7 @@ import FilterModal from '../components/search/FilterModal';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import {useSelector, useDispatch} from 'react-redux';
-import {increment} from '../redux/cartItemAdded';
+import {setCartPressVal} from '../redux/cart';
 
 const SearchScreen = props => {
   const {navigation} = props;
@@ -114,7 +114,7 @@ const SearchScreen = props => {
               <TouchableOpacity
                 onPress={() => {
                   handleAddToCart(id, name, brand, price, star, count, url);
-                  dispatch(increment());
+                  dispatch(setCartPressVal());
                 }}
                 activeOpacity={0.6}
                 style={styles.AddToCartButton}>

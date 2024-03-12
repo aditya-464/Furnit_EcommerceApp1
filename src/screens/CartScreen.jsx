@@ -19,9 +19,15 @@ import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
-import {CheckBox, Icon} from '@rneui/themed';
+import {CheckBox} from '@rneui/themed';
 import firestore from '@react-native-firebase/firestore';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  setCartAmount,
+  setCartCount,
+  setCartProducts,
+  setSelectedCartItems,
+} from '../redux/cart';
 
 // const data = [
 //   {
@@ -92,25 +98,12 @@ import {useSelector} from 'react-redux';
 const CartScreen = props => {
   const {navigation} = props;
   const {uid} = useSelector(state => state.auth);
-  const {cartPressVal} = useSelector(state => state.cartItemAdded);
+  const dispatch = useDispatch();
+  const {cartPressVal} = useSelector(state => state.cart);
   const [productsData, setProductsData] = useState([]);
   const [selectItem, setSelectItem] = useState(null);
-  // const [itemQuantity, setItemQuantity] = useState(null);
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
-
-  // NOT USING THIS FUNCTION
-  // const handle = (id, amount, add) => {
-  //   if (add) {
-  //     setItemQuantity(prev => ({...prev, [id]: prev[id] + 1}));
-  //     setTotalAmount(prev => prev + amount);
-  //   } else {
-  //     setItemQuantity(prev => ({...prev, [id]: prev[id] - 1}));
-  //     setTotalAmount(prev => prev - amount);
-  //   }
-  //   console.log(itemQuantity);
-  // };
-  // NOT USING THIS FUNCTION
 
   const handleCount = (index, price, val) => {
     if (val === 1) {
@@ -324,6 +317,13 @@ const CartScreen = props => {
     setTotalCount(tempCount);
   };
 
+  const handleCheckouData = async () => {
+    dispatch(setCartProducts(productsData));
+    dispatch(setSelectedCartItems(selectItem));
+    dispatch(setCartCount(totalCount));
+    dispatch(setCartAmount(totalAmount));
+  };
+
   useEffect(() => {
     getCartProductsData();
   }, [cartPressVal]);
@@ -391,7 +391,10 @@ const CartScreen = props => {
               </View>
             </View>
             <TouchableOpacity
-              onPress={() => navigation.navigate('CheckOutScreen')}
+              onPress={() => {
+                navigation.navigate('CheckOutScreen');
+                handleCheckouData();
+              }}
               activeOpacity={0.6}
               style={styles.CheckOutButton}>
               <Text style={styles.CheckOutText}>Proceed to Checkout</Text>

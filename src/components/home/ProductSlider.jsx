@@ -21,7 +21,7 @@ import Octicons from 'react-native-vector-icons/dist/Octicons';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import {useSelector, useDispatch} from 'react-redux';
-import {increment} from '../../redux/cartItemAdded';
+import {setCartPressVal} from '../../redux/cart';
 
 const ProductSlider = props => {
   const {navigation, category, scrollToStart} = props;
@@ -157,7 +157,7 @@ const ProductSlider = props => {
               <TouchableOpacity
                 onPress={() => {
                   handleAddToCart(id, name, brand, price, star, count, url);
-                  dispatch(increment());
+                  dispatch(setCartPressVal());
                 }}
                 activeOpacity={0.6}
                 style={styles.AddToCartButton}>

@@ -22,7 +22,7 @@ import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import {useSelector, useDispatch} from 'react-redux';
-import {increment} from '../../redux/cartItemAdded';
+import {setCartPressVal} from '../../redux/cart';
 
 const BestSellerSlider = props => {
   const {navigation} = props;
@@ -157,7 +157,7 @@ const BestSellerSlider = props => {
               <TouchableOpacity
                 onPress={() => {
                   handleAddToCart(id, name, brand, price, star, count, url);
-                  dispatch(increment());
+                  dispatch(setCartPressVal());
                 }}
                 activeOpacity={0.6}
                 style={styles.AddToCartButton}>

@@ -15,23 +15,38 @@ import {
   SPACING,
 } from '../theme/Theme';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
-import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
-import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
-import Fontisto from 'react-native-vector-icons/dist/Fontisto';
-import {TextInput} from 'react-native-paper';
-import OrderItemsList from '../components/checkOut/OrderItemsList';
-import OrderSummary from '../components/checkOut/OrderSummary';
+import ShippingTabContent from '../components/checkOut/ShippingTabContent';
+import PaymentTabContent from '../components/checkOut/PaymentTabContent';
+import PreviewTabContent from '../components/checkOut/PreviewTabContent';
 
 const CheckOutScreen = ({navigation}) => {
-  const [name, setName] = useState(null);
-  const [phone, setPhone] = useState(null);
-  const [address, setAddress] = useState(null);
-  const [cardName, setCardName] = useState(null);
-  const [cardNumber, setCardNumber] = useState(null);
-  const [expiry, setExpiry] = useState(null);
-  const [cvv, setCvv] = useState(null);
-  const [amount, setAmount] = useState(null);
+  const [status, setStatus] = useState('shipping');
+  const [submitShippingDetails, setSubmitShippingDetails] = useState(false);
+  const [submitPaymentDetails, setSubmitPaymentDetails] = useState(false);
+  const [processDone, setProcessDone] = useState({
+    shipping: false,
+    payment: false,
+    preview: false,
+  });
+
+  const handleShippingDetails = val => {
+    // setSubmitShippingDetails(prev => prev + 1);
+    setSubmitShippingDetails(val);
+  };
+
+  const handlePaymentDetails = val => {
+    // setSubmitPaymentDetails(prev => prev + 1);
+    setSubmitPaymentDetails(val);
+  };
+
+  const handleProcessStatus = val => {
+    setStatus(val);
+    setProcessDone(prev => ({
+      ...prev,
+      [val]: true,
+    }));
+  };
 
   return (
     <SafeAreaView
@@ -70,338 +85,111 @@ const CheckOutScreen = ({navigation}) => {
             activeOpacity={0.6}
             style={[
               styles.ProcessButton,
-              {backgroundColor: COLORS.primaryDark},
+              {
+                backgroundColor:
+                  status === 'shipping'
+                    ? COLORS.primaryDark
+                    : COLORS.primaryLight,
+              },
             ]}>
-            <Text style={[styles.ProcessName, {color: COLORS.primaryLight}]}>
+            <Text
+              style={[
+                styles.ProcessName,
+                {
+                  color:
+                    status === 'shipping'
+                      ? COLORS.primaryLight
+                      : COLORS.primaryDark,
+                },
+              ]}>
               Shipping
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.6} style={styles.ProcessButton}>
-            <Text style={styles.ProcessName}>Payment</Text>
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.6} style={styles.ProcessButton}>
-            <Text style={styles.ProcessName}>Preview</Text>
-          </TouchableOpacity>
-        </View>
-        {/* <View style={styles.ShippingView}>
-          <Text style={styles.IntroText}>Shipping Details</Text>
-          <View style={styles.InputView}>
-            <TextInput
-              contentStyle={{
-                fontFamily: FONTFAMILY.poppins_regular,
-                fontSize: FONTSIZE.size_16,
-                color: COLORS.primaryDark,
-              }}
-              underlineColor={COLORS.primaryDark}
-              activeUnderlineColor={COLORS.secondaryDark}
-              style={[styles.Input, {fontFamily: FONTFAMILY.poppins_regular}]}
-              label={
-                <Text
-                  style={{
-                    fontFamily: FONTFAMILY.poppins_regular,
-                    fontSize: FONTSIZE.size_16,
-                    color: COLORS.placeholder,
-                  }}>
-                  Name
-                </Text>
-              }
-              value={name}
-              onChangeText={text => setName(text)}></TextInput>
-            <TextInput
-              contentStyle={{
-                fontFamily: FONTFAMILY.poppins_regular,
-                fontSize: FONTSIZE.size_16,
-                color: COLORS.primaryDark,
-              }}
-              underlineColor={COLORS.primaryDark}
-              activeUnderlineColor={COLORS.secondaryDark}
-              style={styles.Input}
-              label={
-                <Text
-                  style={{
-                    fontFamily: FONTFAMILY.poppins_regular,
-                    fontSize: FONTSIZE.size_16,
-                    color: COLORS.placeholder,
-                  }}>
-                  Phone
-                </Text>
-              }
-              keyboardType="number-pad"
-              value={phone}
-              onChangeText={text => setPhone(text)}></TextInput>
-            <TextInput
-              contentStyle={{
-                fontFamily: FONTFAMILY.poppins_regular,
-                fontSize: FONTSIZE.size_16,
-                color: COLORS.primaryDark,
-              }}
-              underlineColor={COLORS.primaryDark}
-              activeUnderlineColor={COLORS.secondaryDark}
-              style={styles.Input}
-              label={
-                <Text
-                  style={{
-                    fontFamily: FONTFAMILY.poppins_regular,
-                    fontSize: FONTSIZE.size_16,
-                    color: COLORS.placeholder,
-                  }}>
-                  Address
-                </Text>
-              }
-              value={address}
-              onChangeText={text => setAddress(text)}></TextInput>
-          </View>
-        </View> */}
-        {/* <View style={styles.PaymentView}>
-          <Text style={styles.IntroText}>Payment Details</Text>
-          <View style={styles.InputView}>
-            <TextInput
-              contentStyle={{
-                fontFamily: FONTFAMILY.poppins_regular,
-                fontSize: FONTSIZE.size_16,
-                color: COLORS.primaryDark,
-              }}
-              underlineColor={COLORS.primaryDark}
-              activeUnderlineColor={COLORS.secondaryDark}
-              style={[styles.Input, {fontFamily: FONTFAMILY.poppins_regular}]}
-              label={
-                <Text
-                  style={{
-                    fontFamily: FONTFAMILY.poppins_regular,
-                    fontSize: FONTSIZE.size_16,
-                    color: COLORS.placeholder,
-                  }}>
-                  Card Number
-                </Text>
-              }
-              value={cardNumber}
-              onChangeText={text => setCardNumber(text)}></TextInput>
-            <View style={styles.InputRow}>
-              <TextInput
-                contentStyle={{
-                  fontFamily: FONTFAMILY.poppins_regular,
-                  fontSize: FONTSIZE.size_16,
-                  color: COLORS.primaryDark,
-                }}
-                underlineColor={COLORS.primaryDark}
-                activeUnderlineColor={COLORS.secondaryDark}
-                style={[
-                  styles.Input,
-                  {
-                    fontFamily: FONTFAMILY.poppins_regular,
-                    marginRight: SPACING.space_8,
-                  },
-                ]}
-                label={
-                  <Text
-                    style={{
-                      fontFamily: FONTFAMILY.poppins_regular,
-                      fontSize: FONTSIZE.size_16,
-                      color: COLORS.placeholder,
-                    }}>
-                    Expiry
-                  </Text>
-                }
-                value={expiry}
-                onChangeText={text => setExpiry(text)}></TextInput>
-              <TextInput
-                contentStyle={{
-                  fontFamily: FONTFAMILY.poppins_regular,
-                  fontSize: FONTSIZE.size_16,
-                  color: COLORS.primaryDark,
-                }}
-                underlineColor={COLORS.primaryDark}
-                activeUnderlineColor={COLORS.secondaryDark}
-                style={[
-                  styles.Input,
-                  {
-                    fontFamily: FONTFAMILY.poppins_regular,
-                    marginLeft: SPACING.space_8,
-                  },
-                ]}
-                label={
-                  <Text
-                    style={{
-                      fontFamily: FONTFAMILY.poppins_regular,
-                      fontSize: FONTSIZE.size_16,
-                      color: COLORS.placeholder,
-                    }}>
-                    CVV
-                  </Text>
-                }
-                value={cvv}
-                onChangeText={text => setCvv(text)}></TextInput>
-            </View>
-            <View style={styles.InputRow}>
-              <TextInput
-                contentStyle={{
-                  fontFamily: FONTFAMILY.poppins_regular,
-                  fontSize: FONTSIZE.size_16,
-                  color: COLORS.primaryDark,
-                }}
-                underlineColor={COLORS.primaryDark}
-                activeUnderlineColor={COLORS.secondaryDark}
-                style={[
-                  styles.Input,
-                  {
-                    fontFamily: FONTFAMILY.poppins_regular,
-                    marginRight: SPACING.space_8,
-                  },
-                ]}
-                label={
-                  <Text
-                    style={{
-                      fontFamily: FONTFAMILY.poppins_regular,
-                      fontSize: FONTSIZE.size_16,
-                      color: COLORS.placeholder,
-                    }}>
-                    Name
-                  </Text>
-                }
-                value={cardName}
-                onChangeText={text => setCardName(text)}></TextInput>
-              <TextInput
-                contentStyle={{
-                  fontFamily: FONTFAMILY.poppins_regular,
-                  fontSize: FONTSIZE.size_16,
-                  color: COLORS.primaryDark,
-                }}
-                underlineColor={COLORS.primaryDark}
-                activeUnderlineColor={COLORS.secondaryDark}
-                style={[
-                  styles.Input,
-                  {
-                    fontFamily: FONTFAMILY.poppins_regular,
-                    marginLeft: SPACING.space_8,
-                  },
-                ]}
-                label={
-                  <Text
-                    style={{
-                      fontFamily: FONTFAMILY.poppins_regular,
-                      fontSize: FONTSIZE.size_16,
-                      color: COLORS.placeholder,
-                    }}>
-                    Amount
-                  </Text>
-                }
-                value={amount}
-                onChangeText={text => setAmount(text)}></TextInput>
-            </View>
-          </View>
-        </View> */}
-        <View style={styles.Preview}>
-          <View style={styles.ShippingDetails}>
-            <Text style={styles.IntroText}>Shipping Details</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginTop: SPACING.space_10,
-                paddingHorizontal: SPACING.space_10,
-                paddingVertical: SPACING.space_15,
-                borderWidth: 0.5,
-                borderColor: COLORS.placeholder,
-                borderRadius: 10,
-              }}>
-              <View style={styles.ShippingImage}>
-                <MaterialIcons
-                  name="local-shipping"
-                  size={FONTSIZE.size_32}
-                  color={COLORS.placeholder}></MaterialIcons>
-              </View>
-              <View style={styles.ShippingInfo}>
-                <Text
-                  style={[
-                    styles.ShippingInfoText,
-                    {fontFamily: FONTFAMILY.poppins_medium},
-                  ]}>
-                  Radha Madhav
-                </Text>
-                <Text
-                  style={[
-                    styles.ShippingInfoText,
-                    {
-                      fontSize: FONTSIZE.size_12,
-                      marginBottom: SPACING.space_4,
-                    },
-                  ]}>
-                  7044974939
-                </Text>
-                <Text style={styles.ShippingInfoText}>
-                  160, Saha Para, Purba Putiari, Kolkata - 700093
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.PaymentDetails}>
-            <Text style={styles.IntroText}>Payment Details</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginTop: SPACING.space_10,
-                paddingHorizontal: SPACING.space_10,
-                paddingVertical: SPACING.space_15,
-                borderWidth: 0.5,
-                borderColor: COLORS.placeholder,
-                borderRadius: 10,
-              }}>
-              <View style={styles.CardImage}>
-                <Fontisto
-                  name="visa"
-                  size={FONTSIZE.size_20}
-                  color={COLORS.placeholder}></Fontisto>
-              </View>
-              <View style={styles.PaymentInfo}>
-                <Text
-                  style={[
-                    styles.PaymentText,
-                    {fontFamily: FONTFAMILY.poppins_medium},
-                  ]}>
-                  Debit Card
-                </Text>
-                <Text style={styles.PaymentText}>**** **** **** 5437</Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.OrderDetails}>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            style={[
+              styles.ProcessButton,
+              {
+                backgroundColor:
+                  status === 'payment'
+                    ? COLORS.primaryDark
+                    : COLORS.primaryLight,
+              },
+            ]}>
             <Text
               style={[
-                styles.IntroText,
+                styles.ProcessName,
                 {
-                  marginHorizontal: SPACING.space_15,
-                  marginBottom: SPACING.space_4,
+                  color:
+                    status === 'payment'
+                      ? COLORS.primaryLight
+                      : COLORS.primaryDark,
                 },
               ]}>
-              Order Details
+              Payment
             </Text>
-            <OrderItemsList></OrderItemsList>
-          </View>
-          <View style={styles.OrderSummary}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            style={[
+              styles.ProcessButton,
+              {
+                backgroundColor:
+                  status === 'preview'
+                    ? COLORS.primaryDark
+                    : COLORS.primaryLight,
+              },
+            ]}>
             <Text
               style={[
-                styles.IntroText,
+                styles.ProcessName,
                 {
-                  marginHorizontal: SPACING.space_15,
-                  marginBottom: SPACING.space_4,
+                  color:
+                    status === 'preview'
+                      ? COLORS.primaryLight
+                      : COLORS.primaryDark,
                 },
               ]}>
-              Order Summary
+              Preview
             </Text>
-            <OrderSummary></OrderSummary>
-          </View>
+          </TouchableOpacity>
         </View>
+        {status === 'shipping' && (
+          <ShippingTabContent
+            handleProcessStatus={handleProcessStatus}
+            handleShippingDetails={handleShippingDetails}
+            submitShippingDetails={submitShippingDetails}></ShippingTabContent>
+        )}
+        {status === 'payment' && (
+          <PaymentTabContent
+            handleProcessStatus={handleProcessStatus}
+            handlePaymentDetails={handlePaymentDetails}
+            submitPaymentDetails={submitPaymentDetails}></PaymentTabContent>
+        )}
+        {status === 'preview' && <PreviewTabContent></PreviewTabContent>}
       </ScrollView>
       <View style={styles.ActionButtonView}>
-        {/* <TouchableOpacity activeOpacity={0.6} style={styles.ActionButton}>
-          <Text style={styles.ActionText}>Continue</Text>
-        </TouchableOpacity> */}
-        <TouchableOpacity activeOpacity={0.6} style={styles.PaymentButton}>
-          <Text style={styles.PayText}>Confirm Payment</Text>
-        </TouchableOpacity>
+        {status === 'shipping' && (
+          <TouchableOpacity
+            onPress={() => handleShippingDetails(true)}
+            activeOpacity={0.6}
+            style={styles.ActionButton}>
+            <Text style={styles.ActionText}>Continue</Text>
+          </TouchableOpacity>
+        )}
+        {status === 'payment' && (
+          <TouchableOpacity
+            onPress={() => handlePaymentDetails(true)}
+            activeOpacity={0.6}
+            style={styles.ActionButton}>
+            <Text style={styles.ActionText}>Continue</Text>
+          </TouchableOpacity>
+        )}
+        {status === 'preview' && (
+          <TouchableOpacity activeOpacity={0.6} style={styles.PaymentButton}>
+            <Text style={styles.PayText}>Confirm Payment</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -448,71 +236,6 @@ const styles = StyleSheet.create({
     fontSize: FONTSIZE.size_14,
     color: COLORS.primaryDark,
     textAlign: 'center',
-  },
-  ShippingView: {
-    padding: SPACING.space_15,
-  },
-  PaymentView: {
-    padding: SPACING.space_15,
-  },
-  IntroText: {
-    fontFamily: FONTFAMILY.poppins_medium,
-    fontSize: FONTSIZE.size_16,
-    color: COLORS.primaryDark,
-  },
-  InputView: {
-    marginTop: SPACING.space_10,
-  },
-  InputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  Input: {
-    flex: 1,
-    backgroundColor: COLORS.primaryLight,
-    fontFamily: FONTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_16,
-    color: COLORS.primaryDark,
-    marginBottom: SPACING.space_15,
-  },
-  Preview: {
-    paddingVertical: SPACING.space_15,
-  },
-  ShippingDetails: {
-    marginBottom: SPACING.space_28,
-    marginHorizontal: SPACING.space_15,
-  },
-  ShippingImage: {
-    width: '20%',
-    alignItems: 'center',
-  },
-  ShippingInfo: {
-    width: '80%',
-  },
-  ShippingInfoText: {
-    fontFamily: FONTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_14,
-    color: COLORS.primaryDark,
-  },
-  PaymentDetails: {
-    marginBottom: SPACING.space_28,
-    marginHorizontal: SPACING.space_15,
-  },
-  CardImage: {
-    width: '20%',
-    alignItems: 'center',
-  },
-  PaymentInfo: {
-    width: '80%',
-  },
-  PaymentText: {
-    fontFamily: FONTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_14,
-    color: COLORS.primaryDark,
-  },
-  OrderDetails: {
-    marginBottom: SPACING.space_28,
   },
   ActionButtonView: {
     bottom: 0,
