@@ -10,9 +10,10 @@ import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/Theme';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 import LottieView from 'lottie-react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 import ShortUniqueId from 'short-unique-id';
+import {setPaymentCount} from '../redux/payment';
 
 const PaymentDoneScreen = ({navigation}) => {
   const {uid} = useSelector(state => state.auth);
@@ -23,35 +24,63 @@ const PaymentDoneScreen = ({navigation}) => {
     cartAmount,
     shippingAddress,
   } = useSelector(state => state.cart);
+  const dispatch = useDispatch();
   const [itemsName, setItemsName] = useState(null);
   const uniqueId = new ShortUniqueId({length: 10});
 
   const getCartItemsName = () => {
-    let temp = [];
+    let temp = '';
     for (let i = 0; i < cartProducts.length; i++) {
       if (selectedCartItems[cartProducts[i].pid]) {
-        temp.push(cartProducts[i].name);
+        let temp2 = cartProducts[i].name.trim();
+        if (i === cartProducts.length - 1) {
+          temp += temp2;
+        } else {
+          temp += temp2 + ', ';
+        }
       }
     }
+    temp.trim();
     setItemsName(temp);
+  };
+
+  const getDate = () => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const monthName = currentDate.toLocaleString('default', {month: 'long'});
+    const day = currentDate.getDate();
+
+    const orderDate = monthName + ' ' + day + ', ' + year;
+    return orderDate;
   };
 
   const generateOrder = async () => {
     const orderId = uniqueId.rnd();
-    const res = await firestore()
+    const orderDate = getDate();
+
+    firestore()
       .collection('Orders')
       .doc(uid)
       .set(
         {
           [orderId]: {
+            orderId,
             itemsName,
             cartCount,
             cartAmount,
             shippingAddress,
+            orderDate,
           },
         },
         {merge: true},
-      );
+      )
+      .then(() => {
+        dispatch(setPaymentCount());
+        console.log('Order Creation Done');
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
   };
 
   useEffect(() => {

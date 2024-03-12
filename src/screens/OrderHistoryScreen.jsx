@@ -1,4 +1,5 @@
 import {
+  FlatList,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -6,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   BORDERRADIUS,
   COLORS,
@@ -18,9 +19,72 @@ import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
+import {useSelector} from 'react-redux';
+import firestore from '@react-native-firebase/firestore';
 
 const OrderHistoryScreen = props => {
   const {navigation} = props;
+  const {paymentCount} = useSelector(state => state.payment);
+  const {uid} = useSelector(state => state.auth);
+  const [data, setData] = useState(null);
+
+  const getOrderHistory = async () => {
+    try {
+      const res = await firestore().collection('Orders').doc(uid).get();
+      if (res.exists) {
+        let temp = res.data();
+        setData(Object.values(temp));
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getOrderHistory();
+  }, []);
+
+  const FlatListItem = ({
+    orderId,
+    cartAmount,
+    cartCount,
+    itemsName,
+    shippingAddress,
+    orderDate,
+  }) => {
+    return (
+      <View style={styles.Order}>
+        <View style={styles.TopInfo}>
+          <View style={styles.LeftInfo}>
+            <View style={styles.OrderIdInfo}>
+              <Text style={styles.OrderText}>Order Id :</Text>
+              <Text style={styles.OrderId}>{orderId}</Text>
+            </View>
+            <Text style={styles.Date}>{orderDate}</Text>
+          </View>
+          <View style={styles.RightInfo}>
+            <MaterialIcons
+              name="currency-rupee"
+              size={FONTSIZE.size_20}
+              color={COLORS.primaryDark}></MaterialIcons>
+            <Text style={styles.Price}>{cartAmount}</Text>
+          </View>
+        </View>
+        <View style={styles.BottomInfo}>
+          <Text style={styles.Quantity}>
+            {cartCount} {cartCount === 1 ? 'Item' : 'Items'}
+          </Text>
+          <Text style={styles.ItemNames}>{itemsName}</Text>
+          <Text style={styles.Address}>{shippingAddress}</Text>
+          <View style={styles.StatusInfo}>
+            <Text style={styles.StatusText}>Status :</Text>
+            <Text style={styles.StatusValue}>Delivered</Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -45,72 +109,24 @@ const OrderHistoryScreen = props => {
             color={COLORS.primaryDark}></Octicons>
         </TouchableOpacity>
       </View>
-      <ScrollView
-        scrollEnabled={true}
-        horizontal={false}
-        showsVerticalScrollIndicator={false}>
-        <View style={styles.Order}>
-          <View style={styles.TopInfo}>
-            <View style={styles.LeftInfo}>
-              <View style={styles.OrderIdInfo}>
-                <Text style={styles.OrderText}>Order Id :</Text>
-                <Text style={styles.OrderId}>563789</Text>
-              </View>
-              <Text style={styles.Date}>March 2, 2024</Text>
-            </View>
-            <View style={styles.RightInfo}>
-              <MaterialIcons
-                name="currency-rupee"
-                size={FONTSIZE.size_20}
-                color={COLORS.primaryDark}></MaterialIcons>
-              <Text style={styles.Price}>5200</Text>
-            </View>
-          </View>
-          <View style={styles.BottomInfo}>
-            <Text style={styles.Quantity}>3 Items</Text>
-            <Text style={styles.ItemNames}>Swivel, Lawson, Wingback chair</Text>
-            <Text style={styles.Address}>
-              160, Saha Para, Purba Putiari, Kolkata - 700093, West Bengal,
-              India
-            </Text>
-            <View style={styles.StatusInfo}>
-              <Text style={styles.StatusText}>Status :</Text>
-              <Text style={styles.StatusValue}>Delivered</Text>
-            </View>
-          </View>
-        </View>
 
-        <View style={styles.Order}>
-          <View style={styles.TopInfo}>
-            <View style={styles.LeftInfo}>
-              <View style={styles.OrderIdInfo}>
-                <Text style={styles.OrderText}>Order Id :</Text>
-                <Text style={styles.OrderId}>563789</Text>
-              </View>
-              <Text style={styles.Date}>March 2, 2024</Text>
-            </View>
-            <View style={styles.RightInfo}>
-              <MaterialIcons
-                name="currency-rupee"
-                size={FONTSIZE.size_20}
-                color={COLORS.primaryDark}></MaterialIcons>
-              <Text style={styles.Price}>5200</Text>
-            </View>
-          </View>
-          <View style={styles.BottomInfo}>
-            <Text style={styles.Quantity}>3 Items</Text>
-            <Text style={styles.ItemNames}>Swivel, Lawson, Wingback chair</Text>
-            <Text style={styles.Address}>
-              160, Saha Para, Purba Putiari, Kolkata - 700093, West Bengal,
-              India
-            </Text>
-            <View style={styles.StatusInfo}>
-              <Text style={styles.StatusText}>Status :</Text>
-              <Text style={styles.StatusValue}>Delivered</Text>
-            </View>
-          </View>
-        </View>
-      </ScrollView>
+      {data !== null && (
+        <FlatList
+          data={data}
+          horizontal={false}
+          scrollEnabled={true}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item}) => (
+            <FlatListItem
+              orderId={item.orderId}
+              shippingAddress={item.shippingAddress}
+              cartCount={item.cartCount}
+              cartAmount={item.cartAmount}
+              orderDate={item.orderDate}
+              itemsName={item.itemsName}></FlatListItem>
+          )}
+          keyExtractor={item => item.orderId}></FlatList>
+      )}
     </SafeAreaView>
   );
 };
