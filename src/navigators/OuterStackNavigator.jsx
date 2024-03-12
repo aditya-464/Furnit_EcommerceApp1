@@ -50,6 +50,8 @@ const OuterStackNavigator = () => {
         component={OnboardingScreen}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
+          lazy: false,
         }}
       />
       <Stack.Screen
@@ -57,6 +59,8 @@ const OuterStackNavigator = () => {
         component={LoginScreenNew}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
+          lazy: false,
         }}
       />
       <Stack.Screen
@@ -64,6 +68,8 @@ const OuterStackNavigator = () => {
         component={SignupScreenNew}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
+          lazy: false,
         }}
       />
       <Stack.Screen
@@ -71,6 +77,8 @@ const OuterStackNavigator = () => {
         component={PassDataScreen}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
+          lazy: false,
         }}
       />
       <Stack.Screen
@@ -78,6 +86,8 @@ const OuterStackNavigator = () => {
         component={InnerStackNavigator}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
+          lazy: false,
         }}
       />
     </Stack.Navigator>

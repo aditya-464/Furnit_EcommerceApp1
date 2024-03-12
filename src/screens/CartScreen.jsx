@@ -324,9 +324,30 @@ const CartScreen = props => {
     dispatch(setCartAmount(totalAmount));
   };
 
+  const handleClearCart = async () => {
+    try {
+      firestore()
+        .collection('Cart')
+        .doc(uid)
+        .delete()
+        .then(() => {
+          setProductsData([]);
+        })
+        .catch(error => {
+          console.log(error.message);
+        });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  // useEffect(() => {
+  //   getCartProductsData();
+  // }, [cartPressVal]);
+
   useEffect(() => {
     getCartProductsData();
-  }, [cartPressVal]);
+  }, []);
 
   useEffect(() => {
     handleTotalAmountAndCount();
@@ -350,7 +371,10 @@ const CartScreen = props => {
             color={COLORS.primaryDark}></Ionicons>
         </TouchableOpacity>
         <Text style={styles.TitleText}>Cart</Text>
-        <TouchableOpacity activeOpacity={0.6} style={styles.ClearCartIcon}>
+        <TouchableOpacity
+          onPress={() => handleClearCart()}
+          activeOpacity={0.6}
+          style={styles.ClearCartIcon}>
           <Octicons
             name="trash"
             size={FONTSIZE.size_24}

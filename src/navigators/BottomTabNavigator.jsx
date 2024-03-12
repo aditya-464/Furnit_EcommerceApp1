@@ -59,6 +59,8 @@ const BottomTabNavigator = () => {
               color={focused ? COLORS.secondaryDark : COLORS.placeholder}
             />
           ),
+          // unmountOnBlur: true,
+          // lazy: false,
         }}></Tab.Screen>
       <Tab.Screen
         name="SearchScreen"
@@ -71,6 +73,8 @@ const BottomTabNavigator = () => {
               color={focused ? COLORS.secondaryDark : COLORS.placeholder}
             />
           ),
+          // unmountOnBlur: true,
+          // lazy: false,
         }}></Tab.Screen>
       <Tab.Screen
         name="CartScreen"
@@ -83,6 +87,8 @@ const BottomTabNavigator = () => {
               color={focused ? COLORS.secondaryDark : COLORS.placeholder}
             />
           ),
+          unmountOnBlur: true,
+          lazy: false,
         }}></Tab.Screen>
       <Tab.Screen
         name="ProfileScreen"
@@ -95,6 +101,8 @@ const BottomTabNavigator = () => {
               color={focused ? COLORS.secondaryDark : COLORS.placeholder}
             />
           ),
+          // unmountOnBlur: true,
+          // lazy: false,
         }}></Tab.Screen>
     </Tab.Navigator>
   );

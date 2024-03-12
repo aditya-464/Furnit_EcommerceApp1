@@ -218,10 +218,6 @@ const ProductSlider = props => {
           .collection('Cart')
           .doc(uid)
           .set({[id]: newItemData}, {merge: true});
-
-        if (newData) {
-          console.log('Item added to Cart!');
-        }
       } else {
         const newData = await firestore()
           .collection('Cart')

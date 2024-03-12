@@ -54,6 +54,8 @@ const InnerStackNavigator = () => {
         component={BottomTabNavigator}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
+          lazy: false,
         }}
       />
       <Stack.Screen
@@ -61,6 +63,8 @@ const InnerStackNavigator = () => {
         component={CheckOutScreen}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
+          lazy: false,
         }}
       />
       <Stack.Screen
@@ -68,6 +72,8 @@ const InnerStackNavigator = () => {
         component={PaymentDoneScreen}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
+          lazy: false,
         }}
       />
       <Stack.Screen
@@ -75,6 +81,8 @@ const InnerStackNavigator = () => {
         component={NotificationsScreen}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
+          lazy: false,
         }}
       />
       <Stack.Screen
@@ -82,6 +90,8 @@ const InnerStackNavigator = () => {
         component={ProductDetailsScreen}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
+          lazy: false,
         }}
       />
       <Stack.Screen
@@ -89,6 +99,8 @@ const InnerStackNavigator = () => {
         component={WishListScreen}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
+          lazy: false,
         }}
       />
       <Stack.Screen
@@ -96,6 +108,8 @@ const InnerStackNavigator = () => {
         component={OrderHistoryScreen}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
+          lazy: false,
         }}
       />
       <Stack.Screen
@@ -103,6 +117,8 @@ const InnerStackNavigator = () => {
         component={AboutUsScreen}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
+          lazy: false,
         }}
       />
       <Stack.Screen
@@ -110,6 +126,8 @@ const InnerStackNavigator = () => {
         component={PrivacyAndPolicyScreen}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
+          lazy: false,
         }}
       />
       <Stack.Screen
@@ -117,6 +135,8 @@ const InnerStackNavigator = () => {
         component={TermsAndConditionsScreen}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
+          lazy: false,
         }}
       />
       <Stack.Screen
@@ -124,6 +144,8 @@ const InnerStackNavigator = () => {
         component={LogoutScreen}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
+          lazy: false,
         }}
       />
     </Stack.Navigator>
