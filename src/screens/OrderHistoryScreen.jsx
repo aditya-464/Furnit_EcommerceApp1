@@ -28,6 +28,23 @@ const OrderHistoryScreen = props => {
   const {uid} = useSelector(state => state.auth);
   const [data, setData] = useState(null);
 
+  const handleDeleteOrderHistory = async () => {
+    try {
+      firestore()
+        .collection('Orders')
+        .doc(uid)
+        .delete()
+        .then(() => {
+          setData(null);
+        })
+        .catch(error => {
+          console.log(error.message);
+        });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   const getOrderHistory = async () => {
     try {
       const res = await firestore().collection('Orders').doc(uid).get();
@@ -42,7 +59,7 @@ const OrderHistoryScreen = props => {
 
   useEffect(() => {
     getOrderHistory();
-  }, []);
+  }, [paymentCount]);
 
   const FlatListItem = ({
     orderId,
@@ -102,7 +119,10 @@ const OrderHistoryScreen = props => {
             color={COLORS.primaryDark}></Ionicons>
         </TouchableOpacity>
         <Text style={styles.TitleText}>Order History</Text>
-        <TouchableOpacity activeOpacity={0.6} style={styles.ClearHistoryIcon}>
+        <TouchableOpacity
+          onPress={() => handleDeleteOrderHistory()}
+          activeOpacity={0.6}
+          style={styles.ClearHistoryIcon}>
           <Octicons
             name="trash"
             size={FONTSIZE.size_24}
