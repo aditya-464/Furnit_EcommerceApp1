@@ -1,9 +1,41 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../../theme/Theme';
 import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
+import {useSelector} from 'react-redux';
 
 const OrderSummary = () => {
+  const {cartCount, cartAmount} = useSelector(state => state.cart);
+  const [discount, setDiscount] = useState(null);
+  const [shipping, setShipping] = useState(200);
+  const [discountPercent, setDiscountPercent] = useState(null);
+
+  const getDiscount = () => {
+    if (cartAmount <= 2000) {
+      setDiscountPercent(5);
+      setDiscount(cartAmount * 0.05);
+    } else if (cartAmount <= 5000) {
+      setDiscountPercent(10);
+      setDiscount(cartAmount * 0.1);
+    } else {
+      setDiscountPercent(15);
+      setDiscount(cartAmount * 0.15);
+    }
+  };
+
+  const getShipping = () => {
+    if (cartAmount <= 2000) {
+      setShipping(200);
+    } else {
+      setShipping(400);
+    }
+  };
+
+  useEffect(() => {
+    getDiscount();
+    getShipping();
+  }, [cartAmount]);
+
   return (
     <View
       style={{
@@ -17,13 +49,15 @@ const OrderSummary = () => {
         borderRadius: 10,
       }}>
       <View style={styles.InfoRow}>
-        <Text style={styles.InfoRowText}>Subtotal (5 Items)</Text>
+        <Text style={styles.InfoRowText}>
+          Subtotal ({cartCount} {cartCount === 1 ? 'Item' : 'Items'})
+        </Text>
         <View style={styles.PriceInfo}>
           <FontAwesome
             name="rupee"
             size={FONTSIZE.size_14}
             color={COLORS.primaryDark}></FontAwesome>
-          <Text style={styles.PriceValue}>7200</Text>
+          <Text style={styles.PriceValue}>{cartAmount}</Text>
         </View>
       </View>
       <View style={styles.InfoRow}>
@@ -33,11 +67,11 @@ const OrderSummary = () => {
             name="rupee"
             size={FONTSIZE.size_14}
             color={COLORS.primaryDark}></FontAwesome>
-          <Text style={styles.PriceValue}>200</Text>
+          <Text style={styles.PriceValue}>{shipping}</Text>
         </View>
       </View>
       <View style={styles.InfoRow}>
-        <Text style={styles.InfoRowText}>Discount (15%)</Text>
+        <Text style={styles.InfoRowText}>Discount ({discountPercent}%)</Text>
         <View style={styles.PriceInfo}>
           <Text style={[styles.PriceValue, {marginRight: SPACING.space_12}]}>
             -
@@ -46,7 +80,7 @@ const OrderSummary = () => {
             name="rupee"
             size={FONTSIZE.size_14}
             color={COLORS.primaryDark}></FontAwesome>
-          <Text style={styles.PriceValue}>1080</Text>
+          <Text style={styles.PriceValue}>{discount}</Text>
         </View>
       </View>
       <View style={styles.Partition}></View>
@@ -65,7 +99,7 @@ const OrderSummary = () => {
               styles.PriceValue,
               {fontFamily: FONTFAMILY.poppins_medium},
             ]}>
-            6320
+            {cartAmount + shipping - discount}
           </Text>
         </View>
       </View>
