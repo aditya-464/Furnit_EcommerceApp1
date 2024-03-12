@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   BORDERRADIUS,
   COLORS,
@@ -16,52 +16,38 @@ import {
 } from '../../theme/Theme';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
+import {useSelector} from 'react-redux';
 
 const OrderItemsList = () => {
-  const chairSlides = [
-    {
-      id: 1,
-      image: require('../../assets/images/chairs/armchair.jpg'),
-      name: 'Armchair',
-      price: 300,
-      star: 4.8,
-      brand: 'IKEA',
-    },
-    {
-      id: 2,
-      image: require('../../assets/images/chairs/recliner.jpg'),
-      name: 'Recliner',
-      price: 2400,
-      star: 4.6,
-      brand: 'Ashley',
-    },
-    {
-      id: 3,
-      image: require('../../assets/images/chairs/swivel.jpg'),
-      name: 'Swivel',
-      price: 1200,
-      star: 4.2,
-      brand: 'Herman Miller',
-    },
-    {
-      id: 4,
-      image: require('../../assets/images/chairs/office_chair.jpg'),
-      name: 'Office Chair',
-      price: 800,
-      star: 4.8,
-      brand: 'IKEA',
-    },
-    {
-      id: 5,
-      image: require('../../assets/images/chairs/wingback.jpg'),
-      name: 'Wingback',
-      price: 2200,
-      star: 4.5,
-      brand: 'West Elm',
-    },
-  ];
+  const {cartProducts, selectedCartItems} = useSelector(state => state.cart);
+  const [data, setData] = useState(null);
 
-  const FlatListItem = ({index, id, name, brand, image, price, star}) => (
+  const getOrderItems = () => {
+    let temp = [];
+    for (let i = 0; i < cartProducts.length; i++) {
+      if (selectedCartItems[cartProducts[i].pid]) {
+        temp.push(cartProducts[i]);
+      }
+    }
+    setData(temp);
+  };
+
+  useEffect(() => {
+    getOrderItems();
+    console.log(cartProducts);
+    console.log(selectedCartItems);
+  }, [cartProducts, selectedCartItems]);
+
+  const FlatListItem = ({
+    index,
+    id,
+    name,
+    brand,
+    image,
+    price,
+    star,
+    count,
+  }) => (
     <View
       activeOpacity={0.8}
       style={[
@@ -69,7 +55,10 @@ const OrderItemsList = () => {
         {marginLeft: index === 0 ? SPACING.space_8 : 0},
       ]}>
       <View style={styles.ImageView}>
-        <Image style={styles.Image} source={image} resizeMode="cover"></Image>
+        <Image
+          style={styles.Image}
+          source={{uri: image}}
+          resizeMode="cover"></Image>
       </View>
       <View style={styles.Info}>
         <View style={styles.TopInfo}>
@@ -93,7 +82,7 @@ const OrderItemsList = () => {
           </View>
           <View style={styles.ActionButton}>
             <View activeOpacity={0.6} style={styles.AddToCartButton}>
-              <Text style={styles.ProductCount}>2</Text>
+              <Text style={styles.ProductCount}>{count}</Text>
             </View>
           </View>
         </View>
@@ -106,22 +95,23 @@ const OrderItemsList = () => {
         backgroundColor: COLORS.primaryLight,
       }}>
       <FlatList
-        data={chairSlides}
-        horizontal
+        data={data}
+        horizontal={true}
         snapToAlignment="center"
         showsHorizontalScrollIndicator={false}
         scrollEnabled={true}
         renderItem={({item, index}) => (
           <FlatListItem
             index={index}
-            id={item.id}
+            id={item.pid}
             image={item.image}
             name={item.name}
             brand={item.brand}
             price={item.price}
-            star={item.star}></FlatListItem>
+            star={item.star}
+            count={item.count}></FlatListItem>
         )}
-        keyExtractor={item => item.id.toString()}></FlatList>
+        keyExtractor={item => item.pid}></FlatList>
     </View>
   );
 };
