@@ -10,7 +10,7 @@ import {useSelector} from 'react-redux';
 const PreviewTabContent = () => {
   const {shippingName, shippingContact, shippingAddress, cardNumber} =
     useSelector(state => state.cart);
-  const [cardType, setCardType] = useState('');
+  const [cardType, setCardType] = useState('credit-card');
   const [hiddenCardNumber, setHiddenCardNumber] = useState('');
 
   const getCardType = () => {

@@ -34,8 +34,6 @@ const OrderItemsList = () => {
 
   useEffect(() => {
     getOrderItems();
-    console.log(cartProducts);
-    console.log(selectedCartItems);
   }, [cartProducts, selectedCartItems]);
 
   const FlatListItem = ({

@@ -186,7 +186,10 @@ const CheckOutScreen = ({navigation}) => {
           </TouchableOpacity>
         )}
         {status === 'preview' && (
-          <TouchableOpacity activeOpacity={0.6} style={styles.PaymentButton}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('PaymentDoneScreen')}
+            activeOpacity={0.6}
+            style={styles.PaymentButton}>
             <Text style={styles.PayText}>Confirm Payment</Text>
           </TouchableOpacity>
         )}
