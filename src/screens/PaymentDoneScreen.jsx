@@ -5,13 +5,65 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/Theme';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 import LottieView from 'lottie-react-native';
+import {useSelector} from 'react-redux';
+import firestore from '@react-native-firebase/firestore';
+import ShortUniqueId from 'short-unique-id';
 
 const PaymentDoneScreen = ({navigation}) => {
+  const {uid} = useSelector(state => state.auth);
+  const {
+    cartProducts,
+    selectedCartItems,
+    cartCount,
+    cartAmount,
+    shippingAddress,
+  } = useSelector(state => state.cart);
+  const [itemsName, setItemsName] = useState(null);
+  const uniqueId = new ShortUniqueId({length: 10});
+
+  const getCartItemsName = () => {
+    let temp = [];
+    for (let i = 0; i < cartProducts.length; i++) {
+      if (selectedCartItems[cartProducts[i].pid]) {
+        temp.push(cartProducts[i].name);
+      }
+    }
+    setItemsName(temp);
+  };
+
+  const generateOrder = async () => {
+    const orderId = uniqueId.rnd();
+    const res = await firestore()
+      .collection('Orders')
+      .doc(uid)
+      .set(
+        {
+          [orderId]: {
+            itemsName,
+            cartCount,
+            cartAmount,
+            shippingAddress,
+          },
+        },
+        {merge: true},
+      );
+  };
+
+  useEffect(() => {
+    if (itemsName !== null) {
+      generateOrder();
+    }
+  }, [itemsName]);
+
+  useEffect(() => {
+    getCartItemsName();
+  }, [cartProducts, selectedCartItems]);
+
   return (
     <SafeAreaView
       style={{
