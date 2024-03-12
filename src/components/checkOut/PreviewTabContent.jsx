@@ -1,12 +1,67 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../../theme/Theme';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 import Fontisto from 'react-native-vector-icons/dist/Fontisto';
 import OrderItemsList from './OrderItemsList';
 import OrderSummary from './OrderSummary';
+import {useSelector} from 'react-redux';
 
 const PreviewTabContent = () => {
+  const {shippingName, shippingContact, shippingAddress, cardNumber} =
+    useSelector(state => state.cart);
+  const [cardType, setCardType] = useState('');
+  const [hiddenCardNumber, setHiddenCardNumber] = useState('');
+
+  const getCardType = () => {
+    const temp = cardNumber.toString();
+    temp.trim();
+    if (temp[0] === '3') {
+      setCardType('american-express');
+    } else if (temp[0] === '4') {
+      setCardType('visa');
+    } else if (temp[0] === '5') {
+      setCardType('mastercard');
+    } else if (temp[0] === '6') {
+      const temp2 = temp.substring(0, 4);
+      if (temp[1] === '0' || temp2 === '6521') {
+        setCardType('credit-card');
+      } else {
+        setCardType('discover');
+      }
+    } else {
+      setCardType('credit-card');
+    }
+  };
+
+  const getHiddenCardNumber = () => {
+    const temp = cardNumber.toString();
+    temp.trim();
+    let temp2 = '';
+    for (let i = 1; i <= temp.length; i++) {
+      if (i % 4 == 0) {
+        if (i <= 12) {
+          temp2 += '*' + ' ';
+        } else {
+          temp2 += temp[i - 1] + ' ';
+        }
+      } else {
+        if (i <= 12) {
+          temp2 += '*';
+        } else {
+          temp2 += temp[i - 1];
+        }
+      }
+    }
+    temp2.trim();
+    setHiddenCardNumber(temp2);
+  };
+
+  useEffect(() => {
+    getCardType();
+    getHiddenCardNumber();
+  }, [cardNumber]);
+
   return (
     <View style={styles.Preview}>
       <View style={styles.ShippingDetails}>
@@ -35,7 +90,7 @@ const PreviewTabContent = () => {
                 styles.ShippingInfoText,
                 {fontFamily: FONTFAMILY.poppins_medium},
               ]}>
-              Radha Madhav
+              {shippingName}
             </Text>
             <Text
               style={[
@@ -45,11 +100,9 @@ const PreviewTabContent = () => {
                   marginBottom: SPACING.space_4,
                 },
               ]}>
-              7044974939
+              {shippingContact}
             </Text>
-            <Text style={styles.ShippingInfoText}>
-              160, Saha Para, Purba Putiari, Kolkata - 700093
-            </Text>
+            <Text style={styles.ShippingInfoText}>{shippingAddress}</Text>
           </View>
         </View>
       </View>
@@ -69,7 +122,7 @@ const PreviewTabContent = () => {
           }}>
           <View style={styles.CardImage}>
             <Fontisto
-              name="visa"
+              name={cardType}
               size={FONTSIZE.size_20}
               color={COLORS.placeholder}></Fontisto>
           </View>
@@ -79,9 +132,9 @@ const PreviewTabContent = () => {
                 styles.PaymentText,
                 {fontFamily: FONTFAMILY.poppins_medium},
               ]}>
-              Debit Card
+              Credit Card
             </Text>
-            <Text style={styles.PaymentText}>**** **** **** 5437</Text>
+            <Text style={styles.PaymentText}>{hiddenCardNumber}</Text>
           </View>
         </View>
       </View>
