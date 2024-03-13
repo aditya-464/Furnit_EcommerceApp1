@@ -26,7 +26,7 @@ const SearchScreen = props => {
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [data, setData] = useState(null);
   const [filter2, setFilter2] = useState('all');
-  const [filter3, setFilter3] = useState(9000);
+  const [filter3, setFilter3] = useState(7000);
   const inputRef = useRef();
 
   const handleFilterModal = val => {

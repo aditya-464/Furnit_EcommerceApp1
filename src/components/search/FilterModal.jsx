@@ -45,7 +45,7 @@ const FilterModal = props => {
   const [isFocus, setIsFocus] = useState(false);
   const [value2, setValue2] = useState('all');
   const [isFocus2, setIsFocus2] = useState(false);
-  const [sliderValue, setSliderValue] = useState(5000);
+  const [sliderValue, setSliderValue] = useState(7000);
 
   const handleApplyFilter = () => {
     getFilterValues(value2, sliderValue);
