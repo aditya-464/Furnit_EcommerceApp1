@@ -71,7 +71,8 @@ const LoginFormNew = ({navigation}) => {
         numberOfLines={1}
         keyboardType="email-address"
         placeholder="Email"
-        placeholderTextColor={COLORS.placeholder}
+        // placeholderTextColor={COLORS.placeholder}
+        placeholderTextColor={'#696d7c'}
         value={email}
         onChangeText={text => setEmail(text)}></TextInput>
       <View
@@ -98,7 +99,8 @@ const LoginFormNew = ({navigation}) => {
           autoCapitalize="none"
           numberOfLines={1}
           placeholder="Password"
-          placeholderTextColor={COLORS.placeholder}
+          // placeholderTextColor={COLORS.placeholder}
+          placeholderTextColor={'#696d7c'}
           value={password}
           maxLength={20}
           onChangeText={text => setPassword(text)}
