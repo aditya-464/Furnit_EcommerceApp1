@@ -58,29 +58,48 @@ const PaymentDoneScreen = ({navigation}) => {
     const orderId = uniqueId.rnd();
     const orderDate = getDate();
 
-    firestore()
-      .collection('Orders')
-      .doc(uid)
-      .set(
-        {
-          [orderId]: {
-            orderId,
-            itemsName,
-            cartCount,
-            cartAmount,
-            shippingAddress,
-            orderDate,
+    try {
+      firestore()
+        .collection('Orders')
+        .doc(uid)
+        .set(
+          {
+            [orderId]: {
+              orderId,
+              itemsName,
+              cartCount,
+              cartAmount,
+              shippingAddress,
+              orderDate,
+            },
           },
-        },
-        {merge: true},
-      )
-      .then(() => {
-        dispatch(setPaymentCount());
-        console.log('Order Creation Done');
-      })
-      .catch(error => {
-        console.log(error.message);
-      });
+          {merge: true},
+        )
+        .then(() => {})
+        .catch(error => {
+          console.log(error.message);
+        });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleClearCart = async () => {
+    try {
+      const itemsIdArray = Object.keys(selectedCartItems);
+      for (let i = 0; i < itemsIdArray.length; i++) {
+        if (selectedCartItems[itemsIdArray[i]] === true) {
+          const res = await firestore()
+            .collection('Cart')
+            .doc(uid)
+            .update({
+              [itemsIdArray[i]]: firestore.FieldValue.delete(),
+            });
+        }
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   useEffect(() => {
@@ -92,6 +111,10 @@ const PaymentDoneScreen = ({navigation}) => {
   useEffect(() => {
     getCartItemsName();
   }, [cartProducts, selectedCartItems]);
+
+  useEffect(() => {
+    handleClearCart();
+  }, [selectedCartItems]);
 
   return (
     <SafeAreaView
@@ -130,7 +153,7 @@ const PaymentDoneScreen = ({navigation}) => {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          marginBottom: 50,
+          marginBottom: 150,
         }}>
         <LottieView
           style={{
