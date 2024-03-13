@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
   BORDERRADIUS,
@@ -7,7 +7,6 @@ import {
   FONTSIZE,
   SPACING,
 } from '../../theme/Theme';
-import {TextInput} from 'react-native-paper';
 import {useDispatch} from 'react-redux';
 import {
   setShippingAddress,
@@ -24,30 +23,33 @@ const ShippingTabContent = props => {
   const [address, setAddress] = useState(null);
   const [error, setError] = useState(null);
 
+  const handleInputCheck = () => {
+    if (name !== null && phone !== null && address !== null) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const saveData = () => {
-    if (
-      name !== null &&
-      phone !== null &&
-      address !== null &&
-      submitShippingDetails === true
-    ) {
+    const isInputCorrect = handleInputCheck();
+    if (isInputCorrect === true) {
+      setError(null);
       dispatch(setShippingName(name));
       dispatch(setShippingContact(phone));
       dispatch(setShippingAddress(address));
       handleProcessStatus('payment');
     } else {
-      if (submitShippingDetails === true) {
-        setError('Please fill all fields');
-        setTimeout(() => {
-          setError(null);
-        }, 3000);
-      }
+      setError('Please fill all fields');
     }
     handleShippingDetails(false);
   };
 
   useEffect(() => {
-    saveData();
+    if (submitShippingDetails === true) {
+      setError(null);
+      saveData();
+    }
   }, [submitShippingDetails]);
 
   return (
@@ -59,112 +61,44 @@ const ShippingTabContent = props => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
+            marginBottom: SPACING.space_20,
           }}>
           <View style={{flex: 1, marginRight: SPACING.space_15}}>
-            <Text
-              style={{
-                fontFamily: FONTFAMILY.poppins_medium,
-                fontSize: FONTSIZE.size_14,
-                color: COLORS.primaryDark,
-                marginBottom: SPACING.space_8,
-              }}>
-              Name
-            </Text>
+            <Text style={styles.Label}>Name</Text>
             <TextInput
-              style={{
-                backgroundColor: COLORS.searchField,
-                marginBottom: SPACING.space_20,
-              }}
-              mode="outlined"
-              name="name"
+              style={styles.TextInput}
               placeholder="Name"
               placeholderTextColor={COLORS.placeholder}
-              contentStyle={{
-                fontFamily: FONTFAMILY.poppins_regular,
-                fontSize: FONTSIZE.size_14,
-                color: COLORS.primaryDark,
-              }}
-              outlineColor={COLORS.primaryDark}
-              activeOutlineColor={COLORS.primaryDark}
-              outlineStyle={{
-                borderWidth: 0.1,
-                borderRadius: 3,
-              }}
-              onChangeText={text => setName(text)}
               value={name}
+              onChangeText={text => setName(text)}
               numberOfLines={1}></TextInput>
           </View>
 
           <View style={{flex: 1}}>
-            <Text
-              style={{
-                fontFamily: FONTFAMILY.poppins_medium,
-                fontSize: FONTSIZE.size_14,
-                color: COLORS.primaryDark,
-                marginBottom: SPACING.space_8,
-              }}>
-              Contact
-            </Text>
+            <Text style={styles.Label}>Contact</Text>
             <TextInput
-              style={{
-                backgroundColor: COLORS.searchField,
-                marginBottom: SPACING.space_20,
-              }}
-              mode="outlined"
-              autoCapitalize="none"
-              name="phone"
+              style={styles.TextInput}
               placeholder="Contact"
               placeholderTextColor={COLORS.placeholder}
-              contentStyle={{
-                fontFamily: FONTFAMILY.poppins_regular,
-                fontSize: FONTSIZE.size_14,
-                color: COLORS.primaryDark,
-              }}
-              outlineColor={COLORS.primaryDark}
-              activeOutlineColor={COLORS.primaryDark}
-              outlineStyle={{
-                borderWidth: 0.1,
-                borderRadius: 3,
-              }}
-              onChangeText={text => setPhone(text)}
               value={phone}
-              numberOfLines={1}
-              keyboardType="number-pad"></TextInput>
+              onChangeText={text => setPhone(text)}
+              keyboardType="number-pad"
+              maxLength={10}
+              numberOfLines={1}></TextInput>
           </View>
         </View>
 
-        <Text
-          style={{
-            fontFamily: FONTFAMILY.poppins_medium,
-            fontSize: FONTSIZE.size_14,
-            color: COLORS.primaryDark,
-            marginBottom: SPACING.space_8,
-          }}>
-          Address
-        </Text>
+        <Text style={styles.Label}>Address</Text>
         <TextInput
-          style={{
-            backgroundColor: COLORS.searchField,
-          }}
-          mode="outlined"
-          name="address"
+          style={styles.TextInput}
           placeholder="Address"
           placeholderTextColor={COLORS.placeholder}
-          contentStyle={{
-            fontFamily: FONTFAMILY.poppins_regular,
-            fontSize: FONTSIZE.size_14,
-            color: COLORS.primaryDark,
-          }}
-          outlineColor={COLORS.primaryDark}
-          activeOutlineColor={COLORS.primaryDark}
-          outlineStyle={{
-            borderWidth: 0.1,
-            borderRadius: 3,
-          }}
-          onChangeText={text => setAddress(text)}
           value={address}
+          onChangeText={text => setAddress(text)}
           numberOfLines={1}></TextInput>
       </View>
+
+      {error !== null && <Text style={styles.ErrorText}>{error}</Text>}
     </View>
   );
 };
@@ -178,5 +112,27 @@ const styles = StyleSheet.create({
   },
   InputView: {
     // marginTop: SPACING.space_10,
+  },
+  Label: {
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_14,
+    color: COLORS.primaryDark,
+    marginBottom: SPACING.space_8,
+  },
+  TextInput: {
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_14,
+    color: COLORS.primaryDark,
+    borderWidth: 0.2,
+    borderRadius: 5,
+    borderColor: COLORS.primaryDark,
+    paddingHorizontal: SPACING.space_15,
+    backgroundColor: COLORS.searchField,
+  },
+  ErrorText: {
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_12,
+    color: COLORS.error,
+    marginTop: SPACING.space_10,
   },
 });
