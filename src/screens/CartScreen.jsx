@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   SafeAreaView,
@@ -21,6 +22,7 @@ import Octicons from 'react-native-vector-icons/dist/Octicons';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 import {CheckBox} from '@rneui/themed';
 import firestore from '@react-native-firebase/firestore';
+// import {ActivityIndicator} from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   setCartAmount,
@@ -29,81 +31,23 @@ import {
   setSelectedCartItems,
 } from '../redux/cart';
 
-// const data = [
-//   {
-//     id: 1,
-//     image: require('../assets/images/chairs/armchair.jpg'),
-//     name: 'Armchair',
-//     brand: 'IKEA',
-//     price: 300,
-//     star: 4.8,
-//     count: 1,
-//   },
-//   {
-//     id: 2,
-//     image: require('../assets/images/chairs/recliner.jpg'),
-//     name: 'Recliner',
-//     brand: 'Ashley',
-//     price: 2400,
-//     star: 4.6,
-//     count: 1,
-//   },
-//   {
-//     id: 3,
-//     image: require('../assets/images/chairs/swivel.jpg'),
-//     name: 'Swivel',
-//     brand: 'Herman Miller',
-//     price: 1200,
-//     star: 4.2,
-//     count: 1,
-//   },
-//   // {
-//   //   id: 4,
-//   //   image: require('../assets/images/chairs/office_chair.jpg'),
-//   //   name: 'Office Chair',
-//   //   brand: 'West Elm',
-//   //   price: 800,
-//   //   star: 4.8,
-//   //   count: 1,
-//   // },
-//   // {
-//   //   id: 5,
-//   //   image: require('../assets/images/chairs/wingback.jpg'),
-//   //   name: 'Wingback',
-//   //   brand: 'Herman Miller',
-//   //   price: 2200,
-//   //   star: 4.5,
-//   //   count: 1,
-//   // },
-//   // {
-//   //   id: 6,
-//   //   image: require('../assets/images/chairs/wingback.jpg'),
-//   //   name: 'Wingback',
-//   //   brand: 'IKEA',
-//   //   price: 2200,
-//   //   star: 4.5,
-//   //   count: 1,
-//   // },
-//   // {
-//   //   id: 7,
-//   //   image: require('../assets/images/chairs/wingback.jpg'),
-//   //   name: 'Wingback',
-//   //   brand: 'Ashley',
-//   //   price: 2200,
-//   //   star: 4.5,
-//   //   count: 1,
-//   // },
-// ];
-
 const CartScreen = props => {
   const {navigation} = props;
   const {uid} = useSelector(state => state.auth);
   const dispatch = useDispatch();
-  const {cartPressVal} = useSelector(state => state.cart);
+  // const {cartPressVal} = useSelector(state => state.cart);
   const [productsData, setProductsData] = useState([]);
-  const [selectItem, setSelectItem] = useState(null);
+  const [selectItem, setSelectItem] = useState({});
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
+  const [loader, setLoader] = useState(true);
+  const [error, setError] = useState(null);
+
+  const handleLoader = () => {
+    setTimeout(() => {
+      setLoader(false);
+    }, 1000);
+  };
 
   const handleCount = (index, price, val) => {
     if (val === 1) {
@@ -171,6 +115,7 @@ const CartScreen = props => {
     if (tempCount < 0) {
       tempCount = 0;
     }
+    handleLoader();
     setTotalAmount(tempAmount);
     setTotalCount(tempCount);
   };
@@ -289,6 +234,10 @@ const CartScreen = props => {
       const res = await firestore().collection('Cart').doc(uid).get();
       if (res.exists) {
         let temp = res.data();
+        let tempArray = Object.keys(temp);
+        if (tempArray.length === 0) {
+          handleLoader();
+        }
         let temp2 = [];
         for (let key in temp) {
           if (temp.hasOwnProperty(key)) {
@@ -297,6 +246,8 @@ const CartScreen = props => {
         }
         setProductsData(temp2);
         getSelectItemsList(temp2);
+      } else {
+        handleLoader();
       }
     } catch (error) {
       console.log(error.message);
@@ -332,6 +283,10 @@ const CartScreen = props => {
         .delete()
         .then(() => {
           setProductsData([]);
+          setSelectItem({});
+          setTotalAmount(0);
+          setTotalCount(0);
+          setError('Your cart is empty!');
         })
         .catch(error => {
           console.log(error.message);
@@ -351,7 +306,24 @@ const CartScreen = props => {
 
   useEffect(() => {
     handleTotalAmountAndCount();
+    console.log(selectItem);
   }, [selectItem]);
+
+  useEffect(() => {
+    if (
+      !loader &&
+      productsData.length === 0 &&
+      Object.keys(selectItem).length === 0
+    ) {
+      setError('Your cart is empty!');
+    } else if (
+      !loader &&
+      productsData.length !== 0 &&
+      Object.keys(selectItem).length !== 0
+    ) {
+      setError(null);
+    }
+  }, [loader]);
 
   return (
     <SafeAreaView
@@ -382,49 +354,63 @@ const CartScreen = props => {
         </TouchableOpacity>
       </View>
 
-      {productsData.length !== 0 && selectItem !== null && (
-        <>
-          <FlatList
-            data={productsData}
-            scrollEnabled={true}
-            showsVerticalScrollIndicator={false}
-            renderItem={({item, index}) => (
-              <FlatListItem
-                index={index}
-                id={item.pid}
-                name={item.name}
-                brand={item.brand}
-                image={item.image}
-                price={item.price}
-                star={item.star}
-                count={item.count}></FlatListItem>
-            )}
-            keyExtractor={item => item.pid}></FlatList>
+      {error === null &&
+        loader === false &&
+        Object.keys(selectItem).length !== 0 && (
+          <>
+            <FlatList
+              data={productsData}
+              scrollEnabled={true}
+              showsVerticalScrollIndicator={false}
+              renderItem={({item, index}) => (
+                <FlatListItem
+                  index={index}
+                  id={item.pid}
+                  name={item.name}
+                  brand={item.brand}
+                  image={item.image}
+                  price={item.price}
+                  star={item.star}
+                  count={item.count}></FlatListItem>
+              )}
+              keyExtractor={item => item.pid}></FlatList>
 
-          <View style={styles.CheckOut}>
-            <View style={styles.ItemsAndPrice}>
-              <Text style={styles.ItemsTotal}>
-                Total ({totalCount} {totalCount > 1 ? 'items' : 'item'}) :
-              </Text>
-              <View style={styles.TotalAmount}>
-                <MaterialIcons
-                  name="currency-rupee"
-                  size={FONTSIZE.size_20}
-                  color={COLORS.primaryDark}></MaterialIcons>
-                <Text style={styles.TotalAmountText}>{totalAmount}</Text>
+            <View style={styles.CheckOut}>
+              <View style={styles.ItemsAndPrice}>
+                <Text style={styles.ItemsTotal}>
+                  Total ({totalCount} {totalCount > 1 ? 'items' : 'item'}) :
+                </Text>
+                <View style={styles.TotalAmount}>
+                  <MaterialIcons
+                    name="currency-rupee"
+                    size={FONTSIZE.size_20}
+                    color={COLORS.primaryDark}></MaterialIcons>
+                  <Text style={styles.TotalAmountText}>{totalAmount}</Text>
+                </View>
               </View>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('CheckOutScreen');
+                  handleCheckouData();
+                }}
+                activeOpacity={0.6}
+                style={styles.CheckOutButton}>
+                <Text style={styles.CheckOutText}>Proceed to Checkout</Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('CheckOutScreen');
-                handleCheckouData();
-              }}
-              activeOpacity={0.6}
-              style={styles.CheckOutButton}>
-              <Text style={styles.CheckOutText}>Proceed to Checkout</Text>
-            </TouchableOpacity>
-          </View>
-        </>
+          </>
+        )}
+
+      {loader === true && (
+        <View style={{marginTop: 30}}>
+          <ActivityIndicator
+            animating={true}
+            size="large"
+            color={COLORS.placeholder}></ActivityIndicator>
+        </View>
+      )}
+      {loader === false && error !== null && (
+        <Text style={styles.ErrorText}>{error}</Text>
       )}
     </SafeAreaView>
   );
@@ -581,5 +567,12 @@ const styles = StyleSheet.create({
     fontFamily: FONTFAMILY.poppins_regular,
     fontSize: FONTSIZE.size_16,
     color: COLORS.primaryDark,
+  },
+  ErrorText: {
+    textAlign: 'center',
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_16,
+    color: COLORS.placeholder,
+    marginTop: SPACING.space_30,
   },
 });
