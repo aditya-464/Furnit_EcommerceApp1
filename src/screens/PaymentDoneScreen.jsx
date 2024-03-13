@@ -10,10 +10,9 @@ import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/Theme';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 import LottieView from 'lottie-react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 import ShortUniqueId from 'short-unique-id';
-import {setPaymentCount} from '../redux/payment';
 
 const PaymentDoneScreen = ({navigation}) => {
   const {uid} = useSelector(state => state.auth);
@@ -24,7 +23,6 @@ const PaymentDoneScreen = ({navigation}) => {
     cartAmount,
     shippingAddress,
   } = useSelector(state => state.cart);
-  const dispatch = useDispatch();
   const [itemsName, setItemsName] = useState(null);
   const uniqueId = new ShortUniqueId({length: 10});
 
