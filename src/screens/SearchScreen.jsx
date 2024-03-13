@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -25,6 +26,8 @@ const SearchScreen = props => {
   const {navigation} = props;
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [data, setData] = useState(null);
+  const [loader, setLoader] = useState(false);
+  const [error, setError] = useState(null);
   const [filter2, setFilter2] = useState('all');
   const [filter3, setFilter3] = useState(7000);
   const inputRef = useRef();
@@ -43,6 +46,12 @@ const SearchScreen = props => {
     }
     let temp2 = Array.from(temp);
     setData(temp2);
+    setLoader(false);
+    if (res1.length === 0 && res2.length === 0) {
+      setError('"' + inputRef.current.value + '"' + ' not available');
+    } else {
+      setError(null);
+    }
   };
 
   const getProducts = async (searchName, searchCategory) => {
@@ -67,8 +76,6 @@ const SearchScreen = props => {
         .get();
 
       if (res1 && res2) {
-        console.log(res1.docs);
-        console.log(res2.docs);
         getData(res1.docs, res2.docs);
       }
     } catch (error) {
@@ -94,6 +101,8 @@ const SearchScreen = props => {
   };
 
   const handleSubmitEditing = () => {
+    setLoader(true);
+    setError(null);
     if (inputRef.current.value !== '') {
       const searchCategory = formatQuery(0);
       const searchName = formatQuery(1);
@@ -149,8 +158,20 @@ const SearchScreen = props => {
           enterKeyHint="search"></TextInput>
       </TouchableOpacity>
 
-      {data !== null && (
+      {loader === false && error === null && data !== null && (
         <SearchResult data={data} navigation={navigation}></SearchResult>
+      )}
+
+      {loader === true && (
+        <View style={{marginTop: 30}}>
+          <ActivityIndicator
+            animating={loader}
+            size="large"
+            color={COLORS.placeholder}></ActivityIndicator>
+        </View>
+      )}
+      {loader === false && error !== null && (
+        <Text style={styles.ErrorText}>{error}</Text>
       )}
 
       <FilterModal
@@ -281,5 +302,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  ErrorText: {
+    textAlign: 'center',
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_16,
+    color: COLORS.placeholder,
+    marginTop: SPACING.space_30,
   },
 });
