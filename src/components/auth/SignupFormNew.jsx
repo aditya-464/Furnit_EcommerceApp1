@@ -5,6 +5,7 @@ import {TextInput} from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 import {useDispatch} from 'react-redux';
 import {setUid} from '../../redux/auth';
+import firestore from '@react-native-firebase/firestore';
 
 const SignupFormNew = () => {
   const [email, setEmail] = useState('');
@@ -19,6 +20,14 @@ const SignupFormNew = () => {
         password,
       );
       if (createUser) {
+        const addUser = await firestore()
+          .collection('Users')
+          .doc(createUser.user.uid)
+          .set({
+            name: 'User',
+            email,
+            uid: createUser.user.uid,
+          });
         setEmail('');
         setPassword('');
         dispatch(setUid(createUser.user.uid));

@@ -239,13 +239,15 @@ const BestSellerSlider = props => {
         marginVertical: SPACING.space_24,
         backgroundColor: COLORS.primaryLight,
       }}>
-      <View style={{flexDirection: 'row', alignContent: 'center'}}>
-        <Text style={styles.TitleText}>Best Seller</Text>
-        <Ionicons
-          name="sparkles-sharp"
-          size={FONTSIZE.size_24}
-          color={COLORS.primaryDark}></Ionicons>
-      </View>
+      {data != null && (
+        <View style={{flexDirection: 'row', alignContent: 'center'}}>
+          <Text style={styles.TitleText}>Best Seller</Text>
+          <Ionicons
+            name="sparkles-sharp"
+            size={FONTSIZE.size_24}
+            color={COLORS.primaryDark}></Ionicons>
+        </View>
+      )}
       <FlatList
         data={data}
         horizontal
