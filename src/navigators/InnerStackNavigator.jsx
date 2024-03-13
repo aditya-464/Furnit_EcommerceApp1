@@ -15,6 +15,7 @@ import TermsAndConditionsScreen from '../screens/TermsAndConditionsScreen';
 import LogoutScreen from '../screens/LogoutScreen';
 import CheckOutScreen from '../screens/CheckOutScreen';
 import PaymentDoneScreen from '../screens/PaymentDoneScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 
 const Stack = createStackNavigator();
 
@@ -106,6 +107,15 @@ const InnerStackNavigator = () => {
       <Stack.Screen
         name="OrderHistoryScreen"
         component={OrderHistoryScreen}
+        options={{
+          headerShown: false,
+          unmountOnBlur: true,
+          lazy: false,
+        }}
+      />
+      <Stack.Screen
+        name="SettingsScreen"
+        component={SettingsScreen}
         options={{
           headerShown: false,
           unmountOnBlur: true,

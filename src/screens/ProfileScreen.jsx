@@ -18,6 +18,7 @@ import {
 } from '../theme/Theme';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
+import Feather from 'react-native-vector-icons/dist/Feather';
 import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
@@ -62,7 +63,22 @@ const ProfileScreen = () => {
           <View style={styles.ImageView}>
             <Image style={styles.Image} source={UserProfileImg}></Image>
           </View>
-          <Text style={styles.Name}>Radhe Shyam</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text style={styles.Name}>Radhe Shyam</Text>
+            {/* <TouchableOpacity
+              style={{marginLeft: SPACING.space_8}}
+              activeOpacity={0.6}>
+              <Feather
+                name="edit-2"
+                size={20}
+                color={COLORS.primaryDark}></Feather>
+            </TouchableOpacity> */}
+          </View>
         </View>
         <View style={styles.BottomContent}>
           <View style={styles.OptionsCategory}>
@@ -104,7 +120,7 @@ const ProfileScreen = () => {
               </View>
             </TouchableOpacity>
             <TouchableOpacity
-              // onPress={() => navigation.navigate('NotificationsScreen')}
+              onPress={() => navigation.navigate('SettingsScreen')}
               activeOpacity={0.2}
               style={styles.Option}>
               <View style={styles.OptionIcon}>
