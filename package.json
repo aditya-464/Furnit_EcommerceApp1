@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.22.3",
     "@react-native-community/blur": "^4.3.2",
     "@react-native-community/hooks": "^3.0.0",
     "@react-native-community/slider": "^4.5.0",
@@ -32,6 +33,7 @@
     "react-native-collapsible": "^1.6.1",
     "react-native-element-dropdown": "^2.10.1",
     "react-native-gesture-handler": "^2.15.0",
+    "react-native-image-picker": "^7.1.1",
     "react-native-modal": "^13.0.1",
     "react-native-onboarding-swiper": "^1.2.0",
     "react-native-paper": "^5.12.3",

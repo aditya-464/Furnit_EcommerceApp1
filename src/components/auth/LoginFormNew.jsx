@@ -2,12 +2,13 @@ import {
   ActivityIndicator,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 import React, {useState} from 'react';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../../theme/Theme';
-import {TextInput} from 'react-native-paper';
+import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import auth from '@react-native-firebase/auth';
 import {useDispatch} from 'react-redux';
 import {setUid} from '../../redux/auth';
@@ -15,6 +16,7 @@ import {setUid} from '../../redux/auth';
 const LoginFormNew = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [hidePassword, setHidePassword] = useState(true);
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState(null);
 
@@ -45,7 +47,7 @@ const LoginFormNew = ({navigation}) => {
         paddingHorizontal: SPACING.space_20,
         paddingTop: SPACING.space_10,
       }}>
-      <TextInput
+      {/* <TextInput
         style={{
           backgroundColor: '#faefd5',
           marginBottom: SPACING.space_15,
@@ -79,8 +81,68 @@ const LoginFormNew = ({navigation}) => {
         onChangeText={text => setEmail(text)}
         value={email}
         numberOfLines={1}
-        keyboardType="email-address"></TextInput>
+        keyboardType="email-address"></TextInput> */}
+
       <TextInput
+        style={{
+          fontFamily: FONTFAMILY.poppins_regular,
+          fontSize: FONTSIZE.size_14,
+          color: COLORS.primaryDark,
+          borderWidth: 0.5,
+          borderRadius: 10,
+          paddingHorizontal: SPACING.space_15,
+          backgroundColor: '#faefd5',
+          marginBottom: SPACING.space_24,
+          borderColor: '#faefd5',
+        }}
+        autoCapitalize="none"
+        numberOfLines={1}
+        keyboardType="email-address"
+        placeholder="Email"
+        placeholderTextColor={COLORS.placeholder}
+        value={email}
+        onChangeText={text => setEmail(text)}></TextInput>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          backgroundColor: '#faefd5',
+          borderRadius: 10,
+          borderWidth: 0.5,
+          borderColor: '#faefd5',
+        }}>
+        <TextInput
+          style={{
+            flex: 1,
+            fontFamily: FONTFAMILY.poppins_regular,
+            fontSize: FONTSIZE.size_14,
+            color: COLORS.primaryDark,
+            paddingHorizontal: SPACING.space_15,
+            backgroundColor: '#faefd5',
+            borderRadius: 10,
+          }}
+          autoCapitalize="none"
+          numberOfLines={1}
+          placeholder="Password"
+          placeholderTextColor={COLORS.placeholder}
+          value={password}
+          maxLength={20}
+          onChangeText={text => setPassword(text)}
+          secureTextEntry={hidePassword}></TextInput>
+        <TouchableOpacity
+          onPress={() => setHidePassword(prev => !prev)}
+          activeOpacity={0.6}
+          style={{paddingRight: SPACING.space_15}}>
+          <Ionicons
+            name={hidePassword === true ? 'eye-off' : 'eye'}
+            size={24}
+            color={COLORS.placeholder}></Ionicons>
+        </TouchableOpacity>
+      </View>
+
+      {/* <TextInput
         style={{
           backgroundColor: '#faefd5',
         }}
@@ -113,7 +175,7 @@ const LoginFormNew = ({navigation}) => {
         onChangeText={text => setPassword(text)}
         value={password}
         numberOfLines={1}
-        secureTextEntry={true}></TextInput>
+        secureTextEntry={true}></TextInput> */}
       <TouchableOpacity
         onPress={() => {
           setError(null);
