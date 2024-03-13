@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   SafeAreaView,
@@ -21,100 +22,125 @@ import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
-
-const data = [
-  {
-    id: 1,
-    image: require('../assets/images/chairs/armchair.jpg'),
-    name: 'Armchair',
-    price: 300,
-    star: 4.8,
-    brand: 'IKEA',
-  },
-  {
-    id: 2,
-    image: require('../assets/images/chairs/recliner.jpg'),
-    name: 'Recliner',
-    price: 2400,
-    star: 4.6,
-    brand: 'Ashley',
-  },
-  {
-    id: 3,
-    image: require('../assets/images/chairs/swivel.jpg'),
-    name: 'Swivel',
-    price: 1200,
-    star: 4.2,
-    brand: 'Herman Miller',
-  },
-  {
-    id: 4,
-    image: require('../assets/images/chairs/office_chair.jpg'),
-    name: 'Office Chair',
-    price: 800,
-    star: 4.8,
-    brand: 'West Elm',
-  },
-  {
-    id: 5,
-    image: require('../assets/images/chairs/wingback.jpg'),
-    name: 'Wingback',
-    price: 2200,
-    star: 4.5,
-    brand: 'Ashley',
-  },
-];
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+import {useSelector} from 'react-redux';
 
 const WishListScreen = props => {
   const {navigation, route} = props;
   const [productsData, setProductsData] = useState([]);
+  const [data, setData] = useState(null);
   const [numColumnsValue, setNumColumnsValue] = useState(2);
+  const {uid} = useSelector(state => state.auth);
+  const [loader, setLoader] = useState(true);
+  const [error, setError] = useState(null);
 
-  // const FlatListItem = ({id, name, price, image, star}) => (
-  //   <View style={styles.Product}>
-  //     <View style={styles.Image}>
-  //       <Image
-  //         style={{width: '100%', height: '100%'}}
-  //         source={image}
-  //         resizeMode="cover"></Image>
-  //     </View>
-  //     <View style={styles.Info}>
-  //       <View style={styles.Top}>
-  //         <View style={styles.NameAndRating}>
-  //           <Text style={styles.Name}>{name}</Text>
-  //           <View style={styles.Rating}>
-  //             <AntDesign
-  //               name="star"
-  //               size={FONTSIZE.size_16}
-  //               color={COLORS.secondaryLight}></AntDesign>
-  //             <Text style={styles.Stars}>{star}</Text>
-  //           </View>
-  //         </View>
-  //         <View style={styles.Price}>
-  //           <MaterialIcons
-  //             name="currency-rupee"
-  //             size={FONTSIZE.size_16}
-  //             color={COLORS.primaryDark}></MaterialIcons>
-  //           <Text style={styles.PriceText}>{price}</Text>
-  //         </View>
-  //       </View>
-  //       <View style={styles.Bottom}>
-  //         <TouchableOpacity activeOpacity={0.6} style={styles.AddToCartButton}>
-  //           <Text style={styles.AddToCartButtonText}>Add To Cart</Text>
-  //         </TouchableOpacity>
-  //       </View>
-  //     </View>
-  //   </View>
-  // );
+  const handleLoader = () => {
+    setTimeout(() => {
+      setLoader(false);
+    }, 1000);
+  };
+
+  const getWishListData = async () => {
+    try {
+      const res = await firestore().collection('Wishlist').doc(uid).get();
+      if (res.exists) {
+        const dataArray = Object.values(res.data());
+        setData(dataArray);
+        handleLoader();
+      } else {
+        handleLoader();
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleAddToCart = async (
+    id,
+    name,
+    brand,
+    price,
+    star,
+    count,
+    image,
+  ) => {
+    try {
+      const newItemData = {
+        pid: id,
+        name,
+        brand,
+        price,
+        star,
+        count,
+        image,
+      };
+      const oldData = await firestore().collection('Cart').doc(uid).get();
+
+      if (oldData.exists) {
+        const newData = await firestore()
+          .collection('Cart')
+          .doc(uid)
+          .set({[id]: newItemData}, {merge: true});
+      } else {
+        const newData = await firestore()
+          .collection('Cart')
+          .doc(uid)
+          .set({[id]: newItemData});
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleClearWishlist = async () => {
+    try {
+      firestore()
+        .collection('Wishlist')
+        .doc(uid)
+        .delete()
+        .then(() => {
+          setError('No favourite items!');
+          setData(null);
+        })
+        .catch(error => {
+          console.log(error.message);
+        });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   useEffect(() => {
-    setProductsData([...data]);
+    getWishListData();
   }, []);
 
-  const FlatListItem = ({id, name, brand, image, price, star}) => (
-    <TouchableOpacity activeOpacity={0.8} style={styles.ProductCard}>
+  useEffect(() => {
+    if (loader === false && data === null) {
+      setError('No favourite items!');
+    }
+  }, [loader]);
+
+  const FlatListItem = ({id, name, brand, image, price, star, count}) => (
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate('ProductDetailsScreen', {
+          id,
+          name,
+          brand,
+          image,
+          price,
+          star,
+          count,
+        })
+      }
+      activeOpacity={0.8}
+      style={styles.ProductCard}>
       <View style={styles.ImageView}>
-        <Image style={styles.Image} source={image} resizeMode="cover"></Image>
+        <Image
+          style={styles.Image}
+          source={{uri: image}}
+          resizeMode="cover"></Image>
       </View>
       <View style={styles.Info}>
         <View style={styles.TopInfo}>
@@ -138,6 +164,9 @@ const WishListScreen = props => {
           </View>
           <View style={styles.ActionButton}>
             <TouchableOpacity
+              onPress={() => {
+                handleAddToCart(id, name, brand, price, star, count, image);
+              }}
               activeOpacity={0.6}
               style={styles.AddToCartButton}>
               <Octicons
@@ -164,34 +193,55 @@ const WishListScreen = props => {
             color={COLORS.primaryDark}></Ionicons>
         </TouchableOpacity>
         <Text style={styles.TitleText}>Wishlist</Text>
-        <TouchableOpacity activeOpacity={0.6} style={styles.LikeIcon}>
-          <Ionicons
-            name="cart-outline"
-            size={FONTSIZE.size_28}
-            color={COLORS.primaryDark}></Ionicons>
+        <TouchableOpacity
+          onPress={() => handleClearWishlist()}
+          activeOpacity={0.6}
+          style={styles.LikeIcon}>
+          <Octicons
+            name="trash"
+            size={FONTSIZE.size_24}
+            color={COLORS.primaryDark}></Octicons>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.ProductList}>
-        <FlatList
-          data={data}
-          numColumns={numColumnsValue}
-          showsVerticalScrollIndicator={false}
-          renderItem={({item}) => (
-            <FlatListItem
-              id={item.id}
-              image={item.image}
-              name={item.name}
-              brand={item.brand}
-              price={item.price}
-              star={item.star}></FlatListItem>
-          )}
-          keyExtractor={item => item.id.toString()}
-          ListFooterComponent={
-            <View
-              style={{height: 60, backgroundColor: COLORS.primaryLight}}></View>
-          }></FlatList>
-      </View>
+      {loader === false && error === null && data !== null && (
+        <View style={styles.ProductList}>
+          <FlatList
+            data={data}
+            numColumns={numColumnsValue}
+            showsVerticalScrollIndicator={false}
+            renderItem={({item}) => (
+              <FlatListItem
+                id={item.id}
+                image={item.image}
+                name={item.name}
+                brand={item.brand}
+                price={item.price}
+                star={item.star}
+                count={item.count}></FlatListItem>
+            )}
+            keyExtractor={item => item.id}
+            ListFooterComponent={
+              <View
+                style={{
+                  height: 60,
+                  backgroundColor: COLORS.primaryLight,
+                }}></View>
+            }></FlatList>
+        </View>
+      )}
+
+      {loader === true && (
+        <View style={{marginTop: 30}}>
+          <ActivityIndicator
+            animating={true}
+            size="large"
+            color={COLORS.placeholder}></ActivityIndicator>
+        </View>
+      )}
+      {loader === false && error !== null && (
+        <Text style={styles.ErrorText}>{error}</Text>
+      )}
     </SafeAreaView>
   );
 };
@@ -249,12 +299,12 @@ const styles = StyleSheet.create({
   },
   Name: {
     fontFamily: FONTFAMILY.poppins_medium,
-    fontSize: FONTSIZE.size_16,
+    fontSize: FONTSIZE.size_14,
     color: COLORS.primaryDark,
   },
   Brand: {
     fontFamily: FONTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_14,
+    fontSize: FONTSIZE.size_12,
     color: COLORS.primaryDark,
     opacity: 0.5,
     marginTop: SPACING.space_2,
@@ -281,8 +331,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   PriceText: {
-    fontFamily: FONTFAMILY.poppins_semibold,
-    fontSize: FONTSIZE.size_16,
+    fontFamily: FONTFAMILY.poppins_medium,
+    fontSize: FONTSIZE.size_14,
     color: COLORS.primaryDark,
     marginTop: SPACING.space_2,
     marginLeft: SPACING.space_4,
@@ -292,9 +342,16 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.secondaryDark,
     width: 30,
     height: 30,
-    borderRadius: 10,
+    borderRadius: 8,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  ErrorText: {
+    textAlign: 'center',
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_16,
+    color: COLORS.placeholder,
+    marginTop: SPACING.space_30,
   },
 });

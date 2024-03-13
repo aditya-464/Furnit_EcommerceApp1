@@ -18,14 +18,12 @@ import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import storage from '@react-native-firebase/storage';
-import {useSelector, useDispatch} from 'react-redux';
-import {setCartPressVal} from '../../redux/cart';
+import {useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 
 const SearchResult = props => {
   const {data, navigation} = props;
   const {uid} = useSelector(state => state.auth);
-  const dispatch = useDispatch();
   const [numColumnsValue, setNumColumnsValue] = useState(2);
 
   const handleAddToCart = async (id, name, brand, price, star, count, url) => {
@@ -126,7 +124,6 @@ const SearchResult = props => {
               <TouchableOpacity
                 onPress={() => {
                   handleAddToCart(id, name, brand, price, star, count, url);
-                  dispatch(setCartPressVal());
                 }}
                 activeOpacity={0.6}
                 style={styles.AddToCartButton}>
