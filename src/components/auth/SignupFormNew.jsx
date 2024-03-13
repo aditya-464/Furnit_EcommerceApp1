@@ -1,4 +1,10 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useState} from 'react';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../../theme/Theme';
 import {TextInput} from 'react-native-paper';
@@ -10,7 +16,8 @@ import firestore from '@react-native-firebase/firestore';
 const SignupFormNew = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [loader, setLoader] = useState(false);
+  const [error, setError] = useState(null);
   const dispatch = useDispatch();
 
   const handleSignup = async () => {
@@ -31,9 +38,13 @@ const SignupFormNew = () => {
         setEmail('');
         setPassword('');
         dispatch(setUid(createUser.user.uid));
+        setLoader(false);
+        setError(null);
       }
     } catch (error) {
       console.log(error.message);
+      setError(error.message);
+      setLoader(false);
     }
   };
 
@@ -110,11 +121,27 @@ const SignupFormNew = () => {
         numberOfLines={1}
         secureTextEntry={true}></TextInput>
       <TouchableOpacity
-        onPress={() => handleSignup()}
+        onPress={() => {
+          setError(null);
+          setLoader(true);
+          handleSignup();
+        }}
         activeOpacity={0.6}
         style={styles.SignupButton}>
-        <Text style={styles.SignupButtonText}>Signup</Text>
+        {loader === false && (
+          <Text style={styles.SignupButtonText}>Signup</Text>
+        )}
+        {loader === true && (
+          <ActivityIndicator
+            animating={loader}
+            size={27}
+            color={COLORS.primaryDark}></ActivityIndicator>
+        )}
       </TouchableOpacity>
+
+      {loader === false && error !== null && (
+        <Text style={styles.ErrorText}>{error}</Text>
+      )}
     </View>
   );
 };
@@ -133,5 +160,11 @@ const styles = StyleSheet.create({
     fontSize: FONTSIZE.size_16,
     color: COLORS.primaryDark,
     textAlign: 'center',
+  },
+  ErrorText: {
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_12,
+    color: COLORS.error,
+    marginTop: SPACING.space_10,
   },
 });

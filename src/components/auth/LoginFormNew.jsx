@@ -1,4 +1,10 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useState} from 'react';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../../theme/Theme';
 import {TextInput} from 'react-native-paper';
@@ -9,6 +15,8 @@ import {setUid} from '../../redux/auth';
 const LoginFormNew = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loader, setLoader] = useState(false);
+  const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -20,9 +28,13 @@ const LoginFormNew = ({navigation}) => {
         setPassword('');
         navigation.navigate('InnerStackNavigator');
         dispatch(setUid(login.user.uid));
+        setLoader(false);
+        setError(null);
       }
     } catch (error) {
       console.log(error.message);
+      setError(error.message);
+      setLoader(false);
     }
   };
 
@@ -103,11 +115,24 @@ const LoginFormNew = ({navigation}) => {
         numberOfLines={1}
         secureTextEntry={true}></TextInput>
       <TouchableOpacity
-        onPress={() => handleLogin()}
+        onPress={() => {
+          setError(null);
+          setLoader(true);
+          handleLogin();
+        }}
         activeOpacity={0.6}
         style={styles.LoginButton}>
-        <Text style={styles.LoginButtonText}>Login</Text>
+        {loader === false && <Text style={styles.LoginButtonText}>Login</Text>}
+        {loader === true && (
+          <ActivityIndicator
+            animating={loader}
+            size={27}
+            color={COLORS.primaryDark}></ActivityIndicator>
+        )}
       </TouchableOpacity>
+      {loader === false && error !== null && (
+        <Text style={styles.ErrorText}>{error}</Text>
+      )}
     </View>
   );
 };
@@ -126,5 +151,11 @@ const styles = StyleSheet.create({
     fontSize: FONTSIZE.size_16,
     color: COLORS.primaryDark,
     textAlign: 'center',
+  },
+  ErrorText: {
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_12,
+    color: COLORS.error,
+    marginTop: SPACING.space_10,
   },
 });
