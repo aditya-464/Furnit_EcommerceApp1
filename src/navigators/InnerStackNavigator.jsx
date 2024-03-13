@@ -54,8 +54,8 @@ const InnerStackNavigator = () => {
         component={BottomTabNavigator}
         options={{
           headerShown: false,
-          unmountOnBlur: true,
-          lazy: false,
+          // unmountOnBlur: true,
+          // lazy: false,
         }}
       />
       <Stack.Screen
@@ -117,8 +117,6 @@ const InnerStackNavigator = () => {
         component={AboutUsScreen}
         options={{
           headerShown: false,
-          unmountOnBlur: true,
-          lazy: false,
         }}
       />
       <Stack.Screen
@@ -126,8 +124,6 @@ const InnerStackNavigator = () => {
         component={PrivacyAndPolicyScreen}
         options={{
           headerShown: false,
-          unmountOnBlur: true,
-          lazy: false,
         }}
       />
       <Stack.Screen
@@ -135,8 +131,6 @@ const InnerStackNavigator = () => {
         component={TermsAndConditionsScreen}
         options={{
           headerShown: false,
-          unmountOnBlur: true,
-          lazy: false,
         }}
       />
       <Stack.Screen
@@ -144,8 +138,6 @@ const InnerStackNavigator = () => {
         component={LogoutScreen}
         options={{
           headerShown: false,
-          unmountOnBlur: true,
-          lazy: false,
         }}
       />
     </Stack.Navigator>

@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   FlatList,
   SafeAreaView,
   ScrollView,
@@ -27,6 +28,14 @@ const OrderHistoryScreen = props => {
   const {paymentCount} = useSelector(state => state.payment);
   const {uid} = useSelector(state => state.auth);
   const [data, setData] = useState(null);
+  const [loader, setLoader] = useState(true);
+  const [error, setError] = useState(null);
+
+  const handleLoader = () => {
+    setTimeout(() => {
+      setLoader(false);
+    }, 1000);
+  };
 
   const handleDeleteOrderHistory = async () => {
     try {
@@ -36,6 +45,7 @@ const OrderHistoryScreen = props => {
         .delete()
         .then(() => {
           setData(null);
+          setError('No order history!');
         })
         .catch(error => {
           console.log(error.message);
@@ -51,6 +61,9 @@ const OrderHistoryScreen = props => {
       if (res.exists) {
         let temp = res.data();
         setData(Object.values(temp));
+        handleLoader();
+      } else {
+        handleLoader();
       }
     } catch (error) {
       console.log(error.message);
@@ -59,7 +72,15 @@ const OrderHistoryScreen = props => {
 
   useEffect(() => {
     getOrderHistory();
-  }, [paymentCount]);
+  }, []);
+
+  useEffect(() => {
+    if (loader === false && data === null) {
+      setError('No order history!');
+    } else if (loader === false && data !== null) {
+      setError(null);
+    }
+  }, [loader]);
 
   const FlatListItem = ({
     orderId,
@@ -130,7 +151,7 @@ const OrderHistoryScreen = props => {
         </TouchableOpacity>
       </View>
 
-      {data !== null && (
+      {loader === false && error === null && data !== null && (
         <FlatList
           data={data}
           horizontal={false}
@@ -146,6 +167,18 @@ const OrderHistoryScreen = props => {
               itemsName={item.itemsName}></FlatListItem>
           )}
           keyExtractor={item => item.orderId}></FlatList>
+      )}
+
+      {loader === true && (
+        <View style={{marginTop: 30}}>
+          <ActivityIndicator
+            animating={true}
+            size="large"
+            color={COLORS.placeholder}></ActivityIndicator>
+        </View>
+      )}
+      {loader === false && error !== null && (
+        <Text style={styles.ErrorText}>{error}</Text>
       )}
     </SafeAreaView>
   );
@@ -256,5 +289,12 @@ const styles = StyleSheet.create({
     fontSize: FONTSIZE.size_14,
     color: 'green',
     paddingLeft: SPACING.space_8,
+  },
+  ErrorText: {
+    textAlign: 'center',
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_16,
+    color: COLORS.placeholder,
+    marginTop: SPACING.space_30,
   },
 });
