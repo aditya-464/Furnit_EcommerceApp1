@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {
   BORDERRADIUS,
   COLORS,
@@ -64,9 +64,23 @@ const FilterModal = props => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Modal isVisible={isModalVisible} useNativeDriver={true}>
+      <Modal
+        isVisible={isModalVisible}
+        useNativeDriver={true}
+        backdropOpacity={0.8}>
         <View style={styles.FilterModal}>
-          <View style={styles.CloseModalIcon}>
+          <View style={styles.TitleBar}>
+            <TouchableOpacity
+              disabled={true}
+              onPress={() => handleFilterModal(false)}
+              activeOpacity={0.6}
+              style={[styles.CloseModalButton, {opacity: 0}]}>
+              <Ionicons
+                name="close"
+                size={FONTSIZE.size_30}
+                color={COLORS.primaryDark}></Ionicons>
+            </TouchableOpacity>
+            <Text style={styles.TitleText}>Filter</Text>
             <TouchableOpacity
               onPress={() => handleFilterModal(false)}
               activeOpacity={0.6}
@@ -200,7 +214,7 @@ const FilterModal = props => {
   );
 };
 
-export default FilterModal;
+export default memo(FilterModal);
 
 const styles = StyleSheet.create({
   FilterModal: {
@@ -209,10 +223,19 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primaryLight,
     borderRadius: BORDERRADIUS.radius_15,
   },
-  CloseModalButton: {
+  TitleBar: {
     width: '100%',
-    alignItems: 'flex-end',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
+  TitleText: {
+    fontFamily: FONTFAMILY.poppins_medium,
+    fontSize: FONTSIZE.size_24,
+    color: COLORS.primaryDark,
+    textAlign: 'center',
+  },
+  CloseModalButton: {},
   OptionLabel: {
     marginVertical: SPACING.space_8,
   },

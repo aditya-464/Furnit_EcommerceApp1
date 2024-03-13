@@ -1,15 +1,12 @@
 import {
-  FlatList,
   SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-  Image,
-  Dimensions,
 } from 'react-native';
-import React, {useState, useEffect, useCallback, useRef} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   BORDERRADIUS,
   COLORS,
@@ -20,23 +17,14 @@ import {
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
-import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
-import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
-// import filter from 'lodash.filter';
 import FilterModal from '../components/search/FilterModal';
 import firestore from '@react-native-firebase/firestore';
-import storage from '@react-native-firebase/storage';
-import {useSelector, useDispatch} from 'react-redux';
-import {setCartPressVal} from '../redux/cart';
+import SearchResult from '../components/search/SearchResult';
 
 const SearchScreen = props => {
   const {navigation} = props;
-  const {uid} = useSelector(state => state.auth);
-  const dispatch = useDispatch();
-  const [numColumnsValue, setNumColumnsValue] = useState(2);
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [data, setData] = useState(null);
-  // const [filter1, setFilter1] = useState('all');
   const [filter2, setFilter2] = useState('all');
   const [filter3, setFilter3] = useState(9000);
   const inputRef = useRef();
@@ -45,90 +33,6 @@ const SearchScreen = props => {
     setShowFilterModal(val);
   };
 
-  const FlatListItem = ({id, name, brand, imageType, price, star, count}) => {
-    const [url, setUrl] = useState(null);
-    const imgName = id + '.' + imageType;
-
-    const getDownloadImageUrl = async () => {
-      try {
-        const res = await storage()
-          .ref('product-images/' + imgName)
-          .getDownloadURL();
-
-        if (res) {
-          setUrl(res);
-        }
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-
-    useEffect(() => {
-      getDownloadImageUrl();
-    }, [imageType, id]);
-
-    return (
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate('ProductDetailsScreen', {
-            id,
-            name,
-            brand,
-            image: url,
-            price,
-            star,
-            count,
-          })
-        }
-        activeOpacity={0.8}
-        style={styles.ProductCard}>
-        <View style={styles.ImageView}>
-          {url !== null && (
-            <Image
-              style={styles.Image}
-              source={{uri: url}}
-              resizeMode="cover"></Image>
-          )}
-        </View>
-        <View style={styles.Info}>
-          <View style={styles.TopInfo}>
-            <Text style={styles.Name}>{name}</Text>
-            <View style={styles.Rating}>
-              <AntDesign
-                name="star"
-                size={FONTSIZE.size_20}
-                color={COLORS.secondaryLight}></AntDesign>
-              <Text style={styles.StarText}>{star}</Text>
-            </View>
-          </View>
-          <Text style={styles.Brand}>{brand}</Text>
-          <View style={styles.BottomInfo}>
-            <View style={styles.Price}>
-              <FontAwesome
-                name="rupee"
-                size={FONTSIZE.size_14}
-                color={COLORS.primaryDark}></FontAwesome>
-              <Text style={styles.PriceText}>{price}</Text>
-            </View>
-            <View style={styles.ActionButton}>
-              <TouchableOpacity
-                onPress={() => {
-                  handleAddToCart(id, name, brand, price, star, count, url);
-                  dispatch(setCartPressVal());
-                }}
-                activeOpacity={0.6}
-                style={styles.AddToCartButton}>
-                <Octicons
-                  name="plus"
-                  size={FONTSIZE.size_16}
-                  color={COLORS.primaryLight}></Octicons>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
-  };
   const getData = (res1, res2) => {
     let temp = new Set();
     for (let i = 0; i < res1.length; i++) {
@@ -137,23 +41,16 @@ const SearchScreen = props => {
     for (let i = 0; i < res2.length; i++) {
       temp.add(res2[i]._data);
     }
-    // setData([...temp]());
-    // console.log({...temp}());
-
-    let temp2 = [...temp];
-    setData([...temp2]);
+    let temp2 = Array.from(temp);
+    setData(temp2);
   };
 
   const getProducts = async (searchName, searchCategory) => {
     try {
-      // const query1 = filter1 === 'all' ? searchCategory : filter1;
       const query2 =
         filter2 === 'all'
           ? ['IKEA', 'Ashley', 'West Elm', 'Herman Miller']
           : [filter2];
-
-      console.log(searchName, searchCategory);
-      console.log(query2, filter3);
 
       const res1 = await firestore()
         .collection('Products')
@@ -204,45 +101,7 @@ const SearchScreen = props => {
     }
   };
 
-  const handleAddToCart = async (id, name, brand, price, star, count, url) => {
-    try {
-      const newItemData = {
-        pid: id,
-        name,
-        brand,
-        price,
-        star,
-        count,
-        image: url,
-      };
-      const oldData = await firestore().collection('Cart').doc(uid).get();
-
-      if (oldData.exists) {
-        const newData = await firestore()
-          .collection('Cart')
-          .doc(uid)
-          .set({[id]: newItemData}, {merge: true});
-
-        if (newData) {
-          console.log('Item added to Cart!');
-        }
-      } else {
-        const newData = await firestore()
-          .collection('Cart')
-          .doc(uid)
-          .set({[id]: newItemData});
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  useEffect(() => {
-    handleSubmitEditing();
-  }, [filter2, filter3]);
-
   const getFilterValues = (brand, budget) => {
-    // setFilter1(category);
     setFilter2(brand);
     setFilter3(budget);
   };
@@ -284,34 +143,15 @@ const SearchScreen = props => {
         <TextInput
           ref={inputRef}
           onSubmitEditing={handleSubmitEditing}
-          // value={searchQuery}
-          // onChangeText={text => setSearchQuery(text)}
           onChangeText={text => (inputRef.current.value = text)}
           style={styles.SearchInput}
           placeholder="Find your product..."
           enterKeyHint="search"></TextInput>
       </TouchableOpacity>
-      <View style={styles.ProductList}>
-        <FlatList
-          data={data}
-          numColumns={numColumnsValue}
-          showsVerticalScrollIndicator={false}
-          renderItem={({item}) => (
-            <FlatListItem
-              id={item.pid}
-              imageType={item.imageType}
-              name={item.name}
-              brand={item.brand}
-              price={item.price}
-              star={item.star}
-              count={item.count}></FlatListItem>
-          )}
-          keyExtractor={item => item.pid}
-          ListFooterComponent={
-            <View
-              style={{height: 60, backgroundColor: COLORS.primaryLight}}></View>
-          }></FlatList>
-      </View>
+
+      {data !== null && (
+        <SearchResult data={data} navigation={navigation}></SearchResult>
+      )}
 
       <FilterModal
         getFilterValues={getFilterValues}
