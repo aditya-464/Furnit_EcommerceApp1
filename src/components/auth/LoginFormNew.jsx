@@ -33,13 +33,18 @@ const LoginFormNew = ({navigation}) => {
   const handleLogin = async () => {
     try {
       const login = await auth().signInWithEmailAndPassword(email, password);
-      if (login) {
+      if (login.user.emailVerified) {
         setEmail('');
         setPassword('');
         navigation.navigate('InnerStackNavigator');
         dispatch(setUid(login.user.uid));
         setLoader(false);
         setError(null);
+      } else {
+        setEmail('');
+        setPassword('');
+        setLoader(false);
+        setError('Email not verified');
       }
     } catch (error) {
       console.log(error.message);

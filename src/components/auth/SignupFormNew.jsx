@@ -46,6 +46,9 @@ const SignupFormNew = ({navigation}) => {
             uid: createUser.user.uid,
             image: 'userProfile.jpg',
           });
+
+        const sendVerificationEmail =
+          await auth().currentUser.sendEmailVerification();
         setEmail('');
         setPassword('');
         dispatch(setUid(createUser.user.uid));
