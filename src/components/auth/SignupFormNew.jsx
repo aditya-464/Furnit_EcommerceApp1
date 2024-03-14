@@ -41,9 +41,10 @@ const SignupFormNew = () => {
           .collection('Users')
           .doc(createUser.user.uid)
           .set({
-            name: 'User',
+            name: 'Name',
             email,
             uid: createUser.user.uid,
+            image: 'userProfile.jpg',
           });
         setEmail('');
         setPassword('');

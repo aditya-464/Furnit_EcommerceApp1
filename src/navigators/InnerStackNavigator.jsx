@@ -16,6 +16,7 @@ import LogoutScreen from '../screens/LogoutScreen';
 import CheckOutScreen from '../screens/CheckOutScreen';
 import PaymentDoneScreen from '../screens/PaymentDoneScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import EditProfileScreen from '../screens/EditProfileScreen';
 
 const Stack = createStackNavigator();
 
@@ -55,8 +56,8 @@ const InnerStackNavigator = () => {
         component={BottomTabNavigator}
         options={{
           headerShown: false,
-          // unmountOnBlur: true,
-          // lazy: false,
+          unmountOnBlur: true,
+          lazy: false,
         }}
       />
       <Stack.Screen
@@ -89,6 +90,15 @@ const InnerStackNavigator = () => {
       <Stack.Screen
         name="ProductDetailsScreen"
         component={ProductDetailsScreen}
+        options={{
+          headerShown: false,
+          unmountOnBlur: true,
+          lazy: false,
+        }}
+      />
+      <Stack.Screen
+        name="EditProfileScreen"
+        component={EditProfileScreen}
         options={{
           headerShown: false,
           unmountOnBlur: true,

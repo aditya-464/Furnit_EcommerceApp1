@@ -101,9 +101,9 @@ const SearchScreen = props => {
   };
 
   const handleSubmitEditing = () => {
-    setLoader(true);
-    setError(null);
-    if (inputRef.current.value !== '') {
+    if (inputRef.current.value !== '' && inputRef.current.value !== undefined) {
+      setLoader(true);
+      setError(null);
       const searchCategory = formatQuery(0);
       const searchName = formatQuery(1);
       getProducts(searchName, searchCategory);

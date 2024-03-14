@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Image,
   Pressable,
   SafeAreaView,
@@ -8,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   BORDERRADIUS,
   COLORS,
@@ -24,9 +25,53 @@ import Octicons from 'react-native-vector-icons/dist/Octicons';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
 import UserProfileImg from '../assets/images/profile/userProfile.jpg';
 import {useNavigation} from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+import {useSelector} from 'react-redux';
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
+  const {uid} = useSelector(state => state.auth);
+  const [name, setName] = useState(null);
+  const [image, setImage] = useState(null);
+  const [loader, setLoader] = useState(true);
+
+  const handleLoader = () => {
+    setLoader(false);
+  };
+
+  const getUserProfileImage = async imageName => {
+    try {
+      const res = await storage()
+        .ref('profile-images/' + imageName)
+        .getDownloadURL();
+
+      if (res) {
+        setImage(res);
+        handleLoader();
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const getUserData = async () => {
+    try {
+      const user = await firestore().collection('Users').doc(uid).get();
+      if (user.exists) {
+        setName(user.data().name);
+        const imageName = user.data().image;
+        getUserProfileImage(imageName);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getUserData();
+  }, []);
+
   return (
     <SafeAreaView
       style={{
@@ -55,166 +100,171 @@ const ProfileScreen = () => {
             color={COLORS.primaryDark}></Octicons>
         </TouchableOpacity>
       </View>
-      <ScrollView
-        scrollEnabled={true}
-        horizontal={false}
-        showsVerticalScrollIndicator={false}>
-        <View style={styles.TopContent}>
-          <View style={styles.ImageView}>
-            <Image style={styles.Image} source={UserProfileImg}></Image>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Text style={styles.Name}>Radhe Shyam</Text>
-            {/* <TouchableOpacity
-              style={{marginLeft: SPACING.space_8}}
+      {loader === false && image !== null && (
+        <ScrollView
+          scrollEnabled={true}
+          horizontal={false}
+          showsVerticalScrollIndicator={false}>
+          <View style={styles.TopContent}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('EditProfileScreen')}
+              activeOpacity={0.6}
+              style={styles.ImageView}>
+              {image !== null && (
+                <Image style={styles.Image} source={{uri: image}}></Image>
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('EditProfileScreen')}
               activeOpacity={0.6}>
-              <Feather
-                name="edit-2"
-                size={20}
-                color={COLORS.primaryDark}></Feather>
-            </TouchableOpacity> */}
+              <Text style={styles.Name}>{name}</Text>
+            </TouchableOpacity>
           </View>
+          <View style={styles.BottomContent}>
+            <View style={styles.OptionsCategory}>
+              <Text style={styles.CategoryName}>Account</Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('WishListScreen')}
+                activeOpacity={0.2}
+                style={styles.Option}>
+                <View style={styles.OptionIcon}>
+                  <Ionicons
+                    name={'heart-outline'}
+                    size={FONTSIZE.size_24}
+                    color={COLORS.primaryDark}></Ionicons>
+                </View>
+                <Text style={styles.OptionName}>Wishlist</Text>
+                <View style={styles.GoIcon}>
+                  <Ionicons
+                    name="chevron-forward"
+                    size={FONTSIZE.size_24}
+                    color={COLORS.primaryDark}></Ionicons>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('OrderHistoryScreen')}
+                activeOpacity={0.2}
+                style={styles.Option}>
+                <View style={styles.OptionIcon}>
+                  <Ionicons
+                    name={'time-outline'}
+                    size={FONTSIZE.size_24}
+                    color={COLORS.primaryDark}></Ionicons>
+                </View>
+                <Text style={styles.OptionName}>Order History</Text>
+                <View style={styles.GoIcon}>
+                  <Ionicons
+                    name="chevron-forward"
+                    size={FONTSIZE.size_24}
+                    color={COLORS.primaryDark}></Ionicons>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('SettingsScreen')}
+                activeOpacity={0.2}
+                style={styles.Option}>
+                <View style={styles.OptionIcon}>
+                  <Ionicons
+                    name={'settings-outline'}
+                    size={FONTSIZE.size_24}
+                    color={COLORS.primaryDark}></Ionicons>
+                </View>
+                <Text style={styles.OptionName}>Settings</Text>
+                <View style={styles.GoIcon}>
+                  <Ionicons
+                    name="chevron-forward"
+                    size={FONTSIZE.size_24}
+                    color={COLORS.primaryDark}></Ionicons>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.OptionsCategory}>
+              <Text style={styles.CategoryName}>General</Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('AboutUsScreen')}
+                activeOpacity={0.2}
+                style={styles.Option}>
+                <View style={styles.OptionIcon}>
+                  <Ionicons
+                    name={'information-circle-outline'}
+                    size={FONTSIZE.size_24}
+                    color={COLORS.primaryDark}></Ionicons>
+                </View>
+                <Text style={styles.OptionName}>About Us</Text>
+                <View style={styles.GoIcon}>
+                  <Ionicons
+                    name="chevron-forward"
+                    size={FONTSIZE.size_24}
+                    color={COLORS.primaryDark}></Ionicons>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('PrivacyAndPolicyScreen')}
+                activeOpacity={0.2}
+                style={styles.Option}>
+                <View style={styles.OptionIcon}>
+                  <Ionicons
+                    name={'lock-closed-outline'}
+                    size={FONTSIZE.size_24}
+                    color={COLORS.primaryDark}></Ionicons>
+                </View>
+                <Text style={styles.OptionName}>Privacy Policy</Text>
+                <View style={styles.GoIcon}>
+                  <Ionicons
+                    name="chevron-forward"
+                    size={FONTSIZE.size_24}
+                    color={COLORS.primaryDark}></Ionicons>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('TermsAndConditionsScreen')}
+                activeOpacity={0.2}
+                style={styles.Option}>
+                <View style={styles.OptionIcon}>
+                  <Ionicons
+                    name={'document-text-outline'}
+                    size={FONTSIZE.size_24}
+                    color={COLORS.primaryDark}></Ionicons>
+                </View>
+                <Text style={styles.OptionName}>Terms & Conditions</Text>
+                <View style={styles.GoIcon}>
+                  <Ionicons
+                    name="chevron-forward"
+                    size={FONTSIZE.size_24}
+                    color={COLORS.primaryDark}></Ionicons>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('LogoutScreen')}
+                activeOpacity={0.2}
+                style={styles.Option}>
+                <View style={styles.OptionIcon}>
+                  <Ionicons
+                    name={'log-out-outline'}
+                    size={FONTSIZE.size_24}
+                    color={COLORS.primaryDark}></Ionicons>
+                </View>
+                <Text style={styles.OptionName}>Logout</Text>
+                <View style={styles.GoIcon}>
+                  <Ionicons
+                    name="chevron-forward"
+                    size={FONTSIZE.size_24}
+                    color={COLORS.primaryDark}></Ionicons>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
+      )}
+
+      {(loader === true || image === null) && (
+        <View style={{marginTop: 30}}>
+          <ActivityIndicator
+            animating={loader}
+            size="large"
+            color={COLORS.placeholder}></ActivityIndicator>
         </View>
-        <View style={styles.BottomContent}>
-          <View style={styles.OptionsCategory}>
-            <Text style={styles.CategoryName}>Account</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('WishListScreen')}
-              activeOpacity={0.2}
-              style={styles.Option}>
-              <View style={styles.OptionIcon}>
-                <Ionicons
-                  name={'heart-outline'}
-                  size={FONTSIZE.size_24}
-                  color={COLORS.primaryDark}></Ionicons>
-              </View>
-              <Text style={styles.OptionName}>Wishlist</Text>
-              <View style={styles.GoIcon}>
-                <Ionicons
-                  name="chevron-forward"
-                  size={FONTSIZE.size_24}
-                  color={COLORS.primaryDark}></Ionicons>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('OrderHistoryScreen')}
-              activeOpacity={0.2}
-              style={styles.Option}>
-              <View style={styles.OptionIcon}>
-                <Ionicons
-                  name={'time-outline'}
-                  size={FONTSIZE.size_24}
-                  color={COLORS.primaryDark}></Ionicons>
-              </View>
-              <Text style={styles.OptionName}>Order History</Text>
-              <View style={styles.GoIcon}>
-                <Ionicons
-                  name="chevron-forward"
-                  size={FONTSIZE.size_24}
-                  color={COLORS.primaryDark}></Ionicons>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('SettingsScreen')}
-              activeOpacity={0.2}
-              style={styles.Option}>
-              <View style={styles.OptionIcon}>
-                <Ionicons
-                  name={'settings-outline'}
-                  size={FONTSIZE.size_24}
-                  color={COLORS.primaryDark}></Ionicons>
-              </View>
-              <Text style={styles.OptionName}>Settings</Text>
-              <View style={styles.GoIcon}>
-                <Ionicons
-                  name="chevron-forward"
-                  size={FONTSIZE.size_24}
-                  color={COLORS.primaryDark}></Ionicons>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.OptionsCategory}>
-            <Text style={styles.CategoryName}>General</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('AboutUsScreen')}
-              activeOpacity={0.2}
-              style={styles.Option}>
-              <View style={styles.OptionIcon}>
-                <Ionicons
-                  name={'information-circle-outline'}
-                  size={FONTSIZE.size_24}
-                  color={COLORS.primaryDark}></Ionicons>
-              </View>
-              <Text style={styles.OptionName}>About Us</Text>
-              <View style={styles.GoIcon}>
-                <Ionicons
-                  name="chevron-forward"
-                  size={FONTSIZE.size_24}
-                  color={COLORS.primaryDark}></Ionicons>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('PrivacyAndPolicyScreen')}
-              activeOpacity={0.2}
-              style={styles.Option}>
-              <View style={styles.OptionIcon}>
-                <Ionicons
-                  name={'lock-closed-outline'}
-                  size={FONTSIZE.size_24}
-                  color={COLORS.primaryDark}></Ionicons>
-              </View>
-              <Text style={styles.OptionName}>Privacy Policy</Text>
-              <View style={styles.GoIcon}>
-                <Ionicons
-                  name="chevron-forward"
-                  size={FONTSIZE.size_24}
-                  color={COLORS.primaryDark}></Ionicons>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('TermsAndConditionsScreen')}
-              activeOpacity={0.2}
-              style={styles.Option}>
-              <View style={styles.OptionIcon}>
-                <Ionicons
-                  name={'document-text-outline'}
-                  size={FONTSIZE.size_24}
-                  color={COLORS.primaryDark}></Ionicons>
-              </View>
-              <Text style={styles.OptionName}>Terms & Conditions</Text>
-              <View style={styles.GoIcon}>
-                <Ionicons
-                  name="chevron-forward"
-                  size={FONTSIZE.size_24}
-                  color={COLORS.primaryDark}></Ionicons>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('LogoutScreen')}
-              activeOpacity={0.2}
-              style={styles.Option}>
-              <View style={styles.OptionIcon}>
-                <Ionicons
-                  name={'log-out-outline'}
-                  size={FONTSIZE.size_24}
-                  color={COLORS.primaryDark}></Ionicons>
-              </View>
-              <Text style={styles.OptionName}>Logout</Text>
-              <View style={styles.GoIcon}>
-                <Ionicons
-                  name="chevron-forward"
-                  size={FONTSIZE.size_24}
-                  color={COLORS.primaryDark}></Ionicons>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </ScrollView>
+      )}
     </SafeAreaView>
   );
 };
@@ -247,8 +297,8 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.space_10,
   },
   ImageView: {
-    width: '30%',
-    height: 100,
+    width: 120,
+    height: 120,
   },
   Image: {
     width: '100%',

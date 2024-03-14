@@ -14,7 +14,7 @@ const Tab = createBottomTabNavigator();
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
-      initialRouteName="HomeScreen"
+      // initialRouteName="HomeScreen"
       screenOptions={({route}) => ({
         tabBarHideOnKeyboard: true,
         headerShown: false,
@@ -73,8 +73,8 @@ const BottomTabNavigator = () => {
               color={focused ? COLORS.secondaryDark : COLORS.placeholder}
             />
           ),
-          // unmountOnBlur: true,
-          // lazy: false,
+          unmountOnBlur: true,
+          lazy: false,
         }}></Tab.Screen>
       <Tab.Screen
         name="CartScreen"
@@ -101,8 +101,8 @@ const BottomTabNavigator = () => {
               color={focused ? COLORS.secondaryDark : COLORS.placeholder}
             />
           ),
-          // unmountOnBlur: true,
-          // lazy: false,
+          unmountOnBlur: true,
+          lazy: false,
         }}></Tab.Screen>
     </Tab.Navigator>
   );
