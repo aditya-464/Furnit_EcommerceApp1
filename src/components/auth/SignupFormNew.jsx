@@ -52,9 +52,9 @@ const SignupFormNew = ({navigation}) => {
         setEmail('');
         setPassword('');
         dispatch(setUid(createUser.user.uid));
-        setLoader(false);
         setError(null);
         navigation.navigate('EmailVerificationScreen');
+        setLoader(false);
       }
     } catch (error) {
       console.log(error.message);
