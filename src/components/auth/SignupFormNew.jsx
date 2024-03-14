@@ -14,7 +14,7 @@ import {useDispatch} from 'react-redux';
 import {setUid} from '../../redux/auth';
 import firestore from '@react-native-firebase/firestore';
 
-const SignupFormNew = () => {
+const SignupFormNew = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [hidePassword, setHidePassword] = useState(true);
@@ -51,6 +51,7 @@ const SignupFormNew = () => {
         dispatch(setUid(createUser.user.uid));
         setLoader(false);
         setError(null);
+        navigation.navigate('EmailVerificationScreen');
       }
     } catch (error) {
       console.log(error.message);

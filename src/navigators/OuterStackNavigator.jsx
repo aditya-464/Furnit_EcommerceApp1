@@ -10,7 +10,7 @@ import OnboardingScreen from '../screens/OnboardingScreen';
 import InnerStackNavigator from './InnerStackNavigator';
 import LoginScreenNew from '../screens/LoginScreenNew';
 import SignupScreenNew from '../screens/SignupScreenNew';
-import PassDataScreen from '../screens/PassDataScreen';
+import EmailVerificationScreen from '../screens/EmailVerificationScreen';
 
 const Stack = createStackNavigator();
 
@@ -50,7 +50,6 @@ const OuterStackNavigator = () => {
         component={OnboardingScreen}
         options={{
           headerShown: false,
-          unmountOnBlur: true,
           lazy: false,
         }}
       />
@@ -59,7 +58,6 @@ const OuterStackNavigator = () => {
         component={LoginScreenNew}
         options={{
           headerShown: false,
-          unmountOnBlur: true,
           lazy: false,
         }}
       />
@@ -68,13 +66,12 @@ const OuterStackNavigator = () => {
         component={SignupScreenNew}
         options={{
           headerShown: false,
-          unmountOnBlur: true,
           lazy: false,
         }}
       />
       <Stack.Screen
-        name="PassDataScreen"
-        component={PassDataScreen}
+        name="EmailVerificationScreen"
+        component={EmailVerificationScreen}
         options={{
           headerShown: false,
           unmountOnBlur: true,
@@ -86,7 +83,6 @@ const OuterStackNavigator = () => {
         component={InnerStackNavigator}
         options={{
           headerShown: false,
-          unmountOnBlur: true,
           lazy: false,
         }}
       />

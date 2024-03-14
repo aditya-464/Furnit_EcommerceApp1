@@ -51,7 +51,7 @@ const SignupScreenNew = ({navigation}) => {
               style={styles.Image}
               source={require('../assets/images/auth/signup1.png')}></Image>
           </View>
-          <SignupFormNew></SignupFormNew>
+          <SignupFormNew navigation={navigation}></SignupFormNew>
         </View>
         <View style={styles.BottomContent}>
           <TouchableOpacity disabled={true}>
