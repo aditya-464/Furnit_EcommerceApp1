@@ -22,6 +22,7 @@ const PaymentDoneScreen = ({navigation}) => {
     cartCount,
     cartAmount,
     shippingAddress,
+    billingAmount,
   } = useSelector(state => state.cart);
   const [itemsName, setItemsName] = useState(null);
   const uniqueId = new ShortUniqueId({length: 10});
@@ -66,7 +67,7 @@ const PaymentDoneScreen = ({navigation}) => {
               orderId,
               itemsName,
               cartCount,
-              cartAmount,
+              cartAmount: billingAmount,
               shippingAddress,
               orderDate,
             },

@@ -11,6 +11,7 @@ import InnerStackNavigator from './InnerStackNavigator';
 import LoginScreenNew from '../screens/LoginScreenNew';
 import SignupScreenNew from '../screens/SignupScreenNew';
 import EmailVerificationScreen from '../screens/EmailVerificationScreen';
+import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 
 const Stack = createStackNavigator();
 
@@ -74,7 +75,14 @@ const OuterStackNavigator = () => {
         component={EmailVerificationScreen}
         options={{
           headerShown: false,
-          unmountOnBlur: true,
+          lazy: false,
+        }}
+      />
+      <Stack.Screen
+        name="ForgotPasswordScreen"
+        component={ForgotPasswordScreen}
+        options={{
+          headerShown: false,
           lazy: false,
         }}
       />

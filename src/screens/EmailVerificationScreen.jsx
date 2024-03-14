@@ -74,7 +74,8 @@ const EmailVerificationScreen = ({navigation}) => {
               value={
                 'To verify your email, press on the link sent'
               }></TextInput>
-            <View
+
+            {/* <View
               style={{
                 flex: 1,
                 flexDirection: 'row',
@@ -108,7 +109,7 @@ const EmailVerificationScreen = ({navigation}) => {
                   size={24}
                   color={COLORS.placeholder}></Ionicons>
               </TouchableOpacity>
-            </View>
+            </View> */}
 
             <TouchableOpacity
               onPress={() => {
@@ -163,7 +164,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.secondaryDark,
     borderRadius: 10,
     padding: SPACING.space_10,
-    marginTop: 40,
+    // marginTop: 40,
   },
   SignupButtonText: {
     fontFamily: FONTFAMILY.poppins_regular,

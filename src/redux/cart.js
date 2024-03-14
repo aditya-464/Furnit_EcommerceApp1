@@ -13,6 +13,7 @@ const initialState = {
   cardNumber: 0,
   cardExpiry: '',
   cardCvv: 0,
+  billingAmount: 0,
 };
 
 export const cartSlice = createSlice({
@@ -55,6 +56,9 @@ export const cartSlice = createSlice({
     saveCardCvv: (state, action) => {
       state.cardCvv = action.payload;
     },
+    setBillingAmount: (state, action) => {
+      state.billingAmount = action.payload;
+    },
   },
 });
 
@@ -71,6 +75,7 @@ export const {
   saveCardName,
   saveCardExpiry,
   saveCardNumber,
+  setBillingAmount,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -2,13 +2,16 @@ import {StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../../theme/Theme';
 import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {setBillingAmount} from '../../redux/cart';
 
 const OrderSummary = () => {
   const {cartCount, cartAmount} = useSelector(state => state.cart);
   const [discount, setDiscount] = useState(null);
-  const [shipping, setShipping] = useState(200);
+  const [shipping, setShipping] = useState(null);
   const [discountPercent, setDiscountPercent] = useState(null);
+  const [totalAmount, setTotalAmount] = useState(null);
+  const dispatch = useDispatch();
 
   const getDiscount = () => {
     if (cartAmount <= 2000) {
@@ -35,6 +38,13 @@ const OrderSummary = () => {
     getDiscount();
     getShipping();
   }, [cartAmount]);
+
+  useEffect(() => {
+    if (shipping !== null && discount !== null) {
+      setTotalAmount(cartAmount + shipping - discount);
+      dispatch(setBillingAmount(cartAmount + shipping - discount));
+    }
+  }, [shipping, discount]);
 
   return (
     <View
@@ -94,13 +104,15 @@ const OrderSummary = () => {
             name="rupee"
             size={FONTSIZE.size_14}
             color={COLORS.primaryDark}></FontAwesome>
-          <Text
-            style={[
-              styles.PriceValue,
-              {fontFamily: FONTFAMILY.poppins_medium},
-            ]}>
-            {cartAmount + shipping - discount}
-          </Text>
+          {totalAmount !== null && (
+            <Text
+              style={[
+                styles.PriceValue,
+                {fontFamily: FONTFAMILY.poppins_medium},
+              ]}>
+              {totalAmount}
+            </Text>
+          )}
         </View>
       </View>
     </View>
