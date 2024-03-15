@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {store} from './src/redux/store';
 import {Provider} from 'react-redux';
 import SignupScreen from './src/screens/SignupScreen';
@@ -26,8 +26,13 @@ import OuterStackNavigator from './src/navigators/OuterStackNavigator';
 import LoginScreenNew from './src/screens/LoginScreenNew';
 import SignupScreenNew from './src/screens/SignupScreenNew';
 import PassDataScreen from './src/screens/PassDataScreen';
+import SplashScreen from 'react-native-splash-screen';
 
 const App = () => {
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+
   return (
     <NavigationContainer>
       <Provider store={store}>
