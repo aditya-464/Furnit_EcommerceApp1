@@ -18,9 +18,41 @@ import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import FontAwesome from 'react-native-vector-icons/dist/FontAwesome';
 import Octicons from 'react-native-vector-icons/dist/Octicons';
 import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
+import auth from '@react-native-firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LogoutScreen = props => {
   const {navigation} = props;
+
+  const clearAsyncStorage = async () => {
+    try {
+      await AsyncStorage.removeItem('furnit-app-uid')
+        .then(() => {
+          navigation.replace('SignupScreenNew');
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      auth()
+        .signOut()
+        .then(() => {
+          clearAsyncStorage();
+        })
+        .catch(error => {
+          console.log(error.message);
+        });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.primaryLight}}>
       <View style={styles.TitleBar}>
@@ -45,10 +77,18 @@ const LogoutScreen = props => {
         Are you certain you wish to Logout?
       </Text>
       <View style={styles.Buttons}>
-        <TouchableOpacity activeOpacity={0.6} style={styles.No}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+          activeOpacity={0.6}
+          style={styles.No}>
           <Text style={styles.ButtonText}>No</Text>
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.6} style={styles.Yes}>
+        <TouchableOpacity
+          onPress={() => handleLogout()}
+          activeOpacity={0.6}
+          style={styles.Yes}>
           <Text style={styles.ButtonText}>Yes</Text>
         </TouchableOpacity>
       </View>
