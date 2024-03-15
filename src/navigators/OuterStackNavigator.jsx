@@ -1,17 +1,18 @@
 import {Easing} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack';
 import OnboardingScreen from '../screens/OnboardingScreen';
-// import LoginScreen from '../screens/LoginScreen';
-// import SignupScreen from '../screens/SignupScreen';
 import InnerStackNavigator from './InnerStackNavigator';
 import LoginScreenNew from '../screens/LoginScreenNew';
 import SignupScreenNew from '../screens/SignupScreenNew';
 import EmailVerificationScreen from '../screens/EmailVerificationScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch} from 'react-redux';
+import {setUid} from '../redux/auth';
 
 const Stack = createStackNavigator();
 
@@ -35,7 +36,16 @@ const closeConfig = {
   },
 };
 
-const OuterStackNavigator = () => {
+const OuterStackNavigator = props => {
+  const {initialRouteName, uid} = props;
+  const dispatch = useDispatch();
+  const saveUidValue = () => {
+    dispatch(setUid(uid));
+  };
+  useEffect(() => {
+    saveUidValue();
+  }, [uid]);
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -45,7 +55,7 @@ const OuterStackNavigator = () => {
         },
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       }}
-      initialRouteName="BottomTabNavigator">
+      initialRouteName={initialRouteName}>
       <Stack.Screen
         name="OnboardingScreen"
         component={OnboardingScreen}

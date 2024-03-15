@@ -35,7 +35,10 @@ const NotificationsScreen = props => {
             color={COLORS.primaryDark}></Ionicons>
         </TouchableOpacity>
         <Text style={styles.TitleText}>Notifications</Text>
-        <TouchableOpacity activeOpacity={0.6} style={styles.ClearCartIcon}>
+        <TouchableOpacity
+          disabled={true}
+          activeOpacity={0.6}
+          style={[styles.ClearCartIcon, {opacity: 0}]}>
           <Octicons
             name="trash"
             size={FONTSIZE.size_24}

@@ -12,6 +12,7 @@ import Ionicons from 'react-native-vector-icons/dist/Ionicons';
 import auth from '@react-native-firebase/auth';
 import {useDispatch} from 'react-redux';
 import {setUid} from '../../redux/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginFormNew = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -21,6 +22,15 @@ const LoginFormNew = ({navigation}) => {
   const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
+
+  const saveUIDAsync = async uid => {
+    try {
+      await AsyncStorage.setItem('furnit-app-uid', uid);
+      await AsyncStorage.setItem('furnit-app-loggedIn', 'true');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleInputCheck = () => {
     if (email === '' || password === '') {
@@ -34,6 +44,7 @@ const LoginFormNew = ({navigation}) => {
     try {
       const login = await auth().signInWithEmailAndPassword(email, password);
       if (login.user.emailVerified) {
+        saveUIDAsync(login.user.uid);
         setEmail('');
         setPassword('');
         navigation.navigate('InnerStackNavigator');

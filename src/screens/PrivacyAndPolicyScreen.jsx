@@ -40,9 +40,17 @@ const PrivacyAndPolicyScreen = ({navigation}) => {
         showsVerticalScrollIndicator={false}>
         <View style={styles.PrivacyContent}>
           <Text style={styles.PrivacyText}>
-            At FurnIt, we prioritize the privacy and security of our users. This
-            policy outlines how we collect, use, and protect your personal
-            information:
+            At{' '}
+            <Text
+              style={{
+                fontFamily: FONTFAMILY.poppins_medium,
+                fontSize: FONTSIZE.size_14,
+                color: COLORS.secondaryDark,
+              }}>
+              FurnIt
+            </Text>
+            , we prioritize the privacy and security of our users. This policy
+            outlines how we collect, use, and protect your personal information:
           </Text>
           <Text style={styles.PrivacyHeading}>Information Collection</Text>
           <Text style={styles.PrivacyText}>
@@ -81,7 +89,17 @@ const PrivacyAndPolicyScreen = ({navigation}) => {
             contact us at - adityagiri@gmail.com
           </Text>
           <Text style={styles.PrivacyText}>Last updated : March 03, 2024</Text>
-          <Text style={styles.PrivacyText}>Thank you for choosing FurnIt!</Text>
+          <Text style={styles.PrivacyText}>
+            Thank you for choosing{' '}
+            <Text
+              style={{
+                fontFamily: FONTFAMILY.poppins_medium,
+                fontSize: FONTSIZE.size_14,
+                color: COLORS.secondaryDark,
+              }}>
+              FurnIt
+            </Text>
+          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -114,14 +132,14 @@ const styles = StyleSheet.create({
   },
   PrivacyHeading: {
     fontFamily: FONTFAMILY.poppins_medium,
-    fontSize: FONTSIZE.size_16,
+    fontSize: FONTSIZE.size_14,
     color: COLORS.primaryDark,
     marginTop: SPACING.space_12,
     marginBottom: SPACING.space_4,
   },
   PrivacyText: {
     fontFamily: FONTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_16,
+    fontSize: FONTSIZE.size_14,
     color: COLORS.primaryDark,
     marginTop: SPACING.space_2,
   },

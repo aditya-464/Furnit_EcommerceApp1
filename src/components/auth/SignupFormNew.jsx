@@ -13,6 +13,7 @@ import auth from '@react-native-firebase/auth';
 import {useDispatch} from 'react-redux';
 import {setUid} from '../../redux/auth';
 import firestore from '@react-native-firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignupFormNew = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -21,6 +22,15 @@ const SignupFormNew = ({navigation}) => {
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
+
+  const saveUIDAsync = async uid => {
+    try {
+      await AsyncStorage.setItem('furnit-app-uid', uid);
+      await AsyncStorage.setItem('furnit-app-loggedIn', 'true');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleInputCheck = () => {
     if (email === '' || password === '') {
@@ -49,6 +59,8 @@ const SignupFormNew = ({navigation}) => {
 
         const sendVerificationEmail =
           await auth().currentUser.sendEmailVerification();
+
+        saveUIDAsync(createUser.user.uid);
         setEmail('');
         setPassword('');
         dispatch(setUid(createUser.user.uid));

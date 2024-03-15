@@ -46,7 +46,7 @@ const AboutUsScreen = props => {
           <Text
             style={{
               fontFamily: FONTFAMILY.poppins_medium,
-              fontSize: FONTSIZE.size_16,
+              fontSize: FONTSIZE.size_14,
               color: COLORS.secondaryDark,
             }}>
             Furnit
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   },
   InfoText: {
     fontFamily: FONTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_16,
+    fontSize: FONTSIZE.size_14,
     color: COLORS.primaryDark,
   },
   BottomInfo: {

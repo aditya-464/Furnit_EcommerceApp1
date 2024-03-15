@@ -102,7 +102,17 @@ const TermsAndConditionsScreen = ({navigation}) => {
             queries, contact us at - adityagiri@gmail.com
           </Text>
           <Text style={styles.TermsText}>Last updated : March 03, 2024</Text>
-          <Text style={styles.TermsText}>Thank you for choosing FurnIt!</Text>
+          <Text style={styles.TermsText}>
+            Thank you for choosing{' '}
+            <Text
+              style={{
+                fontFamily: FONTFAMILY.poppins_medium,
+                fontSize: FONTSIZE.size_14,
+                color: COLORS.secondaryDark,
+              }}>
+              FurnIt
+            </Text>
+          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -135,14 +145,14 @@ const styles = StyleSheet.create({
   },
   TermsHeading: {
     fontFamily: FONTFAMILY.poppins_medium,
-    fontSize: FONTSIZE.size_16,
+    fontSize: FONTSIZE.size_14,
     color: COLORS.primaryDark,
     marginTop: SPACING.space_12,
     marginBottom: SPACING.space_4,
   },
   TermsText: {
     fontFamily: FONTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_16,
+    fontSize: FONTSIZE.size_14,
     color: COLORS.primaryDark,
     marginTop: SPACING.space_2,
   },
