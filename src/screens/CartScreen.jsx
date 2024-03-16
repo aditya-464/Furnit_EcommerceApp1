@@ -306,7 +306,6 @@ const CartScreen = props => {
 
   useEffect(() => {
     handleTotalAmountAndCount();
-    console.log(selectItem);
   }, [selectItem]);
 
   useEffect(() => {

@@ -58,7 +58,8 @@ const LoginFormNew = ({navigation}) => {
         setError('Email not verified');
       }
     } catch (error) {
-      console.log(error.message);
+      setEmail('');
+      setPassword('');
       setError(error.message);
       setLoader(false);
     }

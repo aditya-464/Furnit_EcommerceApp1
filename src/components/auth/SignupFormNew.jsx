@@ -69,7 +69,8 @@ const SignupFormNew = ({navigation}) => {
         setLoader(false);
       }
     } catch (error) {
-      console.log(error.message);
+      setEmail('');
+      setPassword('');
       setError(error.message);
       setLoader(false);
     }

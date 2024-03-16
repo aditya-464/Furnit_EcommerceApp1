@@ -27,7 +27,10 @@ const PrivacyAndPolicyScreen = ({navigation}) => {
             color={COLORS.primaryDark}></Ionicons>
         </TouchableOpacity>
         <Text style={styles.TitleText}>Privacy Policy</Text>
-        <TouchableOpacity activeOpacity={0.6} style={styles.BellIcon}>
+        <TouchableOpacity
+          disabled={true}
+          activeOpacity={0.6}
+          style={[styles.BellIcon, {opacity: 0}]}>
           <Octicons
             name="bell"
             size={FONTSIZE.size_24}
